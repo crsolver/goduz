@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6xk8hfs5dolq"]
+
+[ext_resource type="Script" path="res://root.gd" id="1_k4lmd"]
+
+[node name="Root" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( "1_k4lmd" )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.47451, 0.188235, 0.635294, 1)
+
+[node name="App" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ReloadButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_bottom = 31.0
+text = "Reload"
+
+[connection signal="pressed" from="ReloadButton" to="." method="_on_reload_button_pressed"]

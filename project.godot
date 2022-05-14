@@ -1,0 +1,91 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+_global_script_classes=[{
+"base": "CustomComponent",
+"class": &"App",
+"language": &"GDScript",
+"path": "res://app.gd"
+}, {
+"base": "Component",
+"class": &"BasicComponent",
+"language": &"GDScript",
+"path": "res://goodoo/basic_component.gd"
+}, {
+"base": "Node",
+"class": &"Component",
+"language": &"GDScript",
+"path": "res://goodoo/component.gd"
+}, {
+"base": "CustomComponent",
+"class": &"CounterApp",
+"language": &"GDScript",
+"path": "res://goodoo_examples/counter/app.gd"
+}, {
+"base": "Component",
+"class": &"CustomComponent",
+"language": &"GDScript",
+"path": "res://goodoo/custom_component.gd"
+}, {
+"base": "CustomComponent",
+"class": &"MovieItem",
+"language": &"GDScript",
+"path": "res://goodoo_examples/movies_to_watch_app/movie_item.gd"
+}, {
+"base": "CustomComponent",
+"class": &"MovieList",
+"language": &"GDScript",
+"path": "res://goodoo_examples/movies_to_watch_app/movie_list.gd"
+}, {
+"base": "CustomComponent",
+"class": &"MoviesApp",
+"language": &"GDScript",
+"path": "res://goodoo_examples/movies_to_watch_app/app.gd"
+}, {
+"base": "CustomComponent",
+"class": &"SecondsApp",
+"language": &"GDScript",
+"path": "res://goodoo_examples/seconds_counter/app.gd"
+}, {
+"base": "CustomComponent",
+"class": &"UserInput",
+"language": &"GDScript",
+"path": "res://goodoo_examples/movies_to_watch_app/user_input.gd"
+}]
+_global_script_class_icons={
+"App": "",
+"BasicComponent": "",
+"Component": "",
+"CounterApp": "",
+"CustomComponent": "",
+"MovieItem": "",
+"MovieList": "",
+"MoviesApp": "",
+"SecondsApp": "",
+"UserInput": ""
+}
+
+[application]
+
+config/name="Goodoo"
+run/main_scene="res://root.tscn"
+run/low_processor_mode=true
+config/features=PackedStringArray("4.0", "Vulkan Clustered")
+
+[autoload]
+
+Goodoo="*res://goodoo/goodoo.gd"
+Goo="*res://goodoo/goo.gd"
+Utils="*res://goodoo/utils.gd"
+
+[display]
+
+window/size/viewport_width=270
+window/size/viewport_height=500

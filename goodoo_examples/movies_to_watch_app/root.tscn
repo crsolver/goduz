@@ -1,0 +1,48 @@
+[gd_scene load_steps=4 format=3 uid="uid://wqwyqdh3slex"]
+
+[ext_resource type="Script" path="res://goodoo_examples/movies_to_watch_app/root.gd" id="1_82bux"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5u21g"]
+resource_local_to_scene = true
+content_margin_left = 8.0
+content_margin_right = 8.0
+content_margin_top = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.309804, 0.317647, 0.788235, 1)
+border_color = Color(0.454902, 0.454902, 0.454902, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 1
+shadow_offset = Vector2(0, 2)
+anti_aliasing_size = 0.986
+
+[sub_resource type="Theme" id="Theme_tk1kk"]
+Label/colors/font_color = Color(0.901961, 0.909804, 0.894118, 1)
+PanelContainer/styles/panel = SubResource( "StyleBoxFlat_5u21g" )
+
+[node name="Root" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( "Theme_tk1kk" )
+script = ExtResource( "1_82bux" )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.203922, 0.207843, 0.207843, 1)
+
+[node name="App" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ReloadButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_bottom = 31.0
+text = "Reload"
+
+[connection signal="pressed" from="ReloadButton" to="." method="_on_reload_button_pressed"]

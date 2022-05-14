@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpyborab01dr3"]
+
+[ext_resource type="Script" path="res://goodoo_examples/counter/root.gd" id="1_20hik"]
+
+[sub_resource type="Theme" id="Theme_accjd"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+
+[node name="Root" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = SubResource( "Theme_accjd" )
+script = ExtResource( "1_20hik" )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="App" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ReloadButton" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_bottom = 31.0
+text = "Reload"
+
+[connection signal="pressed" from="ReloadButton" to="." method="_on_reload_button_pressed"]
