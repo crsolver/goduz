@@ -27,7 +27,7 @@ _global_script_classes=[{
 "base": "CustomComponent",
 "class": &"CounterApp",
 "language": &"GDScript",
-"path": "res://goodoo_examples/counter/app.gd"
+"path": "res://demos/counter/app.gd"
 }, {
 "base": "Component",
 "class": &"CustomComponent",
@@ -37,27 +37,27 @@ _global_script_classes=[{
 "base": "CustomComponent",
 "class": &"MovieItem",
 "language": &"GDScript",
-"path": "res://goodoo_examples/movies_to_watch_app/movie_item.gd"
+"path": "res://demos/movies_to_watch_app/movie_item.gd"
 }, {
 "base": "CustomComponent",
 "class": &"MovieList",
 "language": &"GDScript",
-"path": "res://goodoo_examples/movies_to_watch_app/movie_list.gd"
+"path": "res://demos/movies_to_watch_app/movie_list.gd"
 }, {
 "base": "CustomComponent",
 "class": &"MoviesApp",
 "language": &"GDScript",
-"path": "res://goodoo_examples/movies_to_watch_app/app.gd"
+"path": "res://demos/movies_to_watch_app/app.gd"
 }, {
 "base": "CustomComponent",
 "class": &"SecondsApp",
 "language": &"GDScript",
-"path": "res://goodoo_examples/seconds_counter/app.gd"
+"path": "res://demos/seconds_counter/app.gd"
 }, {
 "base": "CustomComponent",
 "class": &"UserInput",
 "language": &"GDScript",
-"path": "res://goodoo_examples/movies_to_watch_app/user_input.gd"
+"path": "res://demos/movies_to_watch_app/user_input.gd"
 }]
 _global_script_class_icons={
 "App": "",
@@ -84,6 +84,7 @@ config/features=PackedStringArray("4.0", "Vulkan Clustered")
 Goodoo="*res://goodoo/goodoo.gd"
 Goo="*res://goodoo/goo.gd"
 Utils="*res://goodoo/utils.gd"
+PresetProperties="*res://preset_properties.gd"
 
 [display]
 

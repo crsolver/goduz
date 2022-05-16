@@ -27,8 +27,8 @@ func render():
 	return\
 	Goo.hbox({},[
 		Goo.line_edit({
+			"size_flags_horizontal": Control.SIZE_EXPAND_FILL,
 			"id":"input", # a control node can be accesed with get_control(id)
-			"expand":true,
-			"text_submitted":handle_text_submitted}),
-		Goo.button({"text":"+", "onClick":on_button_click})
+			"on_text_submitted":handle_text_submitted}),
+		Goo.button({"text":"+", "on_pressed":on_button_click})
 	])

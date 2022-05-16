@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpyborab01dr3"]
+[gd_scene load_steps=2 format=3 uid="uid://c83bi21th6636"]
 
-[ext_resource type="Script" path="res://goodoo_examples/seconds_counter/root.gd" id="1_nr0t1"]
+[ext_resource type="Script" path="res://demos/seconds_counter/root.gd" id="1_nr0t1"]
 
 [node name="Root" type="Control"]
 anchor_right = 1.0
@@ -17,7 +17,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ReloadButton" type="Button" parent="."]
-visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -61.0

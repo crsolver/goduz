@@ -11,6 +11,18 @@ extends Node
 # Goo.button({"onClick":func}) than:
 # BasicComponent.new({"onClick":func}, "button", [])
 # and is also more readable in the render method.
+var presets:Dictionary
+
+
+func add_preset(preset_name:String,node:Control):
+	add_child(node)
+	presets[preset_name] = Utils.extract_properties(node)
+
+
+func get_preset(preset_name:String):
+	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
+	return presets[preset_name]
+
 
 func panel_hover():
 	return load("res://goodoo_examples/movies_to_watch_app/on_panel_hover_theme.tres")
@@ -33,12 +45,8 @@ func rich_label(properties={}):
 func vbox(properties={}, children=[]):
 	return BasicComponent.new(properties, "vbox", children)
 
-func scroll_vbox(properties={}, children=[]):
-	# This component will have an VBoxContainer as a child by default
-	var node = BasicComponent.new(properties,"scroll", [
-		BasicComponent.new({"expand":true},"vbox", children)
-	])
-	return node
+func scroll(properties={}, children=[]):
+	return BasicComponent.new(properties,"scroll", children)
 
 func hbox(properties={}, children=[]):
 	return BasicComponent.new(properties, "hbox", children)

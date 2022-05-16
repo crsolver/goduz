@@ -37,6 +37,7 @@ func get_data():
 	}
 	return data
 
+
 func get_control(value):
 	for child in get_components():
 		if child.input.has("id"):

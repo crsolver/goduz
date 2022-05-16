@@ -1,6 +1,8 @@
 extends CustomComponent
 class_name SecondsApp
 
+var tween:Tween
+
 func _init():
 	super()
 	state = {"seconds":0}
@@ -16,6 +18,6 @@ func on_time_out():
 
 func render():
 	return\
-	Goo.center({"anchors": Control.PRESET_WIDE,},[
-		Goo.label({"text":state.seconds})
+	Goo.center({"anchors_preset": Control.PRESET_WIDE},[
+		Goo.label({"text":str(state.seconds)})
 	])

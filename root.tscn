@@ -23,4 +23,8 @@ offset_left = -61.0
 offset_bottom = 31.0
 text = "Reload"
 
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [connection signal="pressed" from="ReloadButton" to="." method="_on_reload_button_pressed"]

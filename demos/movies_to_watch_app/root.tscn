@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://wqwyqdh3slex"]
+[gd_scene load_steps=4 format=3 uid="uid://by8o41ytjqgn7"]
 
-[ext_resource type="Script" path="res://goodoo_examples/movies_to_watch_app/root.gd" id="1_82bux"]
+[ext_resource type="Script" path="res://demos/movies_to_watch_app/root.gd" id="1_o7emp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5u21g"]
 resource_local_to_scene = true
@@ -27,7 +27,7 @@ PanelContainer/styles/panel = SubResource( "StyleBoxFlat_5u21g" )
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( "Theme_tk1kk" )
-script = ExtResource( "1_82bux" )
+script = ExtResource( "1_o7emp" )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -44,5 +44,9 @@ anchor_right = 1.0
 offset_left = -61.0
 offset_bottom = 31.0
 text = "Reload"
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [connection signal="pressed" from="ReloadButton" to="." method="_on_reload_button_pressed"]

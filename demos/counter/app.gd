@@ -13,10 +13,10 @@ func decrement():
 
 func render():
 	return\
-	Goo.center({"anchors": Control.PRESET_WIDE,},[
+	Goo.center({"anchors_preset": Control.PRESET_WIDE,},[
 		Goo.hbox({},[
-			Goo.button({"text":"-","onClick":decrement}),
-			Goo.label({"text":state.count}),
-			Goo.button({"text":"+","onClick":increment})
+			Goo.button({"text":"-","on_pressed":decrement}),
+			Goo.label({"text":str(state.count)}),
+			Goo.button({"text":"+","on_pressed":increment})
 		])
 	])
