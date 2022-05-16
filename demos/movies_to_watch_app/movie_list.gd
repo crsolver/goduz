@@ -21,7 +21,7 @@ func updated():
 func render():
 	var items = []
 	for item in input.items:
-		items.append(MovieItem.new({"text":item.todo}))
+		items.append(MovieItem.new({"text":item.movie}))
 	
 	return\
 	Goo.scroll({

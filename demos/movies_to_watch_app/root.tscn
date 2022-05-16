@@ -46,6 +46,7 @@ offset_bottom = 31.0
 text = "Reload"
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 

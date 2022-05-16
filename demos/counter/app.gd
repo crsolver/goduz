@@ -6,10 +6,12 @@ func _init():
 	state = {"count":0}
 
 func increment():
-	set_state({"count":state.count+1})
+	state.count = state.count+1
+	update_gui()
 
 func decrement():
-	set_state({"count":state.count-1})
+	state.count = state.count-1
+	update_gui()
 
 func render():
 	return\

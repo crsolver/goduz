@@ -14,7 +14,8 @@ func ready():
 	timer.start(1)
 
 func on_time_out():
-	set_state({"seconds":state.seconds+1})
+	state.seconds = state.seconds+1
+	update_gui() #always call this method after changing the state
 
 func render():
 	return\

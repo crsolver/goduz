@@ -27,17 +27,15 @@ func http_request_completed(_result, _response_code, _headers, _body):
 	var json = JSON.new()
 	json.parse(_body.get_string_from_utf8())
 	var movies = json.get_data()
-	var new_state = state.duplicate(true) #Work with a duplicate when updating the state
 	if movies:
 		for movie in movies:
-			new_state.items.append({"todo":movie.title + " (from http request)"})
-		set_state(new_state)
+			state.items.append({"movie":movie.title + " (from http request)"})
+	update_gui()
 
 
-func handle_add_movie(todo):
-	var new_state = state.duplicate(true) #Work with a duplicate when updating the state
-	new_state.items.append({"todo":todo})
-	set_state(new_state)
+func handle_add_movie(movie):
+	state.items.append({"movie":movie})
+	update_gui()
 
 
 func render():

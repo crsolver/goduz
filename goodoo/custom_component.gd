@@ -23,18 +23,10 @@ func get_components():
 	return container.get_children()
 
 
-func set_state(value:Dictionary):
-	if state.hash() == value.hash():
-		return
-	state = value
-#	print("_______________________________________")
-#	print("current")
-#	print(Utils.dict_to_json(get_components()[0].get_data()))
-	var new_tree = render()
-#	print("next")
-#	print(Utils.dict_to_json(new_tree.get_data()))
-	Goodoo.diff(self.get_components()[0], new_tree)
-	new_tree.queue_free()
+func update_gui():
+	var next = render()
+	Goodoo.diff(self.get_components()[0], next)
+	next.queue_free()
 
 func render():
 	pass
