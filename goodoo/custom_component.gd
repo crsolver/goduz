@@ -14,19 +14,17 @@ func _init(_input={}):
 	add_child(control)
 	add_child(container)
 
-
 func complete():
 	# creates the component tree based on its render method
-	container.add_child(render())
+	container.add_child(gui())
 
 func get_components():
 	return container.get_children()
 
-
 func update_gui():
-	var next = render()
+	var next = gui()
 	Goodoo.diff(self.get_components()[0], next)
 	next.queue_free()
 
-func render():
+func gui():
 	pass

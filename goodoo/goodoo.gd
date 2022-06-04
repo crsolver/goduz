@@ -85,9 +85,6 @@ func create_control(type:String, properties:Dictionary) -> Control:
 			node = Label.new()
 		"rich_label":
 			node = RichTextLabel.new()
-			node.bbcode_enabled = true
-			node.scroll_active = false
-			node.fit_content_height = true
 		"button":
 			node = Button.new()
 		"control":
@@ -121,8 +118,6 @@ func set_properties(node:Control, last_properties, properties:Dictionary) -> voi
 			set_property(node, properties, key)
 
 func set_property(node, properties, key):
-	
-#	print("trying " + key + " = " + str(properties[key]))
 	if node is MarginContainer:
 		if key == "const_margin_right":
 			node.add_theme_constant_override("margin_right", properties[key])
@@ -137,42 +132,16 @@ func set_property(node, properties, key):
 			node.add_theme_constant_override("margin_left", properties[key])
 			node.add_theme_constant_override("margin_top", properties[key])
 			node.add_theme_constant_override("margin_bottom", properties[key])
-			
-	if node.get(key) != null:
-#		print("setting" +key + " = " + str(properties[key]))
+	if key == "theme":
+		node.theme = properties[key]
+	elif node.get(key) != null:
 		node[key] = properties[key]
 
 
 func set_preset(node, properties, last_properties):
-#	print("setting preset")
 	if last_properties.has("preset"):
 		if last_properties["preset"] == properties["preset"]:
 			return
 	var preset_props = Goo.get_preset(properties["preset"])
 	for key in preset_props.keys():
 		set_property(node, preset_props, key)
-
-	# Not all properties are supperted. A better way of setting properties has to be implemented.
-#	if properties.has("text"):
-#		node.text = str(properties.text)
-#	if properties.has("visible"):
-#		node.visible = properties.visible
-#	if properties.has("v_align"):
-#		if properties.v_align == "center":
-#			node.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-#	if properties.has("h_align"):
-#		if properties.h_align == "center":
-#			node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-#	if properties.has("onClick"):
-#		node.pressed.connect(properties.onClick)
-#	if properties.has("clip"):
-#		node.clip_contents = properties.clip
-#	if properties.has("autowrap"):
-#		node.autowrap_mode = properties.autowrap
-#	if properties.has("onMouseEntered"):
-#		node.mouse_entered.connect(properties.onMouseEntered)
-#	if properties.has("onMouseExited"):
-#		node.mouse_exited.connect(properties.onMouseExited)
-#	if properties.has("text_submitted"):
-#		node.text_submitted.connect(properties.text_submitted)
-

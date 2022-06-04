@@ -9,10 +9,13 @@ func _init():
 
 #func ready():
 
-func render():
+func gui():
 	return\
-	Goo.center({"preset":"app"},[
-		Goo.rich_label({
-			"text":"[center][wave]Goodoo[/wave][/center]"
-		}),
+	Goo.margin({"preset":"margin"},[
+		Goo.scroll({"preset":"scroll"},[
+			Goo.vbox({"preset":"vbox"},[
+				Goo.button({"preset":"primary","text":"click"}),
+				Goo.button({"preset":"secundary","text":"click"})
+			])
+		])
 	])

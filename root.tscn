@@ -8,9 +8,10 @@ anchor_bottom = 1.0
 script = ExtResource( "1_k4lmd" )
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.47451, 0.188235, 0.635294, 1)
+color = Color(1, 0.984314, 0.960784, 1)
 
 [node name="App" type="Control" parent="."]
 anchor_right = 1.0
