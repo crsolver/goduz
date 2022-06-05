@@ -11,7 +11,6 @@ extends Node
 #	])
 
 func initialize_presets():
-	
 	#label
 	var label = Label.new()
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

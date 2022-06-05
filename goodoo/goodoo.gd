@@ -8,33 +8,33 @@ func diff(current:Component, next:Component) -> void:
 		# to allow conditional rendering.
 		return
 		
-	if not current is BasicComponent:
-		# If current is CustomComponent copy the state to the next component
-		# to mantain the state
+	# BasicComponent
+	if current is BasicComponent:
+		if current.input.hash() != next.input.hash():
+			set_properties(current.control, current.input, next.input)
+			current.input = next.input
+			
+		var current_children = current.get_components()
+		var next_children = next.get_components()
+		look_for_new_children(current,next)
+			
+		for i in range(0,  min(current_children.size(), next_children.size())):
+			diff(current_children[i], next_children[i])
+		current.updated()
+	# CustomComponent
+	else:
 		next.state = current.state
 		next.complete()
-	
-	if current.input.hash() != next.input.hash():
-		# Update the component when the input changes
-		if current is BasicComponent:
-			set_properties(current.control, current.input, next.input)
-		else:
+		if current.input.hash() != next.input.hash():
 			var current_children = current.get_components()
 			var next_children = next.get_components()
 			
 			for i in range(0, current.get_components().size()):
+				diff(current_children[i], next_children[i])
 				current_children[i].input = next_children[i].input
-			
+				
 		current.input = next.input
 		current.updated()
-	
-	var current_children = current.get_components()
-	var next_children = next.get_components()
-	look_for_new_children(current,next)
-	
-	for i in range(0,  min(current_children.size(), next_children.size())):
-		diff(current_children[i], next_children[i])
-
 
 func look_for_new_children(current:Component, next:Component) -> void:
 	# Appends new added children the the current component
@@ -55,7 +55,7 @@ func look_for_new_children(current:Component, next:Component) -> void:
 				render(current.parent_control, new_comp)
 
 
-func render(parent:Control, tree:Component):
+func render(parent:Control, tree:Component) -> void:
 	# Renders the component to the scene
 	if tree is BasicComponent:
 		tree.control = create_control(tree.type, tree.input)
@@ -117,7 +117,7 @@ func set_properties(node:Control, last_properties, properties:Dictionary) -> voi
 		else:
 			set_property(node, properties, key)
 
-func set_property(node, properties, key):
+func set_property(node:Control, properties:Dictionary, key:String) -> void:
 	if node is MarginContainer:
 		if key == "const_margin_right":
 			node.add_theme_constant_override("margin_right", properties[key])
@@ -138,7 +138,7 @@ func set_property(node, properties, key):
 		node[key] = properties[key]
 
 
-func set_preset(node, properties, last_properties):
+func set_preset(node:Control, properties:Dictionary, last_properties:Dictionary) -> void:
 	if last_properties.has("preset"):
 		if last_properties["preset"] == properties["preset"]:
 			return

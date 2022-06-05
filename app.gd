@@ -11,11 +11,6 @@ func _init():
 
 func gui():
 	return\
-	Goo.margin({"preset":"margin"},[
-		Goo.scroll({"preset":"scroll"},[
-			Goo.vbox({"preset":"vbox"},[
-				Goo.button({"preset":"primary","text":"click"}),
-				Goo.button({"preset":"secundary","text":"click"})
-			])
-		])
+	Goo.center({"preset":"center"},[
+		Goo.label({"text":"goodoo"})
 	])

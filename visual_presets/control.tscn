@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxmeflxwv6g45"]
+[gd_scene load_steps=3 format=3 uid="uid://bxmeflxwv6g45"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wlofd"]
 bg_color = Color(0.207843, 0.235294, 0.6, 1)
@@ -6,56 +6,19 @@ bg_color = Color(0.207843, 0.235294, 0.6, 1)
 [sub_resource type="Theme" id="Theme_lq6a3"]
 PanelContainer/styles/panel = SubResource( "StyleBoxFlat_wlofd" )
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ryymc"]
-bg_color = Color(0.0352941, 0.0509804, 0.6, 1)
-
-[sub_resource type="Theme" id="Theme_5krxw"]
-Button/styles/normal = SubResource( "StyleBoxFlat_ryymc" )
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4r0mb"]
-bg_color = Color(0.6, 0.00784314, 0.121569, 1)
-
-[sub_resource type="Theme" id="Theme_a7tj6"]
-Button/styles/normal = SubResource( "StyleBoxFlat_4r0mb" )
-
 [node name="_Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( "Theme_lq6a3" )
 
-[node name="margin" type="MarginContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="_containers" type="Control" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="center" type="CenterContainer" parent="_containers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="scroll" type="ScrollContainer" parent="margin"]
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 250.0
-offset_bottom = 480.0
-
-[node name="vbox" type="VBoxContainer" parent="margin/scroll"]
-offset_right = 230.0
-offset_bottom = 50.0
-size_flags_horizontal = 3
-
-[node name="_vbox" type="VBoxContainer" parent="margin/scroll/vbox"]
-offset_right = 230.0
-offset_bottom = 50.0
-
-[node name="primary" type="Button" parent="margin/scroll/vbox/_vbox"]
-offset_right = 230.0
-offset_bottom = 23.0
-mouse_default_cursor_shape = 2
-theme = SubResource( "Theme_5krxw" )
-text = "buton1"
-
-[node name="secundary" type="Button" parent="margin/scroll/vbox/_vbox"]
-offset_top = 27.0
-offset_right = 230.0
-offset_bottom = 50.0
-theme = SubResource( "Theme_a7tj6" )
-text = "button2"

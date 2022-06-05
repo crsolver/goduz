@@ -14,7 +14,7 @@ func extract_properties(control:Control) -> Dictionary:
 		props.const_margin_bottom = control.get_theme_constant("margin_bottom")
 		
 	for prop in dict:
-		if ["Transform", "size", "position", "global_position"].count(prop.name)>0: 
+		if ["Transform", "size", "position", "global_position", "text"].count(prop.name)>0: 
 			continue
 		if control.get(prop.name):
 			props[prop.name] = control.get(prop.name)
