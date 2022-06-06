@@ -1,10 +1,9 @@
 extends CustomComponent
 
-class_name App
+class_name Test
 
-func _init():
-	#Always call super("name_of_the_class")
-	super("app")
+func _init(_input):
+	super("test",_input)
 	state = {"count":0}
 
 func handle_change():
@@ -13,10 +12,9 @@ func handle_change():
 
 func gui():
 	return\
-	Goo.vbox({"preset":"vbox"},[
+	Goo.control({"preset":"center"},[
 		Goo.label({"text":"goodoo"}),
 		Goo.vbox({"preset":"vbox"},[
 			Goo.button({"preset": "red-button left-button", "text":"button", "on_pressed":handle_change})
-		]),
-		Goo.label({"text":"oo"}) if state.count % 2 == 0 else Goo.button({"text":"click"})
+		])
 	])

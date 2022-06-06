@@ -18,7 +18,6 @@ func extract_properties(control:Control) -> Dictionary:
 			continue
 		if control.get(prop.name) != null:
 			props[prop.name] = control.get(prop.name)
-	control.queue_free()
 	props.erase("name")
 #	print(dict_to_json(props))
 	return props

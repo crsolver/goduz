@@ -25,6 +25,7 @@ func create_presets_from_control(node:Control):
 		add_preset(node.name, node)
 	for child in node.get_children():
 		create_presets_from_control(child)
+	node.queue_free()
 
 
 func panel_hover():

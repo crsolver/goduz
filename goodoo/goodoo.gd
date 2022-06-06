@@ -4,10 +4,19 @@ extends Node
 
 func diff(current:Component, next:Component) -> void:
 	if current.type != next.type:
-		# Todo: replace the current component for the next one
-		# to allow conditional rendering.
+		if current is BasicComponent:
+			var old = current.control
+			var new = create_control(next.type, next.input)
+			current.control.replace_by(new)
+			current.control = new
+			old.queue_free()
+			current.input = next.input
+			current.type = next.type
+			for child in next.get_children():
+				next.remove_child(child)
+				add_child(child)
 		return
-		
+
 	# BasicComponent
 	if current is BasicComponent:
 		if current.input.hash() != next.input.hash():
@@ -146,11 +155,9 @@ func set_property(node:Control, properties:Dictionary, key:String) -> void:
 		node.theme = properties[key]
 	elif node.get(key) != null:
 		node[key] = properties[key]
-		print("set")
 
 
 func set_preset(node:Control, preset:String) -> void:
 	var preset_props = Goo.get_preset(preset)
 	for key in preset_props.keys():
-		print(key)
 		set_property(node, preset_props, key)

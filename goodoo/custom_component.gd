@@ -6,8 +6,8 @@ var state:Dictionary
 var container
 var parent_control
 
-func _init(_input={}):
-	type = "custom"
+func _init(_type, _input={}):
+	type = _type
 	input = _input
 	control = Node.new()
 	container = Node.new()

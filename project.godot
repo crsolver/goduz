@@ -28,12 +28,18 @@ _global_script_classes=[{
 "class": &"CustomComponent",
 "language": &"GDScript",
 "path": "res://goodoo/custom_component.gd"
+}, {
+"base": "CustomComponent",
+"class": &"Test",
+"language": &"GDScript",
+"path": "res://test_component.gd"
 }]
 _global_script_class_icons={
 "App": "",
 "BasicComponent": "",
 "Component": "",
-"CustomComponent": ""
+"CustomComponent": "",
+"Test": ""
 }
 
 [application]
