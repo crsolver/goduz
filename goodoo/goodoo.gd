@@ -106,8 +106,18 @@ func create_control(type:String, properties:Dictionary) -> Control:
 func set_properties(node:Control, last_properties, properties:Dictionary) -> void:
 	for key in properties.keys():
 		if key == "id": continue
-		if key == "preset" and Goo.get_preset(properties[key]):
-			set_preset(node,properties, last_properties)
+		if key == "preset":
+			if last_properties.has("preset"):
+				if last_properties["preset"] == properties["preset"]:
+					return
+			var presets = properties.preset.split(" ")
+			var last_p = []
+			if last_properties.has("preset"):
+				last_p = last_properties.preset.split(" ")
+			for preset in presets:
+				if last_p.count(preset) > 0: continue
+				if Goo.get_preset(preset):
+					set_preset(node,preset)
 		
 		elif last_properties.has(key) and last_properties[key] == properties[key]:
 			continue
@@ -136,12 +146,11 @@ func set_property(node:Control, properties:Dictionary, key:String) -> void:
 		node.theme = properties[key]
 	elif node.get(key) != null:
 		node[key] = properties[key]
+		print("set")
 
 
-func set_preset(node:Control, properties:Dictionary, last_properties:Dictionary) -> void:
-	if last_properties.has("preset"):
-		if last_properties["preset"] == properties["preset"]:
-			return
-	var preset_props = Goo.get_preset(properties["preset"])
+func set_preset(node:Control, preset:String) -> void:
+	var preset_props = Goo.get_preset(preset)
 	for key in preset_props.keys():
+		print(key)
 		set_property(node, preset_props, key)

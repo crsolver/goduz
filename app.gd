@@ -11,6 +11,9 @@ func _init():
 
 func gui():
 	return\
-	Goo.center({"preset":"center"},[
-		Goo.label({"text":"goodoo"})
+	Goo.control({"preset":"center"},[
+		Goo.label({"text":"goodoo"}),
+		Goo.vbox({"preset":"vbox"},[
+			Goo.button({"preset": "red-button left-button", "text":"button"})
+		])
 	])

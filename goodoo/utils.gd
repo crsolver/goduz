@@ -16,7 +16,7 @@ func extract_properties(control:Control) -> Dictionary:
 	for prop in dict:
 		if ["Transform", "size", "position", "global_position", "text"].count(prop.name)>0: 
 			continue
-		if control.get(prop.name):
+		if control.get(prop.name) != null:
 			props[prop.name] = control.get(prop.name)
 	control.queue_free()
 	props.erase("name")

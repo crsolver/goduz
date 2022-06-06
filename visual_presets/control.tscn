@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://bxmeflxwv6g45"]
+[gd_scene load_steps=5 format=3 uid="uid://bxmeflxwv6g45"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wlofd"]
 bg_color = Color(0.207843, 0.235294, 0.6, 1)
 
 [sub_resource type="Theme" id="Theme_lq6a3"]
 PanelContainer/styles/panel = SubResource( "StyleBoxFlat_wlofd" )
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kgc82"]
+bg_color = Color(0.6, 0, 0.0745098, 1)
+
+[sub_resource type="Theme" id="Theme_y8wiq"]
+Button/styles/normal = SubResource( "StyleBoxFlat_kgc82" )
 
 [node name="_Control" type="Control"]
 anchor_right = 1.0
@@ -22,3 +28,20 @@ offset_bottom = 40.0
 [node name="center" type="CenterContainer" parent="_containers"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="vbox" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="red-button" type="Button" parent="vbox"]
+offset_right = 270.0
+offset_bottom = 23.0
+theme = SubResource( "Theme_y8wiq" )
+text = "button"
+
+[node name="left-button" type="Button" parent="vbox"]
+offset_top = 27.0
+offset_right = 270.0
+offset_bottom = 58.0
+text = "button"
+alignment = 0

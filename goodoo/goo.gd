@@ -22,7 +22,7 @@ func initialize_presets():
 func create_presets_from_control(node:Control):
 	if not str(node.name).begins_with("_"):
 		print("creting preset for " + str(node.name))
-		Goo.add_preset(node.name, node)
+		add_preset(node.name, node)
 	for child in node.get_children():
 		create_presets_from_control(child)
 
