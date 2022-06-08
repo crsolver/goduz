@@ -2,19 +2,18 @@ extends CustomComponent
 
 class_name Test
 
-func _init(_input):
-	super("test",_input)
+func _init():
+	print("creating test compo 1")
+	super("test")
 	state = {"count":0}
 
 func handle_change():
-	state.count += 1
-	update_gui()
+	print(get_control("b"))
 
 func gui():
 	return\
-	Goo.control({"preset":"center"},[
-		Goo.label({"text":"goodoo"}),
+	Goo.center({"preset":"center","id":"b"},[
 		Goo.vbox({"preset":"vbox"},[
-			Goo.button({"preset": "red-button left-button", "text":"button", "on_pressed":handle_change})
+			Goo.button({"preset": "red-button", "text":"button", "on_pressed":handle_change})
 		])
 	])

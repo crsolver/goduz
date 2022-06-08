@@ -34,6 +34,7 @@ func get_data():
 		"type": type,
 		"input": input,
 		"children": children_data,
+		"control": control
 	}
 	return data
 

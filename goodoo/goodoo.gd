@@ -3,25 +3,20 @@ extends Node
 # Methods to render and update the GUI.
 
 func diff(current:Component, next:Component) -> void:
+	print("___________________________-")
 	if current.type != next.type:
 		if current is BasicComponent:
-			var old = current.control
-			var new = create_control(next.type, next.input)
-			current.control.replace_by(new)
-			current.control = new
-			old.queue_free()
-			current.input = next.input
-			current.type = next.type
-			for child in next.get_children():
-				next.remove_child(child)
-				add_child(child)
-		return
-
+			change_basic_for_dif_basic(current, next)
+			return
+		else:
+			change_custom_for_dif_custom(current, next)
+			print("after:")
+			print(Utils.dict_to_json(next.get_data()))
+			return
 	# BasicComponent
 	if current is BasicComponent:
 		if current.input.hash() != next.input.hash():
-			set_properties(current.control, current.input, next.input)
-			current.input = next.input
+			update_basic(current, next)
 			
 		var current_children = current.get_components()
 		var next_children = next.get_components()
@@ -29,21 +24,96 @@ func diff(current:Component, next:Component) -> void:
 			
 		for i in range(0,  min(current_children.size(), next_children.size())):
 			diff(current_children[i], next_children[i])
-		current.updated()
+#		current.updated()
+		next.queue_free()
 	# CustomComponent
 	else:
 		next.state = current.state
 		next.complete()
 		if current.input.hash() != next.input.hash():
-			var current_children = current.get_components()
-			var next_children = next.get_components()
-			
-			for i in range(0, current.get_components().size()):
-				diff(current_children[i], next_children[i])
-				current_children[i].input = next_children[i].input
-				
-		current.input = next.input
-		current.updated()
+			update_custom(current, next)
+		next.queue_free()
+
+func change_basic_for_dif_basic(current:Component, next:Component):
+	print("changing basic for a diferent basic")
+	var old = current.control
+	var new = create_control(next.type, next.input)
+	current.control.replace_by(new)
+	current.control = new
+	old.queue_free()
+	current.input = next.input
+	current.type = next.type
+	for child in next.get_children():
+		next.remove_child(child)
+		add_child(child)
+	next.queue_free()
+
+
+func change_custom_for_dif_custom(current:Component, next:Component):
+	print("before:")
+	print(Utils.dict_to_json(current.get_data()))
+	
+	var next_control
+	var direct_child = current.get_components()[0]
+	next.complete()
+	var next_direct_child = next.get_components()[0]
+	
+	var old_control = direct_child.control
+	next_control = old_control
+	
+	for child in old_control.get_children():
+		child.queue_free()
+		
+	if next_direct_child.type != direct_child.type:
+		var new_control = create_control(next_direct_child.type, next_direct_child.input)
+		direct_child.control.replace_by(new_control)
+		old_control.queue_free()
+		next_control = new_control
+	else:
+		set_properties(direct_child.control, direct_child.input, next_direct_child.input)
+	
+	for child in next.get_components()[0].get_children():
+		print("rendering " + child.type)
+		render(next_control, child)
+	
+	var c_parent = current.parent_control
+	next.get_parent().remove_child(next)
+	var delete = current
+	var container = current.container
+	var next_children = next.get_components()[0]
+	next_children.get_parent().remove_child(next_children)
+	var children = container.get_children()[0]
+	container.remove_child(children)
+	children.queue_free()
+	
+	current.replace_by(next)
+	next.parent_control = c_parent
+	next.container.queue_free()
+	next.extras.queue_free()
+	#re
+	next.container = container
+	next.container.add_child(next_children)
+	next.get_components()[0].control = next_control
+	
+	delete.queue_free()
+	current.queue_free()
+	print("updated direct_child.control " + str(direct_child.control))
+
+
+func update_basic(current, next):
+	set_properties(current.control, current.input, next.input)
+	current.input = next.input
+
+func update_custom(current, next):
+	var current_children = current.get_components()
+	var next_children = next.get_components()
+	
+	for i in range(0, current.get_components().size()):
+		diff(current_children[i], next_children[i])
+		current_children[i].input = next_children[i].input
+		
+	current.input = next.input
+	current.updated()
 
 func look_for_new_children(current:Component, next:Component) -> void:
 	# Appends new added children the the current component
@@ -81,6 +151,7 @@ func render(parent:Control, tree:Component) -> void:
 
 
 func create_control(type:String, properties:Dictionary) -> Control:
+	print("creating a " + type)
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:

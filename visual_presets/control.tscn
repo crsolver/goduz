@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxmeflxwv6g45"]
+[gd_scene load_steps=7 format=3 uid="uid://bxmeflxwv6g45"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wlofd"]
 bg_color = Color(0.207843, 0.235294, 0.6, 1)
@@ -11,6 +11,12 @@ bg_color = Color(0.6, 0, 0.0745098, 1)
 
 [sub_resource type="Theme" id="Theme_y8wiq"]
 Button/styles/normal = SubResource( "StyleBoxFlat_kgc82" )
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5dsu0"]
+bg_color = Color(0.133333, 0.6, 0.0980392, 1)
+
+[sub_resource type="Theme" id="Theme_by1pc"]
+Button/styles/normal = SubResource( "StyleBoxFlat_5dsu0" )
 
 [node name="_Control" type="Control"]
 anchor_right = 1.0
@@ -39,9 +45,10 @@ offset_bottom = 23.0
 theme = SubResource( "Theme_y8wiq" )
 text = "button"
 
-[node name="left-button" type="Button" parent="vbox"]
+[node name="green-button" type="Button" parent="vbox"]
 offset_top = 27.0
 offset_right = 270.0
-offset_bottom = 58.0
+offset_bottom = 50.0
+theme = SubResource( "Theme_by1pc" )
 text = "button"
 alignment = 0
