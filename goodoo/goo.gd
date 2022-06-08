@@ -1,27 +1,32 @@
 extends Node
-
-# Goo creates BasicComponents (An object representation of a godot control node)
-# The method Goodoo.create_control() will create the control node based on the type(second argument) of the BasicComponent
-# Not all control nodes are supported yet, but you can create a method here that returns a BasicComponent representing
-# the control node that you want, just make sure to add the corresponding code to create the control node in
-# the Goodoo.create_control() method. That also means that you can use your own custom control node, as
-# long as you do the necessary steps.
-
-# This methods exist because is more convenient to write:
-# Goo.button({"onClick":func}) than:
-# BasicComponent.new({"onClick":func}, "button", [])
-# and is also more readable in the render method.
 var presets:Dictionary
 
-
 func add_preset(preset_name:String,node:Control):
-	add_child(node)
+	if not node.get_parent():
+		add_child(node)
 	presets[preset_name] = Utils.extract_properties(node)
 
 
 func get_preset(preset_name:String):
 	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
 	return presets[preset_name]
+	
+func initialize_presets():
+	Presets.initialize_presets()
+	var pks = Utils.get_controls_from_path("visual_presets")
+	var nodes = []
+	for pk in pks:
+		nodes.append(pk)
+	for node in nodes:
+		create_presets_from_control(node)
+
+func create_presets_from_control(node:Control):
+	if not str(node.name).begins_with("_"):
+		print("creting preset for " + str(node.name))
+		add_preset(node.name, node)
+	for child in node.get_children():
+		create_presets_from_control(child)
+	node.queue_free()
 
 
 func panel_hover():

@@ -3,45 +3,108 @@ extends Node
 # Methods to render and update the GUI.
 
 func diff(current:Component, next:Component) -> void:
+	if current is BasicComponent:
+		diff_basic(current, next)
+	else:
+		diff_custom(current, next)
+
+
+func diff_basic(current:BasicComponent, next:BasicComponent):
 	if current.type != next.type:
-		# Todo: replace the current component for the next one
-		# to allow conditional rendering.
+		change_basic_for_dif_basic(current, next)
 		return
-		
-	if not current is BasicComponent:
-		# If current is CustomComponent copy the state to the next component
-		# to mantain the state
-		next.state = current.state
-		next.complete()
+	elif current.input.hash() != next.input.hash():
+		update_basic(current, next)
 	
-	if current.input.hash() != next.input.hash():
-		# Update the component when the input changes
-		if current is BasicComponent:
-			set_properties(current.control, current.input, next.input)
-		else:
-			var current_children = current.get_components()
-			var next_children = next.get_components()
-			
-			for i in range(0, current.get_components().size()):
-				current_children[i].input = next_children[i].input
-			
-		current.input = next.input
-		current.updated()
-	
-	var current_children = current.get_components()
-	var next_children = next.get_components()
+	var current_children = current.get_children()
+	var next_children = next.get_children()
 	look_for_new_children(current,next)
 	
 	for i in range(0,  min(current_children.size(), next_children.size())):
 		diff(current_children[i], next_children[i])
+	next.queue_free()
 
 
-func look_for_new_children(current:Component, next:Component) -> void:
+func diff_custom(current:CustomComponent, next:CustomComponent):
+	if current.type != next.type:
+		change_custom_for_dif_custom(current, next)
+	elif current.input.hash() != next.input.hash():
+		update_custom(current, next)
+
+
+func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
+	var old = current.control
+	var new = create_control(next.type, next.input)
+	current.control.replace_by(new)
+	current.control = new
+	old.queue_free()
+	current.input = next.input
+	current.type = next.type
+	for child in next.get_children():
+		next.remove_child(child)
+		add_child(child)
+	next.queue_free()
+
+
+func change_custom_for_dif_custom(current:CustomComponent, next:CustomComponent):
+	next.complete()
+	var next_control
+	
+	var current_gui = current.get_gui()
+	var next_gui = next.get_gui()
+	
+	var old_control = current_gui.control
+	next_control = old_control
+	
+	for child in old_control.get_children():
+		child.queue_free()
+	
+	if next_gui.type != current_gui.type:
+		var new_control = create_control(next_gui.type, next_gui.input)
+		current_gui.control.replace_by(new_control)
+		next_control = new_control
+		old_control.queue_free()
+	else:
+		set_properties(current_gui.control, current_gui.input, next_gui.input)
+	
+	for child in next.get_gui().get_children():
+		render(next_control, child)
+	
+	var c_parent = current.parent_control
+	var container = current.container
+	
+	next.get_parent().remove_child(next)
+	next_gui.get_parent().remove_child(next_gui)
+	
+	current.replace_by(next)
+	next.parent_control = c_parent
+	next.container.add_child(next_gui)
+	next.get_gui().control = next_control
+	container.queue_free()
+	current.control.queue_free()
+	current.queue_free()
+
+
+func update_basic(current:BasicComponent, next:BasicComponent):
+	set_properties(current.control, current.input, next.input)
+	current.input = next.input
+
+
+func update_custom(current:CustomComponent, next:CustomComponent):
+	current.input = next.input
+	next.state = current.state
+	next.complete()
+	diff(current.get_gui(), next.get_gui())
+	current.updated()
+	next.queue_free()
+
+
+func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:
 	# Appends new added children the the current component
-	if current.get_components().size() < next.get_components().size():
+	if current.get_children().size() < next.get_children().size():
 		var new_children = []
-		for i in range(current.get_components().size(), next.get_components().size()):
-			new_children.append(next.get_components()[i])
+		for i in range(current.get_children().size(), next.get_children().size()):
+			new_children.append(next.get_children()[i])
 		
 		for new in new_children:
 			var new_comp = new
@@ -55,20 +118,18 @@ func look_for_new_children(current:Component, next:Component) -> void:
 				render(current.parent_control, new_comp)
 
 
-func render(parent:Control, tree:Component):
+func render(parent:Control, component:Component) -> void:
 	# Renders the component to the scene
-	if tree is BasicComponent:
-		tree.control = create_control(tree.type, tree.input)
-		parent.add_child(tree.control)
-		for child in tree.get_components():
-			render(tree.control, child)
-		tree.ready()
+	if component is BasicComponent:
+		component.control = create_control(component.type, component.input)
+		parent.add_child(component.control)
+		for child in component.get_children():
+			render(component.control, child)
 	else:
-		tree.complete()
-		tree.parent_control = parent
-		for child in tree.get_components():
-			render(parent, child)
-		tree.ready()
+		component.complete()
+		component.parent_control = parent
+		render(parent, component.get_gui())
+		component.ready()
 
 
 func create_control(type:String, properties:Dictionary) -> Control:
@@ -85,9 +146,6 @@ func create_control(type:String, properties:Dictionary) -> Control:
 			node = Label.new()
 		"rich_label":
 			node = RichTextLabel.new()
-			node.bbcode_enabled = true
-			node.scroll_active = false
-			node.fit_content_height = true
 		"button":
 			node = Button.new()
 		"control":
@@ -109,8 +167,18 @@ func create_control(type:String, properties:Dictionary) -> Control:
 func set_properties(node:Control, last_properties, properties:Dictionary) -> void:
 	for key in properties.keys():
 		if key == "id": continue
-		if key == "preset" and Goo.get_preset(properties[key]):
-			set_preset(node,properties, last_properties)
+		if key == "preset":
+			if last_properties.has("preset"):
+				if last_properties["preset"] == properties["preset"]:
+					return
+			var presets = properties.preset.split(" ")
+			var last_p = []
+			if last_properties.has("preset"):
+				last_p = last_properties.preset.split(" ")
+			for preset in presets:
+				if last_p.count(preset) > 0: continue
+				if Goo.get_preset(preset):
+					set_preset(node,preset)
 		
 		elif last_properties.has(key) and last_properties[key] == properties[key]:
 			continue
@@ -120,9 +188,7 @@ func set_properties(node:Control, last_properties, properties:Dictionary) -> voi
 		else:
 			set_property(node, properties, key)
 
-func set_property(node, properties, key):
-	
-#	print("trying " + key + " = " + str(properties[key]))
+func set_property(node:Control, properties:Dictionary, key:String) -> void:
 	if node is MarginContainer:
 		if key == "const_margin_right":
 			node.add_theme_constant_override("margin_right", properties[key])
@@ -137,42 +203,13 @@ func set_property(node, properties, key):
 			node.add_theme_constant_override("margin_left", properties[key])
 			node.add_theme_constant_override("margin_top", properties[key])
 			node.add_theme_constant_override("margin_bottom", properties[key])
-			
-	if node.get(key) != null:
-#		print("setting" +key + " = " + str(properties[key]))
+	if key == "theme":
+		node.theme = properties[key]
+	elif node.get(key) != null:
 		node[key] = properties[key]
 
 
-func set_preset(node, properties, last_properties):
-#	print("setting preset")
-	if last_properties.has("preset"):
-		if last_properties["preset"] == properties["preset"]:
-			return
-	var preset_props = Goo.get_preset(properties["preset"])
+func set_preset(node:Control, preset:String) -> void:
+	var preset_props = Goo.get_preset(preset)
 	for key in preset_props.keys():
 		set_property(node, preset_props, key)
-
-	# Not all properties are supperted. A better way of setting properties has to be implemented.
-#	if properties.has("text"):
-#		node.text = str(properties.text)
-#	if properties.has("visible"):
-#		node.visible = properties.visible
-#	if properties.has("v_align"):
-#		if properties.v_align == "center":
-#			node.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-#	if properties.has("h_align"):
-#		if properties.h_align == "center":
-#			node.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-#	if properties.has("onClick"):
-#		node.pressed.connect(properties.onClick)
-#	if properties.has("clip"):
-#		node.clip_contents = properties.clip
-#	if properties.has("autowrap"):
-#		node.autowrap_mode = properties.autowrap
-#	if properties.has("onMouseEntered"):
-#		node.mouse_entered.connect(properties.onMouseEntered)
-#	if properties.has("onMouseExited"):
-#		node.mouse_exited.connect(properties.onMouseExited)
-#	if properties.has("text_submitted"):
-#		node.text_submitted.connect(properties.text_submitted)
-

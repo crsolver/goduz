@@ -3,16 +3,27 @@ extends CustomComponent
 class_name App
 
 func _init():
-	#Always call super()
-	super()
-#	state = {}
+	super("app")
+	state = {"count":0}
 
-#func ready():
+func handle_change():
+	state.count += 1
+	update_gui()
 
-func render():
+func component(count):
+	if count % 2 == 0:
+		print("returning test")
+		return Test.new()
+	else:
+		print("returning test2")
+	return Test2.new()
+
+func gui():
 	return\
-	Goo.center({"preset":"app"},[
-		Goo.rich_label({
-			"text":"[center][wave]Goodoo[/wave][/center]"
-		}),
+	Goo.vbox({"preset":"vbox"},[
+		Goo.label({"text":"goodoo"}),
+		Goo.vbox({"preset":"vbox"},[
+			Goo.button({"text":"button", "on_pressed":handle_change})
+		]),
+		component(state.count)
 	])

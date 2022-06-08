@@ -24,52 +24,28 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://goodoo/component.gd"
 }, {
-"base": "CustomComponent",
-"class": &"CounterApp",
-"language": &"GDScript",
-"path": "res://demos/counter/app.gd"
-}, {
 "base": "Component",
 "class": &"CustomComponent",
 "language": &"GDScript",
 "path": "res://goodoo/custom_component.gd"
 }, {
 "base": "CustomComponent",
-"class": &"MovieItem",
+"class": &"Test",
 "language": &"GDScript",
-"path": "res://demos/movies_to_watch_app/movie_item.gd"
+"path": "res://test_component.gd"
 }, {
 "base": "CustomComponent",
-"class": &"MovieList",
+"class": &"Test2",
 "language": &"GDScript",
-"path": "res://demos/movies_to_watch_app/movie_list.gd"
-}, {
-"base": "CustomComponent",
-"class": &"MoviesApp",
-"language": &"GDScript",
-"path": "res://demos/movies_to_watch_app/app.gd"
-}, {
-"base": "CustomComponent",
-"class": &"SecondsApp",
-"language": &"GDScript",
-"path": "res://demos/seconds_counter/app.gd"
-}, {
-"base": "CustomComponent",
-"class": &"UserInput",
-"language": &"GDScript",
-"path": "res://demos/movies_to_watch_app/user_input.gd"
+"path": "res://test_component2.gd"
 }]
 _global_script_class_icons={
 "App": "",
 "BasicComponent": "",
 "Component": "",
-"CounterApp": "",
 "CustomComponent": "",
-"MovieItem": "",
-"MovieList": "",
-"MoviesApp": "",
-"SecondsApp": "",
-"UserInput": ""
+"Test": "",
+"Test2": ""
 }
 
 [application]
@@ -84,7 +60,7 @@ config/features=PackedStringArray("4.0", "Vulkan Clustered")
 Goodoo="*res://goodoo/goodoo.gd"
 Goo="*res://goodoo/goo.gd"
 Utils="*res://goodoo/utils.gd"
-PresetProperties="*res://preset_properties.gd"
+Presets="*res://presets.gd"
 
 [display]
 
