@@ -3,34 +3,33 @@ extends Node
 # Methods to render and update the GUI.
 
 func diff(current:Component, next:Component) -> void:
-	print("___________________________-")
-	if current.type != next.type:
-		if current is BasicComponent:
-			change_basic_for_dif_basic(current, next)
-			return
-		else:
-			change_custom_for_dif_custom(current, next)
-			return
-	# BasicComponent
 	if current is BasicComponent:
-		if current.input.hash() != next.input.hash():
-			update_basic(current, next)
-		
-		var current_children = current.get_children()
-		var next_children = next.get_children()
-		look_for_new_children(current,next)
-		
-		for i in range(0,  min(current_children.size(), next_children.size())):
-			diff(current_children[i], next_children[i])
-#		current.updated()
-		next.queue_free()
-	# CustomComponent
+		diff_basic(current, next)
 	else:
-		next.state = current.state
-		next.complete()
-		if current.input.hash() != next.input.hash():
-			update_custom(current, next)
-		next.queue_free()
+		diff_custom(current, next)
+
+
+func diff_basic(current:BasicComponent, next:BasicComponent):
+	if current.type != next.type:
+		change_basic_for_dif_basic(current, next)
+		return
+	elif current.input.hash() != next.input.hash():
+		update_basic(current, next)
+	
+	var current_children = current.get_children()
+	var next_children = next.get_children()
+	look_for_new_children(current,next)
+	
+	for i in range(0,  min(current_children.size(), next_children.size())):
+		diff(current_children[i], next_children[i])
+	next.queue_free()
+
+
+func diff_custom(current:CustomComponent, next:CustomComponent):
+	if current.type != next.type:
+		change_custom_for_dif_custom(current, next)
+	elif current.input.hash() != next.input.hash():
+		update_custom(current, next)
 
 
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
@@ -93,8 +92,11 @@ func update_basic(current:BasicComponent, next:BasicComponent):
 
 func update_custom(current:CustomComponent, next:CustomComponent):
 	current.input = next.input
+	next.state = current.state
+	next.complete()
 	diff(current.get_gui(), next.get_gui())
 	current.updated()
+	next.queue_free()
 
 
 func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:

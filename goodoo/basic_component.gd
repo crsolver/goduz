@@ -15,3 +15,16 @@ func get_control(value):
 			if child.input.id == value:
 				return child.control
 		return child.get_control(value)
+
+func get_data():
+	var children_data = []
+	for child in get_children():
+		children_data.append(child.get_data())
+
+	var data = {
+		"type": type,
+		"input": input,
+		"children": children_data,
+		"control": control
+	}
+	return data

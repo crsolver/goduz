@@ -15,19 +15,29 @@ func _init(_type, _input={}):
 	add_child(extras)
 	add_child(container)
 
+
 func complete():
 	# creates the component tree based on its render method
 	container.add_child(gui())
 
+
 func get_gui():
 	return container.get_children()[0]
 
+
 func update_gui():
 	var next = gui()
+#	print("___________________________________")
+#	print("before")
+#	print(Utils.dict_to_json(get_data()))
 	Goodoo.diff(self.get_gui(), next)
+#	print("after")
+#	print(Utils.dict_to_json(get_data()))
+
 
 func gui():
 	pass
+
 
 func get_data():
 	# Return the component tree as a dictionary.
@@ -37,7 +47,7 @@ func get_data():
 		"control": control,
 		"container": container,
 		"parent_control": parent_control,
-		"children": get_gui(),
+		"children": get_gui().get_data(),
 	}
 	return data
 

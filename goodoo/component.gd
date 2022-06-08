@@ -25,18 +25,19 @@ func about_to_die():
 	pass
 
 func get_data():
-	# Return the component tree as a dictionary.
-	var children_data = []
-	for child in get_components():
-		children_data.append(child.get_data())
-		
-	var data = {
-		"type": type,
-		"input": input,
-		"children": children_data,
-		"control": control
-	}
-	return data
+	pass
+#	# Return the component tree as a dictionary.
+#	var children_data = []
+#	for child in get_gui():
+#		children_data.append(child.get_data())
+#
+#	var data = {
+#		"type": type,
+#		"input": input,
+#		"children": children_data,
+#		"control": control
+#	}
+#	return data
 
 
 func get_control(_value):
