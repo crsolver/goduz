@@ -81,7 +81,7 @@ func change_custom_for_dif_custom(current:CustomComponent, next:CustomComponent)
 	next.container.add_child(next_gui)
 	next.get_gui().control = next_control
 	container.queue_free()
-	current.extras.queue_free()
+	current.control.queue_free()
 	current.queue_free()
 
 

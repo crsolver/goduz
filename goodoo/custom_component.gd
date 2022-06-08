@@ -5,14 +5,13 @@ class_name CustomComponent
 var state:Dictionary
 var container
 var parent_control
-var extras
 
 func _init(_type, _input={}):
 	type = _type
 	input = _input
-	extras = Node.new()
+	control = Node.new()
 	container = Node.new()
-	add_child(extras)
+	add_child(control)
 	add_child(container)
 
 

@@ -13,6 +13,7 @@ func gui():
 	return\
 	Goo.center({"id":"b","preset":"center"},[
 		Goo.vbox({"preset":"vbox"},[
-			Goo.button({"preset":"green-button","text":"green"})
+			Goo.button({"preset":"green-button","text":"green"}),
+			Goo.label({"text":"hello"})
 		])
 	])
