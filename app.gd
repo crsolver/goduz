@@ -3,7 +3,6 @@ extends CustomComponent
 class_name App
 
 func _init():
-	#Always call super("name_of_the_class")
 	super("app")
 	state = {"count":0}
 

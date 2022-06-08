@@ -10,18 +10,16 @@ func diff(current:Component, next:Component) -> void:
 			return
 		else:
 			change_custom_for_dif_custom(current, next)
-			print("after:")
-			print(Utils.dict_to_json(next.get_data()))
 			return
 	# BasicComponent
 	if current is BasicComponent:
 		if current.input.hash() != next.input.hash():
 			update_basic(current, next)
-			
-		var current_children = current.get_components()
-		var next_children = next.get_components()
+		
+		var current_children = current.get_children()
+		var next_children = next.get_children()
 		look_for_new_children(current,next)
-			
+		
 		for i in range(0,  min(current_children.size(), next_children.size())):
 			diff(current_children[i], next_children[i])
 #		current.updated()
@@ -34,8 +32,8 @@ func diff(current:Component, next:Component) -> void:
 			update_custom(current, next)
 		next.queue_free()
 
-func change_basic_for_dif_basic(current:Component, next:Component):
-	print("changing basic for a diferent basic")
+
+func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
 	var old = current.control
 	var new = create_control(next.type, next.input)
 	current.control.replace_by(new)
@@ -49,78 +47,62 @@ func change_basic_for_dif_basic(current:Component, next:Component):
 	next.queue_free()
 
 
-func change_custom_for_dif_custom(current:Component, next:Component):
-	print("before:")
-	print(Utils.dict_to_json(current.get_data()))
-	
-	var next_control
-	var direct_child = current.get_components()[0]
+func change_custom_for_dif_custom(current:CustomComponent, next:CustomComponent):
 	next.complete()
-	var next_direct_child = next.get_components()[0]
+	var next_control
 	
-	var old_control = direct_child.control
+	var current_gui = current.get_gui()
+	var next_gui = next.get_gui()
+	
+	var old_control = current_gui.control
 	next_control = old_control
 	
 	for child in old_control.get_children():
 		child.queue_free()
-		
-	if next_direct_child.type != direct_child.type:
-		var new_control = create_control(next_direct_child.type, next_direct_child.input)
-		direct_child.control.replace_by(new_control)
-		old_control.queue_free()
-		next_control = new_control
-	else:
-		set_properties(direct_child.control, direct_child.input, next_direct_child.input)
 	
-	for child in next.get_components()[0].get_children():
-		print("rendering " + child.type)
+	if next_gui.type != current_gui.type:
+		var new_control = create_control(next_gui.type, next_gui.input)
+		current_gui.control.replace_by(new_control)
+		next_control = new_control
+		old_control.queue_free()
+	else:
+		set_properties(current_gui.control, current_gui.input, next_gui.input)
+	
+	for child in next.get_gui().get_children():
 		render(next_control, child)
 	
 	var c_parent = current.parent_control
-	next.get_parent().remove_child(next)
-	var delete = current
 	var container = current.container
-	var next_children = next.get_components()[0]
-	next_children.get_parent().remove_child(next_children)
-	var children = container.get_children()[0]
-	container.remove_child(children)
-	children.queue_free()
+	
+	next.get_parent().remove_child(next)
+	next_gui.get_parent().remove_child(next_gui)
 	
 	current.replace_by(next)
 	next.parent_control = c_parent
-	next.container.queue_free()
-	next.extras.queue_free()
-	#re
-	next.container = container
-	next.container.add_child(next_children)
-	next.get_components()[0].control = next_control
-	
-	delete.queue_free()
+	next.container.add_child(next_gui)
+	next.get_gui().control = next_control
+	container.queue_free()
+	current.extras.queue_free()
 	current.queue_free()
-	print("updated direct_child.control " + str(direct_child.control))
 
 
-func update_basic(current, next):
+func update_basic(current:BasicComponent, next:BasicComponent):
 	set_properties(current.control, current.input, next.input)
 	current.input = next.input
 
-func update_custom(current, next):
-	var current_children = current.get_components()
-	var next_children = next.get_components()
-	
-	for i in range(0, current.get_components().size()):
-		diff(current_children[i], next_children[i])
-		current_children[i].input = next_children[i].input
-		
+
+func update_custom(current:CustomComponent, next:CustomComponent):
 	current.input = next.input
+	diff(current.get_gui(), next.get_gui())
 	current.updated()
 
-func look_for_new_children(current:Component, next:Component) -> void:
+
+func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:
 	# Appends new added children the the current component
-	if current.get_components().size() < next.get_components().size():
+	if current.get_children().size() < next.get_children().size():
 		var new_children = []
-		for i in range(current.get_components().size(), next.get_components().size()):
-			new_children.append(next.get_components()[i])
+		for i in range(current.get_children().size(), next.get_children().size()):
+			new_children.append(next.get_children()[i])
 		
 		for new in new_children:
 			var new_comp = new
@@ -134,24 +116,21 @@ func look_for_new_children(current:Component, next:Component) -> void:
 				render(current.parent_control, new_comp)
 
 
-func render(parent:Control, tree:Component) -> void:
+func render(parent:Control, component:Component) -> void:
 	# Renders the component to the scene
-	if tree is BasicComponent:
-		tree.control = create_control(tree.type, tree.input)
-		parent.add_child(tree.control)
-		for child in tree.get_components():
-			render(tree.control, child)
-		tree.ready()
+	if component is BasicComponent:
+		component.control = create_control(component.type, component.input)
+		parent.add_child(component.control)
+		for child in component.get_children():
+			render(component.control, child)
 	else:
-		tree.complete()
-		tree.parent_control = parent
-		for child in tree.get_components():
-			render(parent, child)
-		tree.ready()
+		component.complete()
+		component.parent_control = parent
+		render(parent, component.get_gui())
+		component.ready()
 
 
 func create_control(type:String, properties:Dictionary) -> Control:
-	print("creating a " + type)
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:

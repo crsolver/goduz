@@ -14,6 +14,6 @@ func gui():
 	return\
 	Goo.center({"preset":"center","id":"b"},[
 		Goo.vbox({"preset":"vbox"},[
-			Goo.button({"preset": "red-button", "text":"button", "on_pressed":handle_change})
+			Goo.button({"preset": "red-button", "text":"red", "on_pressed":handle_change})
 		])
 	])

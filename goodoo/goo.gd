@@ -6,6 +6,7 @@ func add_preset(preset_name:String,node:Control):
 		add_child(node)
 	presets[preset_name] = Utils.extract_properties(node)
 
+
 func get_preset(preset_name:String):
 	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
 	return presets[preset_name]

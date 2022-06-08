@@ -11,8 +11,8 @@ func handle_change():
 
 func gui():
 	return\
-	Goo.vbox({"id":"b","preset":"vbox"},[
+	Goo.center({"id":"b","preset":"center"},[
 		Goo.vbox({"preset":"vbox"},[
-			Goo.label({"text":"label"})
+			Goo.button({"preset":"green-button","text":"green"})
 		])
 	])
