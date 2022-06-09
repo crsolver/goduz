@@ -26,12 +26,8 @@ func get_gui():
 
 func update_gui():
 	var next = gui()
-	print("___________________________________")
-	print("before")
-	print(Utils.dict_to_json(get_data()))
 	Goodoo.diff(self.get_gui(), next)
-	print("after")
-	print(Utils.dict_to_json(get_data()))
+
 
 
 func gui():
