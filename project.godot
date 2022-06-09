@@ -24,6 +24,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://goodoo/component.gd"
 }, {
+"base": "CustomComponent",
+"class": &"Counter",
+"language": &"GDScript",
+"path": "res://components/counter.gd"
+}, {
 "base": "Component",
 "class": &"CustomComponent",
 "language": &"GDScript",
@@ -43,6 +48,7 @@ _global_script_class_icons={
 "App": "",
 "BasicComponent": "",
 "Component": "",
+"Counter": "",
 "CustomComponent": "",
 "Test": "",
 "Test2": ""
@@ -64,5 +70,5 @@ Presets="*res://presets.gd"
 
 [display]
 
-window/size/viewport_width=270
-window/size/viewport_height=500
+window/size/viewport_width=500
+window/size/viewport_height=350

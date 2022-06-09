@@ -19,6 +19,7 @@ func get_control(value):
 func get_data():
 	var children_data = []
 	for child in get_children():
+		print(child)
 		children_data.append(child.get_data())
 
 	var data = {

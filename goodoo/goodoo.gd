@@ -4,9 +4,81 @@ extends Node
 
 func diff(current:Component, next:Component) -> void:
 	if current is BasicComponent:
-		diff_basic(current, next)
+		if next is BasicComponent:
+			diff_basic(current, next)
+		else:
+			change_basic_for_custom(current, next)
 	else:
-		diff_custom(current, next)
+		if not next is BasicComponent: 
+			diff_custom(current, next)
+		else:
+			change_custom_for_basic(current, next)
+
+
+func change_basic_for_custom(current:BasicComponent, next:CustomComponent):
+	next.complete()
+	var next_control
+	var next_gui = next.get_gui()
+	
+	var old_control = current.control
+	next_control = old_control
+	
+	var c_parent = current.control.get_parent()
+	
+	for child in old_control.get_children():
+		child.queue_free()
+	
+	if next_gui.type != current.type:
+		var new_control = create_control(next_gui.type, next_gui.input)
+		current.control.replace_by(new_control)
+		next_control = new_control
+		old_control.queue_free()
+	else:
+		set_properties(current.control, current.input, next_gui.input)
+	#current.input = next_gui.input
+	
+	for child in next.get_gui().get_children():
+		render(next_control, child)
+	
+	next.get_parent().remove_child(next)
+	next_gui.get_parent().remove_child(next_gui)
+	
+	current.replace_by(next)
+	next.parent_control = c_parent
+	next.container.add_child(next_gui)
+	next.get_gui().control = next_control
+	current.queue_free()
+
+func change_custom_for_basic(current:CustomComponent, next:BasicComponent):
+	
+	for child in current.get_gui().control.get_children():
+		child.queue_free()
+		
+	var next_control = current.get_gui().control
+	
+	if current.get_gui().type != next.type:
+		var old = current.get_gui().control
+		var new = create_control(next.type, next.input)
+		current.get_gui().control.replace_by(new)
+		old.queue_free()
+		next_control = new
+	elif current.input.hash() != next.input.hash():
+		update_basic(current.get_gui(), next)
+	
+	for child in next.get_children():
+		render(current.get_gui().control, child)
+	
+	
+	next.get_parent().remove_child(next)
+	current.container.free()
+	current.control.free()
+	current.replace_by(next)
+	next.control = next_control
+	print("next basic childre ")
+	for child in next.get_children():
+		print(child)
+	print("__________fin next basic children")
+	current.queue_free()
 
 
 func diff_basic(current:BasicComponent, next:BasicComponent):
@@ -80,9 +152,9 @@ func change_custom_for_dif_custom(current:CustomComponent, next:CustomComponent)
 	next.parent_control = c_parent
 	next.container.add_child(next_gui)
 	next.get_gui().control = next_control
-	container.queue_free()
-	current.control.queue_free()
-	current.queue_free()
+	container.free()
+	current.control.free()
+	current.free()
 
 
 func update_basic(current:BasicComponent, next:BasicComponent):
@@ -136,30 +208,49 @@ func create_control(type:String, properties:Dictionary) -> Control:
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
-		"panel":
-			node = PanelContainer.new()
-		"vbox":
-			node = VBoxContainer.new()
-		"hbox":
-			node = HBoxContainer.new()
-		"label":
-			node = Label.new()
-		"rich_label":
-			node = RichTextLabel.new()
-		"button":
-			node = Button.new()
-		"control":
-			node = Control.new()
-		"margin":
-			node = MarginContainer.new()
-		"center":
-			node = CenterContainer.new()
-		"text_edit":
-			node = TextEdit.new()
-		"line_edit":
-			node = LineEdit.new()
-		"scroll":
-			node = ScrollContainer.new()
+		"container"      :node = PanelContainer.new()
+		"aspect_radio"   :node = AspectRatioContainer.new()
+		"center"         :node = CenterContainer.new()
+		"hbox"           :node = HBoxContainer.new()
+		"vbox"           :node = VBoxContainer.new()
+		"graphnode"      :node = GraphNode.new()
+		"grid"           :node = GridContainer.new()
+		"hflow"          :node = HFlowContainer.new()
+		"vflow"          :node = VFlowContainer.new()
+		"hsplit"         :node = HSplitContainer.new()
+		"vsplit"         :node = VSplitContainer.new()
+		"margin"         :node = MarginContainer.new()
+		"panel_container":node = PanelContainer.new()
+		"scrollbox"      :node = ScrollContainer.new()
+		"subviewport"    :node = SubViewportContainer.new()
+		"tabbox"         :node = TabContainer.new()
+		"button"         :node = Button.new()
+		"link_button"    :node = LinkButton.new()
+		"texture_button" :node = TextureButton.new()
+		"text_edit"      :node = TextEdit.new()
+		"code_edit"      :node = CodeEdit.new()
+		"color_rect"     :node = ColorRect.new()
+		"graph_edit"     :node = GraphEdit.new()
+		"vscrollbar"     :node = VScrollBar.new()
+		"hscrollbar"     :node = VScrollBar.new()
+		"vslider"        :node = VSlider.new()
+		"hslider"        :node = HSlider.new()
+		"progressbar"    :node = ProgressBar.new()
+		"spinbox"        :node = SpinBox.new()
+		"texture_progress_bar":node = TextureProgressBar.new()
+		"hseparator"     :node = HSeparator.new()
+		"vseparator"     :node = VSeparator.new()
+		"item_list"      :node = ItemList.new()
+		"label"          :node = Label.new()
+		"line_edit"      :node = LineEdit.new()
+		"nine_patch_rect":node = NinePatchRect.new()
+		"panel"          :node = Panel.new()
+		"reference_rect" :node = ReferenceRect.new()
+		"rich_label"     :node = RichTextLabel.new()
+		"tab_bar"        :node = TabBar.new()
+		"texture_rect"   :node = TextureRect.new()
+		"tree"           :node = Tree.new()
+		
 	set_properties(node, {}, properties)
 	return node
 
