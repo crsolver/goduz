@@ -74,7 +74,7 @@ func panel_container(properties={}, children=[]):
 	return BasicComponent.new(properties,"panel", children)
 
 func scrollbox(properties={}, children=[]):
-	return BasicComponent.new(properties,"scroll", children)
+	return BasicComponent.new(properties,"scrollbox", children)
 
 func subviewport(properties={}, children=[]):
 	return BasicComponent.new(properties,"subviewport", children)
