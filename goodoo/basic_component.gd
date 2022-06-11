@@ -5,7 +5,7 @@ class_name BasicComponent
 
 func _init(_input, _type, children):
 	type = _type
-	input = _input
+	input = _input.duplicate(true)
 	for child in children:
 		add_child(child)
 

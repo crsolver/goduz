@@ -8,7 +8,7 @@ var parent_control
 
 func _init(_type, _input={}):
 	type = _type
-	input = _input
+	input = _input.duplicate(true)
 	control = Node.new()
 	container = Node.new()
 	add_child(control)
