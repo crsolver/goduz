@@ -1,5 +1,20 @@
 extends Node
 
+const EXCEPTIONS = [
+	"name",
+	"Transform",
+	"transform",
+	"_import_path",
+	"unique_name_in_owner",
+	"scene_file_path",
+	"owner",
+	"size",
+	"scale",
+	"rotation",
+	"position",
+	"global_position", 
+	"text"]
+
 func dict_to_json(dict):
 	var json = JSON.new()
 	return json.stringify(dict,"\t",false)
@@ -14,12 +29,10 @@ func extract_properties(control:Control) -> Dictionary:
 		props.const_margin_bottom = control.get_theme_constant("margin_bottom")
 		
 	for prop in dict:
-		if ["Transform", "size", "position", "global_position", "text"].count(prop.name)>0: 
+		if EXCEPTIONS.count(prop.name)>0: 
 			continue
 		if control.get(prop.name) != null:
 			props[prop.name] = control.get(prop.name)
-	props.erase("name")
-#	print(dict_to_json(props))
 	return props
 
 func get_controls_from_path(path):
@@ -29,10 +42,7 @@ func get_controls_from_path(path):
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
 		while file_name != "":
-			if dir.current_is_dir():
-				print("Found directory: " + file_name)
-			else:
-				print("Found file: " + file_name)
+			if not dir.current_is_dir():
 				var control = load("res://"+path+"/"+file_name)
 				controls.append(control.instantiate())
 			file_name = dir.get_next()

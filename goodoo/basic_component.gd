@@ -14,18 +14,21 @@ func get_control(value):
 		if child.input.has("id"):
 			if child.input.id == value:
 				return child.control
-		return child.get_control(value)
+		var found = child.get_control(value)
+		if found:
+			return found
+	return null
 
 func get_data():
 	var children_data = []
 	for child in get_children():
-		print(child)
 		children_data.append(child.get_data())
 
 	var data = {
 		"type": type,
 		"input": input,
 		"children": children_data,
-		"control": control
+		"control": control,
+		"parent": control.get_parent()
 	}
 	return data
