@@ -19,6 +19,8 @@ func initialize_presets():
 		nodes.append(pk)
 	for node in nodes:
 		create_presets_from_control(node)
+	
+	print(Utils.dict_to_json(presets))
 
 func create_presets_from_control(node:Control):
 	if not str(node.name).begins_with("_"):

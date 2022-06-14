@@ -13,4 +13,3 @@ func gui():
 			"text":"[center][wave]Goodoo[/wave][/center]"
 		})
 	])
-
