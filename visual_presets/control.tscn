@@ -7,8 +7,10 @@ bg_color = Color(0.207843, 0.235294, 0.6, 1)
 PanelContainer/styles/panel = SubResource( "StyleBoxFlat_wlofd" )
 
 [node name="_Control" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+offset_right = 500.0
+offset_bottom = 350.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource( "Theme_lq6a3" )
 
 [node name="center" type="CenterContainer" parent="."]
@@ -22,3 +24,13 @@ offset_right = 250.0
 offset_bottom = 175.0
 bbcode_enabled = true
 fit_content_height = true
+
+[node name="_VBoxContainer" type="HFlowContainer" parent="."]
+offset_right = 507.0
+offset_bottom = 346.0
+
+[node name="Button" type="Button" parent="_VBoxContainer"]
+offset_right = 18.0
+offset_bottom = 31.0
+size_flags_horizontal = 2
+text = "1"

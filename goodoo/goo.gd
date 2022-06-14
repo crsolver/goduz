@@ -20,8 +20,37 @@ func initialize_presets():
 	for node in nodes:
 		create_presets_from_control(node)
 	
+	presets["top-left"] = { anchors_preset = 0 }
+	presets["top-right"] = { anchors_preset = 1 }
+	presets["bottom-right"] = { anchors_preset = 2 }
+	presets["bottom-left"] = { anchors_preset = 3 }
+	presets["top-left"] = { anchors_preset = 4 }
+	presets["center-left"] = { anchors_preset = 5 }
+	presets["center-top"] = { anchors_preset = 6 }
+	presets["center-left"] = { anchors_preset = 7 }
+	presets["center-bottom"] = { anchors_preset = 8 }
+	presets["left-w"] = { anchors_preset = 9 }
+	presets["top-w"] = { anchors_preset = 10 }
+	presets["right-w"] = { anchors_preset = 11 }
+	presets["bottom-w"] = { anchors_preset = 12 }
+	presets["v-center-w"] = { anchors_preset = 13 }
+	presets["h-center-w"] = { anchors_preset = 14 }
+	presets["full"] = { anchors_preset = 15 }
+	
+	# child of containers
+	presets["fill-h"] = {
+		size_flags_horizontal = 1,
+		size_flags_vertical = 0
+	}
+	presets["fill-v"] = {
+		size_flags_horizontal = 1,
+		size_flags_vertical = 0
+	}
+	presets["fill"] = {
+		size_flags_horizontal = 3,
+		size_flags_vertical = 3
+	}
 	print(Utils.dict_to_json(presets))
-
 func create_presets_from_control(node:Control):
 	if not str(node.name).begins_with("_"):
 		add_preset(node.name, node)

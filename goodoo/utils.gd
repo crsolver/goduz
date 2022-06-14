@@ -33,6 +33,9 @@ func extract_properties(control:Control) -> Dictionary:
 			continue
 		if control.get(prop.name) != null:
 			props[prop.name] = control.get(prop.name)
+	print("____________")
+	print(control.name)
+	print(dict_to_json(props))
 	return props
 
 func get_controls_from_path(path):
