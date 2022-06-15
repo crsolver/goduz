@@ -8,12 +8,10 @@ func _init():
 func gui():
 	return\
 	Goo.control({preset="full"},[
-		Goo.vbox({preset="full"},[
-			Goo.button({preset="fill",text="button"}),
-			Goo.button({preset="fill",text="button"})
-#			Goo.rich_label({
-#				preset="rich",
-#				text="[center][wave]Goodoo[/wave][/center]"
-#			})
+		Goo.center({preset="full"},[
+			Goo.rich_label({
+				preset="rich",
+				text="[center][wave]Goodoo[/wave][/center]"
+			})
 		])
 	])

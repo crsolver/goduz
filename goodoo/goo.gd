@@ -50,7 +50,7 @@ func initialize_presets():
 		size_flags_horizontal = 3,
 		size_flags_vertical = 3
 	}
-	print(Utils.dict_to_json(presets))
+#	print(Utils.dict_to_json(presets))
 func create_presets_from_control(node:Control):
 	if not str(node.name).begins_with("_"):
 		add_preset(node.name, node)
