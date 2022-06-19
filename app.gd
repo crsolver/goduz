@@ -12,13 +12,6 @@ func _init():
 		]
 	}
 
-func items():
-	var _items = []
-	for item in state.items:
-		_items.append(Goo.button({key=item.key, preset=item.value, text=item.value,
-			on_pressed=func():print("key " + item.key)}))
-	return _items
-
 func change():
 	state.items.append({key="4", value="cuatro"})
 	update_gui()
@@ -29,7 +22,13 @@ func gui():
 		Goo.center({preset="full"},[
 			Goo.vbox({preset="fill"},[
 				Goo.vbox({preset="fill", list=true, d=state.hash()},
-					items()
+					map(state.items, func(item):
+						return Goo.button({
+							key=item.key, 
+							preset=item.value, 
+							text=item.value, 
+							on_pressed=func():print("key " + item.key)
+						}))
 				),
 				Goo.button({text="Change", on_pressed=change})
 			])

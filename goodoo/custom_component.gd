@@ -33,6 +33,11 @@ func update_gui():
 func gui():
 	pass
 
+func map(arr: Array, function: Callable) -> Array:
+	var result = []
+	for item in arr:
+		result.push_back(function.call(item))
+	return result
 
 func get_data():
 	# Return the component tree as a dictionary.
