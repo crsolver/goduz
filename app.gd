@@ -15,15 +15,14 @@ func _init():
 func change():
 	state.items.append({key="4", value="cuatro"})
 	update_gui()
-	var arr = ["_uno", "dos", "_tres", "cuatro"]
 
 func gui():
 	return\
 	Goo.control({preset="full"},[
 		Goo.center({preset="full"},[
-			Goo.vbox({preset="fill"},[
+			Goo.vbox({preset="full"},[
 				Goo.vbox({preset="fill", list=true, d=state.hash()},
-					map(state.items, func(item):
+					state.items.map(func(item):
 						return Goo.button({
 							key=item.key, 
 							preset=item.value, 
