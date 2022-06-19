@@ -2,12 +2,22 @@ extends Component
 
 class_name BasicComponent
 
+var list = false
+var key = null
 
-func _init(_input, _type, children):
+func _init(_input:Dictionary, _type:String, children:Array):
 	type = _type
 	input = _input.duplicate(true)
+
+	if input.has("list"):
+		list = input.list
+
+	if input.has("key"):
+		key = input.key
+
 	for child in children:
 		add_child(child)
+
 
 func get_control(value):
 	for child in get_children():
@@ -18,6 +28,7 @@ func get_control(value):
 		if found:
 			return found
 	return null
+
 
 func get_data():
 	var children_data = []

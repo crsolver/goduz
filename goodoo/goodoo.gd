@@ -90,10 +90,10 @@ func diff_basic(current:BasicComponent, next:BasicComponent):
 	
 	var current_children = current.get_children()
 	var next_children = next.get_children()
-	look_for_new_children(current,next)
 	
-	for i in range(0,  min(current_children.size(), next_children.size())):
-		diff(current_children[i], next_children[i])
+	for i in range(0,  current_children.size()):
+		if next_children[i].type != "_omit_":
+			diff(current_children[i], next_children[i])
 	next.queue_free()
 
 
@@ -165,6 +165,38 @@ func update_basic(current:BasicComponent, next:BasicComponent):
 	var child_of_container = current.control.get_parent() is Container
 	set_properties(current.control, current.input, next.input,child_of_container)
 	current.input = next.input
+	
+	if current.list:
+		update_list(current, next)
+
+
+func update_list(current:BasicComponent, next:BasicComponent):
+	var aux = {}
+	var current_children = current.get_children()
+	var next_children = next.get_children()
+	
+	for i in range(0, current_children.size()):
+		var current_ch = current_children[i]
+		if current_ch is BasicComponent:
+			current.control.remove_child(current_ch.control)
+		else:
+			current.control.remove_child(current_ch.get_gui().control)
+		current.remove_child(current_ch)
+		aux[current_ch.key] = current_ch
+	
+	for i in range(0, next_children.size()):
+		var next_ch = next_children[i]
+		if aux.has(next_ch.key):
+			var current_ch = aux[next_ch.key]
+			current.add_child(current_ch)
+			if current_ch is BasicComponent:
+				current.control.add_child(current_ch.control)
+			else:
+				current.control.add_child(current_ch.get_gui().control)
+		else:
+			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
+			current.add_child(next_ch)
+			render(current.control, next_ch)
 
 
 func update_custom(current:CustomComponent, next:CustomComponent):
@@ -267,6 +299,8 @@ func create_control(type:String, properties:Dictionary,child_of_container) -> Co
 func set_properties(node:Control, last_properties, properties:Dictionary,child_of_container) -> void:
 	for key in properties.keys():
 		if key == "id": continue
+		if key == "key": continue
+		if key == "list": continue
 		if key == "preset":
 			if last_properties.has("preset"):
 				if last_properties["preset"] == properties["preset"]:

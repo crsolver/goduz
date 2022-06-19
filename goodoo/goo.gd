@@ -8,6 +8,7 @@ func add_preset(preset_name:String,node:Control):
 
 
 func get_preset(preset_name:String):
+	print(preset_name)
 	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
 	return presets[preset_name]
 	

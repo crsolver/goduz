@@ -6,7 +6,7 @@ var state:Dictionary
 var container
 var parent_control
 
-func _init(_type, _input={}):
+func _init(_type:String, _input:Dictionary={}):
 	type = _type
 	input = _input.duplicate(true)
 	control = Node.new()
