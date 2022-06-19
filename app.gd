@@ -21,7 +21,7 @@ func gui():
 	Goo.control({preset="full"},[
 		Goo.center({preset="full"},[
 			Goo.vbox({preset="full"},[
-				Goo.vbox({preset="fill", list=true, d=state.hash()},
+				Goo.vbox({preset="fill", list=true, d=state.items.hash()},
 					state.items.map(func(item):
 						return Goo.button({
 							key=item.key, 

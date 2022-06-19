@@ -5,10 +5,13 @@ class_name CustomComponent
 var state:Dictionary
 var container
 var parent_control
+var key = null
 
 func _init(_type:String, _input:Dictionary={}):
 	type = _type
 	input = _input.duplicate(true)
+	if input.has("key"):
+		key = input.key
 	control = Node.new()
 	container = Node.new()
 	add_child(control)
