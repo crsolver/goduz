@@ -15,6 +15,7 @@ func _init():
 func change():
 	state.items.append({key="4", value="cuatro"})
 	update_gui()
+	var arr = ["_uno", "dos", "_tres", "cuatro"]
 
 func gui():
 	return\

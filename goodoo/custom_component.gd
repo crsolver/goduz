@@ -39,6 +39,14 @@ func map(arr: Array, function: Callable) -> Array:
 		result.push_back(function.call(item))
 	return result
 
+# filter(items, func(item): return item.current == true
+func filter(arr: Array, function: Callable) -> Array:
+	var result = []
+	for item in arr:
+		if function.call(item):
+			result.push_back(item)
+	return result
+
 func get_data():
 	# Return the component tree as a dictionary.
 	var data = {
