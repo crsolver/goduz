@@ -82,6 +82,7 @@ func change_custom_for_basic(current:CustomComponent, next:BasicComponent):
 
 
 func diff_basic(current:BasicComponent, next:BasicComponent):
+	# Checks if a the current basicComponent has changed and updates it if that is the case.
 	if current.type != next.type:
 		change_basic_for_dif_basic(current, next)
 		return
@@ -94,6 +95,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent):
 	for i in range(0,  current_children.size()):
 		if next_children[i].type != "_omit_":
 			diff(current_children[i], next_children[i])
+			
 	next.queue_free()
 
 
@@ -193,10 +195,24 @@ func update_list(current:BasicComponent, next:BasicComponent):
 				current.control.add_child(current_ch.control)
 			else:
 				current.control.add_child(current_ch.get_gui().control)
+			aux.erase(next_ch.key)
 		else:
+			var next_ch_children = []
+			for child in next_ch.get_children():
+				next_ch_children.append(child)
+				next_ch.remove_child(child)
 			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
 			current.add_child(next_ch)
+			for child in next_ch_children:
+				next_ch.add_child(child)
 			render(current.control, next_ch)
+			
+	for key in aux.keys():
+		if aux[key] is BasicComponent:
+			aux[key].control.queue_free()
+		else:
+			aux[key].get_gui().control.queue_free()
+		aux[key].queue_free()
 
 
 func update_custom(current:CustomComponent, next:CustomComponent):
@@ -230,9 +246,8 @@ func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:
 
 func render(parent:Control, component:Component) -> void:
 	# Renders the component to the scene
-	if component is BasicComponent:
-		var child_of_container = parent is Container
-		component.control = create_control(component.type, component.input,child_of_container)
+	if component is BasicComponent: 
+		component.control = create_control(component.type, component.input, parent is Container)
 		parent.add_child(component.control)
 		for child in component.get_children():
 			render(component.control, child)
