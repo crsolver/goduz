@@ -42,7 +42,6 @@ func update_gui():
 	Goodoo.diff(self.get_gui(), next)
 
 
-
 func gui():
 	pass
 
