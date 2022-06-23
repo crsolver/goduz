@@ -53,7 +53,7 @@ func change_basic_for_custom(current:BasicComponent, next:CustomComponent):
 	next.ready()
 
 func change_custom_for_basic(current:CustomComponent, next:BasicComponent):
-	
+	current.will_die()
 	for child in current.get_gui().control.get_children():
 		child.queue_free()
 		
@@ -101,6 +101,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent):
 
 func diff_custom(current:CustomComponent, next:CustomComponent):
 	if current.type != next.type:
+		current.will_die()
 		change_custom_for_dif_custom(current, next)
 	elif current.input.hash() != next.input.hash():
 		update_custom(current, next)
@@ -211,6 +212,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 		if aux[key] is BasicComponent:
 			aux[key].control.queue_free()
 		else:
+			aux[key].will_die()
 			aux[key].get_gui().control.queue_free()
 		aux[key].queue_free()
 

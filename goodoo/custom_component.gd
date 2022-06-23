@@ -36,6 +36,11 @@ func update_gui():
 func gui():
 	pass
 
+func updated():
+	pass
+
+func will_die():
+	pass
 
 func get_data():
 	# Return the component tree as a dictionary.
