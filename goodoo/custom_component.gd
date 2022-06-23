@@ -17,6 +17,16 @@ func _init(_type:String, _input:Dictionary={}):
 	add_child(control)
 	add_child(container)
 
+# Lifecycle methods
+func ready():
+	pass
+
+func updated():
+	pass
+
+func will_die():
+	pass
+# __________________
 
 func complete():
 	# creates the component tree based on its render method
@@ -36,11 +46,6 @@ func update_gui():
 func gui():
 	pass
 
-func updated():
-	pass
-
-func will_die():
-	pass
 
 func get_data():
 	# Return the component tree as a dictionary.
