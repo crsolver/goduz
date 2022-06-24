@@ -326,9 +326,9 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 				if last_properties["preset"] == properties["preset"]:
 					return
 			var presets = properties.preset.split(" ")
-			var last_p = []
-			if last_properties.has("preset"):
-				last_p = last_properties.preset.split(" ")
+#			var last_p = []
+#			if last_properties.has("preset"):
+#				last_p = last_properties.preset.split(" ")
 			for preset in presets:
 #				if last_p.count(preset) > 0: continue
 				if Goo.get_preset(preset):
