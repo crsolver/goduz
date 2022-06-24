@@ -9,11 +9,10 @@ var control
 func _init():
 	pass
 
-
-func get_components():
+func get_data():
 	pass
 
-func get_data():
+func ready():
 	pass
 
 func get_control(_value):

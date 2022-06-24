@@ -63,6 +63,9 @@ func change_custom_for_basic(current:CustomComponent, next:BasicComponent):
 		var old = current.get_gui().control
 		var child_of_container = old.get_parent() is Container
 		var new = create_control(next.type, next.input,child_of_container)
+		if old is ScrollContainer:
+			old.get_h_scroll_bar().queue_free()
+			old.get_v_scroll_bar().queue_free()
 		current.get_gui().control.replace_by(new)
 		old.queue_free()
 		next_control = new
@@ -327,7 +330,7 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 			if last_properties.has("preset"):
 				last_p = last_properties.preset.split(" ")
 			for preset in presets:
-				if last_p.count(preset) > 0: continue
+#				if last_p.count(preset) > 0: continue
 				if Goo.get_preset(preset):
 					set_preset(node,preset,child_of_container)
 		
