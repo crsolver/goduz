@@ -11,16 +11,9 @@ func get_preset(preset_name:String):
 #	print(preset_name)
 	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
 	return presets[preset_name]
-	
+
 func initialize_presets():
-	Presets.initialize_presets()
-	var pks = Utils.get_controls_from_path("visual_presets")
-	var nodes = []
-	for pk in pks:
-		nodes.append(pk)
-	for node in nodes:
-		create_presets_from_control(node)
-	
+
 	presets["top-left"] = { 
 		anchors_preset = 0,
 		clip_contents = true
@@ -40,7 +33,7 @@ func initialize_presets():
 	presets["top-left"] = { 
 		anchors_preset = 4,
 		clip_contents = true
-		}
+	}
 	presets["center-left"] = { 
 		anchors_preset = 5,
 		clip_contents = true
@@ -101,14 +94,22 @@ func initialize_presets():
 		size_flags_vertical = 3,
 		clip_contents = true
 	}
-#	print(Utils.dict_to_json(presets))
+	
+	Presets.initialize_presets()
+	var pks = Utils.get_controls_from_path("visual_presets")
+	var nodes = []
+	for pk in pks:
+		nodes.append(pk)
+	for node in nodes:
+		create_presets_from_control(node)
+
+
 func create_presets_from_control(node:Control):
 	if not str(node.name).begins_with("_"):
 		add_preset(node.name, node)
 	for child in node.get_children():
 		create_presets_from_control(child)
 	node.queue_free()
-
 
 
 func control(properties={}, children=[]):
