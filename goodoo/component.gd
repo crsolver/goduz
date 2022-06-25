@@ -1,6 +1,6 @@
 extends BaseComponent
 
-class_name CustomComponent
+class_name Component
 
 var state:Dictionary
 var container

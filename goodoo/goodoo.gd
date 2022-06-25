@@ -2,6 +2,8 @@ extends Node
 
 # Methods to render and update the GUI.
 
+# custom components are just called Components for simplicity
+
 func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent:
 		if next is BasicComponent:
@@ -15,7 +17,7 @@ func diff(current:BaseComponent, next:BaseComponent) -> void:
 			change_custom_for_basic(current, next)
 
 
-func change_basic_for_custom(current:BasicComponent, next:CustomComponent):
+func change_basic_for_custom(current:BasicComponent, next:Component):
 	next.complete()
 	var next_control
 	var next_gui = next.get_gui()
@@ -52,7 +54,7 @@ func change_basic_for_custom(current:BasicComponent, next:CustomComponent):
 	await get_tree().process_frame
 	next.ready()
 
-func change_custom_for_basic(current:CustomComponent, next:BasicComponent):
+func change_custom_for_basic(current:Component, next:BasicComponent):
 	current.will_die()
 	for child in current.get_gui().control.get_children():
 		child.queue_free()
@@ -102,7 +104,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent):
 	next.queue_free()
 
 
-func diff_custom(current:CustomComponent, next:CustomComponent):
+func diff_custom(current:Component, next:Component):
 	if current.type != next.type:
 		current.will_die()
 		change_custom_for_dif_custom(current, next)
@@ -124,7 +126,7 @@ func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
 	next.queue_free()
 
 
-func change_custom_for_dif_custom(current:CustomComponent, next:CustomComponent):
+func change_custom_for_dif_custom(current:Component, next:Component):
 	next.complete()
 	var next_control
 	
@@ -220,7 +222,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 		aux[key].queue_free()
 
 
-func update_custom(current:CustomComponent, next:CustomComponent):
+func update_custom(current:Component, next:Component):
 	current.input = next.input
 	next.state = current.state
 	next.complete()

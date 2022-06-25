@@ -1,4 +1,4 @@
-extends CustomComponent
+extends Component
 
 class_name App
 

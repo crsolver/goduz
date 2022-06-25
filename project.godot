@@ -9,7 +9,7 @@
 config_version=5
 
 _global_script_classes=[{
-"base": "CustomComponent",
+"base": "Component",
 "class": &"App",
 "language": &"GDScript",
 "path": "res://app.gd"
@@ -25,15 +25,15 @@ _global_script_classes=[{
 "path": "res://goodoo/basic_component.gd"
 }, {
 "base": "BaseComponent",
-"class": &"CustomComponent",
+"class": &"Component",
 "language": &"GDScript",
-"path": "res://goodoo/custom_component.gd"
+"path": "res://goodoo/component.gd"
 }]
 _global_script_class_icons={
 "App": "",
 "BaseComponent": "",
 "BasicComponent": "",
-"CustomComponent": ""
+"Component": ""
 }
 
 [application]
