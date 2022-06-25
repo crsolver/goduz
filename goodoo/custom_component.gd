@@ -1,4 +1,4 @@
-extends Component
+extends BaseComponent
 
 class_name CustomComponent
 

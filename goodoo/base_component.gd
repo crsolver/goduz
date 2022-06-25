@@ -1,6 +1,6 @@
 extends Node
 
-class_name Component
+class_name BaseComponent
 
 var input
 var type

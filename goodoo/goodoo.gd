@@ -2,7 +2,7 @@ extends Node
 
 # Methods to render and update the GUI.
 
-func diff(current:Component, next:Component) -> void:
+func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent:
 		if next is BasicComponent:
 			diff_basic(current, next)
@@ -249,7 +249,7 @@ func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:
 				render(current.parent_control, new_comp)
 
 
-func render(parent:Control, component:Component) -> void:
+func render(parent:Control, component:BaseComponent) -> void:
 	# Renders the component to the scene
 	if component is BasicComponent: 
 		component.control = create_control(component.type, component.input, parent is Container)
