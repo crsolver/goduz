@@ -112,139 +112,139 @@ func create_presets_from_control(node:Control):
 	node.queue_free()
 
 
-func control(properties={}, children=[]):
+func control(properties:Dictionary={}, children=[]):
 	return BasicComponent.new(properties, "control", children)
 
 
 # Containers
-func container(properties={}, children=[]):
+func container(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"container", children)
 
-func aspect_radio(properties={}, children=[]):
+func aspect_radio(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"aspect_radio_container", children)
 
-func center(properties={}, children=[]):
+func center(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"center", children)
 
-func hbox(properties={}, children=[]):
+func hbox(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties, "hbox", children)
 
-func vbox(properties={}, children=[]):
+func vbox(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties, "vbox", children)
 
-func graphnode(properties={}, children=[]):
+func graphnode(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"graphnode", children)
 
-func grid(properties={}, children=[]):
+func grid(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"grid", children)
 
-func hflow(properties={}, children=[]):
+func hflow(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"hflow", children)
 
-func vflow(properties={}, children=[]):
+func vflow(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"vflow", children)
 
-func hsplit(properties={}, children=[]):
+func hsplit(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"hsplit", children)
 
-func vsplit(properties={}, children=[]):
+func vsplit(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"vsplit", children)
 
-func margin(properties={}, children=[]):
+func margin(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"margin", children)
 
-func panel_container(properties={}, children=[]):
+func panel_container(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"panel", children)
 
-func scrollbox(properties={}, children=[]):
+func scrollbox(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"scrollbox", children)
 
-func subviewport(properties={}, children=[]):
+func subviewport(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"subviewport", children)
 
-func tabbox(properties={}, children=[]):
+func tabbox(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"tab", children)
 
 
 # Buttons
 
-func button(properties={}):
+func button(properties:Dictionary={}):
 	return BasicComponent.new(properties,"button", [])
 
-func link_button(properties={}):
+func link_button(properties:Dictionary={}):
 	return BasicComponent.new(properties,"link_button", [])
 
-func texture_button(properties={}):
+func texture_button(properties:Dictionary={}):
 	return BasicComponent.new(properties,"texture_button", [])
 
 
 
-func text_edit(properties={}):
+func text_edit(properties:Dictionary={}):
 	return BasicComponent.new(properties,"text_edit", [])
 
-func code_edit(properties={}):
+func code_edit(properties:Dictionary={}):
 	return BasicComponent.new(properties,"code_edit", [])
 
-func color_rect(properties={}):
+func color_rect(properties:Dictionary={}):
 	return BasicComponent.new(properties,"color_rect", [])
 
-func graph_edit(properties={}):
+func graph_edit(properties:Dictionary={}):
 	return BasicComponent.new(properties,"graph_edit", [])
 
-func hscrollbar(properties={}):
+func hscrollbar(properties:Dictionary={}):
 	return BasicComponent.new(properties,"vscrollbar", [])
 
-func vscrollbar(properties={}):
+func vscrollbar(properties:Dictionary={}):
 	return BasicComponent.new(properties,"vscrollbar", [])
 
-func vslider(properties={}):
+func vslider(properties:Dictionary={}):
 	return BasicComponent.new(properties,"vslider", [])
 
-func hslider(properties={}):
+func hslider(properties:Dictionary={}):
 	return BasicComponent.new(properties,"hslider", [])
 
-func progressbar(properties={}):
+func progressbar(properties:Dictionary={}):
 	return BasicComponent.new(properties,"progressbar", [])
 
-func spinbox(properties={}):
+func spinbox(properties:Dictionary={}):
 	return BasicComponent.new(properties,"spinbox", [])
 
-func texture_progress_bar(properties={}):
+func texture_progress_bar(properties:Dictionary={}):
 	return BasicComponent.new(properties,"texture_progress_bar", [])
 
-func vseparator(properties={}):
+func vseparator(properties:Dictionary={}):
 	return BasicComponent.new(properties,"vseparator", [])
 	
-func hseparator(properties={}):
+func hseparator(properties:Dictionary={}):
 	return BasicComponent.new(properties,"hseparator", [])
 
-func item_list(properties={}):
+func item_list(properties:Dictionary={}):
 	return BasicComponent.new(properties,"item_list", [])
 
-func label(properties={}):
+func label(properties:Dictionary={}):
 	return BasicComponent.new(properties,"label", [])
 
-func line_edit(properties={}):
+func line_edit(properties:Dictionary={}):
 	return BasicComponent.new(properties,"line_edit", [])
 
-func nine_patch_rect(properties={}):
+func nine_patch_rect(properties:Dictionary={}):
 	return BasicComponent.new(properties,"nine_patch_rect", [])
 
-func panel(properties={},children=[]):
+func panel(properties:Dictionary={},children:Array=[]):
 	return BasicComponent.new(properties,"panel", children)
 
-func reference_rect(properties={}):
+func reference_rect(properties:Dictionary={}):
 	return BasicComponent.new(properties,"reference_rect", [])
 	
-func rich_label(properties={}):
+func rich_label(properties:Dictionary={}):
 	return BasicComponent.new(properties,"rich_label", [])	
 
-func tab_bar(properties={}, children=[]):
+func tab_bar(properties:Dictionary={}, children:Array=[]):
 	return BasicComponent.new(properties,"tab_bar", children)
 
-func texture_rect(properties={}):
+func texture_rect(properties:Dictionary={}):
 	return BasicComponent.new(properties,"texture_rect", [])
 
-func tree(properties={}):
+func tree(properties:Dictionary={}):
 	return BasicComponent.new(properties,"tree", [])
 

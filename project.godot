@@ -19,6 +19,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://goodoo/base_component.gd"
 }, {
+"base": "Component",
+"class": &"BaseRootComponent",
+"language": &"GDScript",
+"path": "res://goodoo/base_root_component.gd"
+}, {
 "base": "BaseComponent",
 "class": &"BasicComponent",
 "language": &"GDScript",
@@ -28,12 +33,19 @@ _global_script_classes=[{
 "class": &"Component",
 "language": &"GDScript",
 "path": "res://goodoo/component.gd"
+}, {
+"base": "BaseRootComponent",
+"class": &"RootComponent",
+"language": &"GDScript",
+"path": "res://goodoo/root_component.gd"
 }]
 _global_script_class_icons={
 "App": "",
 "BaseComponent": "",
+"BaseRootComponent": "",
 "BasicComponent": "",
-"Component": ""
+"Component": "",
+"RootComponent": ""
 }
 
 [application]
@@ -54,3 +66,7 @@ Presets="*res://presets.gd"
 
 window/size/viewport_width=500
 window/size/viewport_height=350
+
+[editor]
+
+script/templates_search_path="res://script_templatess"
