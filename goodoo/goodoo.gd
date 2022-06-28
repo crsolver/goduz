@@ -3,7 +3,6 @@ extends Node
 # Methods to render and update the GUI.
 
 # custom components are just called Components for simplicity
-
 func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent:
 		if next is BasicComponent:
@@ -230,25 +229,6 @@ func update_custom(current:Component, next:Component):
 	next.queue_free()
 	await get_tree().process_frame
 	current.updated()
-
-
-func look_for_new_children(current:BasicComponent, next:BasicComponent) -> void:
-	# Appends new added children the the current component
-	if current.get_children().size() < next.get_children().size():
-		var new_children = []
-		for i in range(current.get_children().size(), next.get_children().size()):
-			new_children.append(next.get_children()[i])
-		
-		for new in new_children:
-			var new_comp = new
-			next.remove_child(new)
-			
-			if current is BasicComponent:
-				current.add_child(new_comp)
-				render(current.control, new_comp)
-			else:
-				current.container.add_child(new_comp)
-				render(current.parent_control, new_comp)
 
 
 func render(parent:Control, component:BaseComponent) -> void:

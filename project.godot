@@ -9,11 +9,6 @@
 config_version=5
 
 _global_script_classes=[{
-"base": "Component",
-"class": &"App",
-"language": &"GDScript",
-"path": "res://app.gd"
-}, {
 "base": "Node",
 "class": &"BaseComponent",
 "language": &"GDScript",
@@ -40,7 +35,6 @@ _global_script_classes=[{
 "path": "res://goodoo/root_component.gd"
 }]
 _global_script_class_icons={
-"App": "",
 "BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
