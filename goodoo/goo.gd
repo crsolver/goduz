@@ -79,17 +79,17 @@ func initialize_presets():
 	}
 	
 	# child of containers
-	presets["fill-h"] = {
-		size_flags_horizontal = 1,
+	presets["expand-h"] = {
+		size_flags_horizontal = 3,
 		size_flags_vertical = 0,
 		clip_contents = true
 	}
-	presets["fill-v"] = {
-		size_flags_horizontal = 1,
+	presets["expand-v"] = {
+		size_flags_horizontal = 3,
 		size_flags_vertical = 0,
 		clip_contents = true
 	}
-	presets["fill"] = {
+	presets["expand"] = {
 		size_flags_horizontal = 3,
 		size_flags_vertical = 3,
 		clip_contents = true

@@ -45,7 +45,6 @@ _global_script_class_icons={
 [application]
 
 config/name="Goodoo"
-run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 run/low_processor_mode=true
 
