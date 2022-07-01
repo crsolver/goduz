@@ -8,12 +8,12 @@ func add_preset(preset_name:String,node:Control):
 
 
 func get_preset(preset_name:String):
-#	print(preset_name)
 	assert(presets.has(preset_name), "A preset not defined has been assigned to a component.")
 	return presets[preset_name]
 
-func initialize_presets():
 
+func initialize_presets(path):
+	presets = {}
 	presets["top-left"] = { 
 		anchors_preset = 0,
 		clip_contents = true
@@ -95,13 +95,10 @@ func initialize_presets():
 		clip_contents = true
 	}
 	
-	Presets.initialize_presets()
-	var pks = Utils.get_controls_from_path("visual_presets")
-	var nodes = []
-	for pk in pks:
-		nodes.append(pk)
-	for node in nodes:
-		create_presets_from_control(node)
+	if path:
+		presets.merge(Utils.get_presets_from_file(path), true)
+#		print("Presets:")
+#		print(Utils.dict_to_json(presets))
 
 
 func create_presets_from_control(node:Control):

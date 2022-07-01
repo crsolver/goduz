@@ -16,7 +16,7 @@ func diff(current:BaseComponent, next:BaseComponent) -> void:
 			change_custom_for_basic(current, next)
 
 
-func change_basic_for_custom(current:BasicComponent, next:Component):
+func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	next.complete()
 	var next_control
 	var next_gui = next.get_gui()
@@ -53,7 +53,7 @@ func change_basic_for_custom(current:BasicComponent, next:Component):
 	await get_tree().process_frame
 	next.ready()
 
-func change_custom_for_basic(current:Component, next:BasicComponent):
+func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	current.will_die()
 	for child in current.get_gui().control.get_children():
 		child.queue_free()
@@ -84,9 +84,8 @@ func change_custom_for_basic(current:Component, next:BasicComponent):
 	next.control = next_control
 	current.queue_free()
 
-
-func diff_basic(current:BasicComponent, next:BasicComponent):
-	# Checks if a the current basicComponent has changed and updates it if that is the case.
+# Checks if a the current BasicComponent has changed and updates it if that is the case.
+func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 	if current.type != next.type:
 		change_basic_for_dif_basic(current, next)
 		return
@@ -103,7 +102,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent):
 	next.queue_free()
 
 
-func diff_custom(current:Component, next:Component):
+func diff_custom(current:Component, next:Component) -> void:
 	if current.type != next.type:
 		current.will_die()
 		change_custom_for_dif_custom(current, next)
@@ -111,7 +110,7 @@ func diff_custom(current:Component, next:Component):
 		update_custom(current, next)
 
 
-func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
+func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var old = current.control
 	var new = create_control(next.type, next.input, old.get_parent() is Container)
 	current.control.replace_by(new)
@@ -125,7 +124,7 @@ func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent):
 	next.queue_free()
 
 
-func change_custom_for_dif_custom(current:Component, next:Component):
+func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	next.complete()
 	var next_control
 	
@@ -168,20 +167,21 @@ func change_custom_for_dif_custom(current:Component, next:Component):
 	next.ready()
 
 
-func update_basic(current:BasicComponent, next:BasicComponent):
+func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var child_of_container = current.control.get_parent() is Container
 	set_properties(current.control, current.input, next.input,child_of_container)
 	current.input = next.input
 	
-	if current.list:
+	if current.list != null:
 		update_list(current, next)
 
 
-func update_list(current:BasicComponent, next:BasicComponent):
+func update_list(current:BasicComponent, next:BasicComponent) -> void:
 	var aux = {}
 	var current_children = current.get_children()
 	var next_children = next.get_children()
 	
+	# Remove the items (control nodes) and save them in aux
 	for i in range(0, current_children.size()):
 		var current_ch = current_children[i]
 		if current_ch is BasicComponent:
@@ -191,9 +191,13 @@ func update_list(current:BasicComponent, next:BasicComponent):
 		current.remove_child(current_ch)
 		aux[current_ch.key] = current_ch
 	
+	# Add the items in the new order
+	# Add new items
+	# Delete items that are not in the updated version
 	for i in range(0, next_children.size()):
 		var next_ch = next_children[i]
 		if aux.has(next_ch.key):
+			# Add an old item in its new position
 			var current_ch = aux[next_ch.key]
 			current.add_child(current_ch)
 			if current_ch is BasicComponent:
@@ -202,6 +206,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 				current.control.add_child(current_ch.get_gui().control)
 			aux.erase(next_ch.key)
 		else:
+			# Add a new item
 			var next_ch_children = []
 			for child in next_ch.get_children():
 				next_ch_children.append(child)
@@ -212,6 +217,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 				next_ch.add_child(child)
 			render(current.control, next_ch)
 			
+	# Delete items
 	for key in aux.keys():
 		if aux[key] is BasicComponent:
 			aux[key].control.queue_free()
@@ -221,7 +227,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 		aux[key].queue_free()
 
 
-func update_custom(current:Component, next:Component):
+func update_custom(current:Component, next:Component) -> void:
 	current.input = next.input
 	next.state = current.state
 	next.complete()
@@ -230,9 +236,8 @@ func update_custom(current:Component, next:Component):
 	await get_tree().process_frame
 	current.updated()
 
-
+# Renders the component to the scene
 func render(parent:Control, component:BaseComponent) -> void:
-	# Renders the component to the scene
 	if component is BasicComponent: 
 		component.control = create_control(component.type, component.input, parent is Container)
 		parent.add_child(component.control)
@@ -308,11 +313,11 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 				if last_properties["preset"] == properties["preset"]:
 					return
 			var presets = properties.preset.split(" ")
-#			var last_p = []
-#			if last_properties.has("preset"):
-#				last_p = last_properties.preset.split(" ")
+			var last_p = []
+			if last_properties.has("preset"):
+				last_p = last_properties.preset.split(" ")
 			for preset in presets:
-#				if last_p.count(preset) > 0: continue
+				if last_p.count(preset) > 0: continue
 				if Goo.get_preset(preset):
 					set_preset(node,preset,child_of_container)
 		
