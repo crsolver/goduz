@@ -72,7 +72,7 @@ func get_data():
 
 func get_control(value):
 	var _gui = get_gui()
-	if _gui.input.has("id"):
-		if _gui.input.id == value:
+	if _gui.props.has("id"):
+		if _gui.props.id == value:
 			return _gui.control
 	return _gui.get_control(value)
