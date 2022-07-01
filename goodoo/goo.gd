@@ -95,6 +95,9 @@ func create_presets_from_control(node:Control):
 	node.queue_free()
 
 
+func nothing():
+	return BasicComponent.new({}, "control", [])
+
 func control(properties:Dictionary={}, children=[]):
 	return BasicComponent.new(properties, "control", children)
 
