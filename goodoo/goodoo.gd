@@ -271,7 +271,9 @@ func create_control(type:String, properties:Dictionary,child_of_container) -> Co
 		"margin"         :node = MarginContainer.new()
 		"panel_container":node = PanelContainer.new()
 		"scrollbox"      :node = ScrollContainer.new()
-		"subviewport"    :node = SubViewportContainer.new()
+		"subviewport"    :
+			node = SubViewportContainer.new()
+			node.add_child(SubViewport.new())
 		"tabbox"         :node = TabContainer.new()
 		"button"         :node = Button.new()
 		"link_button"    :node = LinkButton.new()
