@@ -177,6 +177,7 @@ func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 
 
 func update_list(current:BasicComponent, next:BasicComponent) -> void:
+	# The current implementation is slow for lists with a lot of items.
 	var aux = {}
 	var current_children = current.get_children()
 	var next_children = next.get_children()
@@ -311,7 +312,7 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 		if key == "preset":
 			if last_properties.has("preset"):
 				if last_properties["preset"] == properties["preset"]:
-					return
+					continue
 			var presets = properties.preset.split(" ")
 			var last_p = []
 			if last_properties.has("preset"):

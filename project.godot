@@ -44,8 +44,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Goodoo"
-config/features=PackedStringArray("4.0", "Vulkan Clustered")
+run/main_scene="res://root.tscn"
+config/features=PackedStringArray("4.0")
 run/low_processor_mode=true
 
 [autoload]
@@ -53,12 +53,9 @@ run/low_processor_mode=true
 Goodoo="*res://goodoo/goodoo.gd"
 Goo="*res://goodoo/goo.gd"
 Utils="*res://goodoo/utils.gd"
+Presets="*res://presets.gd"
 
 [display]
 
-window/size/viewport_width=300
-window/size/viewport_height=300
-
-[editor]
-
-script/templates_search_path="res://script_templatess"
+window/size/always_on_top=true
+window/subwindows/embed_subwindows=false
