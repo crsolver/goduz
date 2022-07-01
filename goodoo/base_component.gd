@@ -16,7 +16,7 @@ class_name BaseComponent
 # There is also a RootComponent which inherits from Component.
 # This component can be added to a scene and it will render itself.
 
-var input
+var props
 var type
 var control
 

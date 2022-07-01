@@ -56,8 +56,8 @@ Utils="*res://goodoo/utils.gd"
 
 [display]
 
-window/size/viewport_width=500
-window/size/viewport_height=350
+window/size/viewport_width=300
+window/size/viewport_height=300
 
 [editor]
 

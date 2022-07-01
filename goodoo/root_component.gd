@@ -4,7 +4,7 @@ class_name RootComponent
 # Called when the component is initialized. Use it to initialize the state.
 func _init():
 	super()
-# Path of the scene with control nodes to be used as presets.
+#	Path of the scene with control nodes to be used as presets:
 #	presets_path = "res://presets.tscn"
 	state = {count=0}
 
@@ -19,14 +19,11 @@ func ready():
 func updated():
 	pass
 
-
 func increment():
 	state.count += 1
-	update_gui()
 
 func decrement():
 	state.count -= 1
-	update_gui()
 
 # The view of the component. 
 # Defined by BasicComponents created using Goo 'Goo.center()' or other Components 'MyComponent.new()'.

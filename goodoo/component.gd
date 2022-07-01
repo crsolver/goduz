@@ -2,16 +2,22 @@ extends BaseComponent
 
 class_name Component
 
-var state:Dictionary
+var state:Dictionary = {}:
+	set(value):
+		var call_update_gui = state != {}
+		state = value
+		if call_update_gui:
+			update_gui()
+
 var container
 var parent_control
 var key = null
 
-func _init(_type:String, _input:Dictionary={}):
+func _init(_type:String, _props:Dictionary={}):
 	type = _type
-	input = _input.duplicate(true)
-	if input.has("key"):
-		key = input.key
+	props = _props.duplicate(true)
+	if props.has("key"):
+		key = props.key
 	control = Node.new()
 	container = Node.new()
 	add_child(control)
@@ -55,7 +61,7 @@ func get_data():
 	# Return the component tree as a dictionary.
 	var data = {
 		"type": type,
-		"input": input,
+		"props": props,
 		"control": control,
 		"container": container,
 		"parent_control": parent_control,

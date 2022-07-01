@@ -32,12 +32,12 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	var is_child_of_container = current.control.get_parent() is Container
 	
 	if next_gui.type != current.type:
-		var new_control = create_control(next_gui.type, next_gui.input,is_child_of_container)
+		var new_control = create_control(next_gui.type, next_gui.props,is_child_of_container)
 		current.control.replace_by(new_control)
 		next_control = new_control
 		old_control.queue_free()
 	else:
-		set_properties(current.control, current.input, next_gui.input,is_child_of_container)
+		set_properties(current.control, current.props, next_gui.props,is_child_of_container)
 	
 	for child in next.get_gui().get_children():
 		render(next_control, child)
@@ -63,14 +63,14 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	if current.get_gui().type != next.type:
 		var old = current.get_gui().control
 		var child_of_container = old.get_parent() is Container
-		var new = create_control(next.type, next.input,child_of_container)
+		var new = create_control(next.type, next.props,child_of_container)
 		if old is ScrollContainer:
 			old.get_h_scroll_bar().queue_free()
 			old.get_v_scroll_bar().queue_free()
 		current.get_gui().control.replace_by(new)
 		old.queue_free()
 		next_control = new
-	elif current.input.hash() != next.input.hash():
+	elif current.props.hash() != next.props.hash():
 		update_basic(current.get_gui(), next)
 	
 	for child in next.get_children():
@@ -89,7 +89,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 	if current.type != next.type:
 		change_basic_for_dif_basic(current, next)
 		return
-	elif current.input.hash() != next.input.hash():
+	elif current.props.hash() != next.props.hash():
 		update_basic(current, next)
 	
 	var current_children = current.get_children()
@@ -106,17 +106,17 @@ func diff_custom(current:Component, next:Component) -> void:
 	if current.type != next.type:
 		current.will_die()
 		change_custom_for_dif_custom(current, next)
-	elif current.input.hash() != next.input.hash():
+	elif current.props.hash() != next.props.hash():
 		update_custom(current, next)
 
 
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var old = current.control
-	var new = create_control(next.type, next.input, old.get_parent() is Container)
+	var new = create_control(next.type, next.props, old.get_parent() is Container)
 	current.control.replace_by(new)
 	current.control = new
 	old.queue_free()
-	current.input = next.input
+	current.props = next.props
 	current.type = next.type
 	for child in next.get_children():
 		next.remove_child(child)
@@ -140,12 +140,12 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	var child_of_container = old_control.get_parent() is Container
 	
 	if next_gui.type != current_gui.type:
-		var new_control = create_control(next_gui.type, next_gui.input,child_of_container)
+		var new_control = create_control(next_gui.type, next_gui.props,child_of_container)
 		current_gui.control.replace_by(new_control)
 		next_control = new_control
 		old_control.queue_free()
 	else:
-		set_properties(current_gui.control, current_gui.input, next_gui.input,child_of_container)
+		set_properties(current_gui.control, current_gui.props, next_gui.props,child_of_container)
 	
 	for child in next.get_gui().get_children():
 		render(next_control, child)
@@ -169,8 +169,8 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var child_of_container = current.control.get_parent() is Container
-	set_properties(current.control, current.input, next.input,child_of_container)
-	current.input = next.input
+	set_properties(current.control, current.props, next.props,child_of_container)
+	current.props = next.props
 	
 	if current.list != null:
 		update_list(current, next)
@@ -228,7 +228,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 
 
 func update_custom(current:Component, next:Component) -> void:
-	current.input = next.input
+	current.props = next.props
 	next.state = current.state
 	next.complete()
 	diff(current.get_gui(), next.get_gui())
@@ -239,7 +239,7 @@ func update_custom(current:Component, next:Component) -> void:
 # Renders the component to the scene
 func render(parent:Control, component:BaseComponent) -> void:
 	if component is BasicComponent: 
-		component.control = create_control(component.type, component.input, parent is Container)
+		component.control = create_control(component.type, component.props, parent is Container)
 		parent.add_child(component.control)
 		for child in component.get_children():
 			render(component.control, child)

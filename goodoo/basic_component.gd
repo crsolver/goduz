@@ -5,15 +5,15 @@ class_name BasicComponent
 var list = false
 var key = null
 
-func _init(_input:Dictionary, _type:String, children:Array):
+func _init(_props:Dictionary, _type:String, children:Array):
 	type = _type
-	input = _input.duplicate(true)
+	props = _props.duplicate(true)
 
-	if input.has("list"):
-		list = input.list
+	if props.has("list"):
+		list = props.list
 
-	if input.has("key"):
-		key = input.key
+	if props.has("key"):
+		key = props.key
 
 	for child in children:
 		add_child(child)
@@ -21,8 +21,8 @@ func _init(_input:Dictionary, _type:String, children:Array):
 
 func get_control(value):
 	for child in get_children():
-		if child.input.has("id"):
-			if child.input.id == value:
+		if child.props.has("id"):
+			if child.props.id == value:
 				return child.control
 		var found = child.get_control(value)
 		if found:
@@ -37,7 +37,7 @@ func get_data():
 
 	var data = {
 		"type": type,
-		"input": input,
+		"props": props,
 		"children": children_data,
 		"control": control,
 		"parent": control.get_parent()
