@@ -51,10 +51,10 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	next.get_gui().control = next_control
 	current.queue_free()
 	await get_tree().process_frame
-	next.ready()
+	next.component_ready()
 
 func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
-	current.will_die()
+	current.component_will_die()
 	for child in current.get_gui().control.get_children():
 		child.queue_free()
 		
@@ -104,7 +104,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 
 func diff_custom(current:Component, next:Component) -> void:
 	if current.type != next.type:
-		current.will_die()
+		current.component_will_die()
 		change_custom_for_dif_custom(current, next)
 	elif current.props.hash() != next.props.hash():
 		update_custom(current, next)
@@ -113,6 +113,8 @@ func diff_custom(current:Component, next:Component) -> void:
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var old = current.control
 	var new = create_control(next.type, next.props, old.get_parent() is Container)
+	for child in old.get_children():
+		child.queue_free()
 	current.control.replace_by(new)
 	current.control = new
 	old.queue_free()
@@ -164,7 +166,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	current.control.free()
 	current.free()
 	await get_tree().process_frame
-	next.ready()
+	next.component_ready()
 
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
@@ -176,13 +178,13 @@ func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 		update_list(current, next)
 
 
+# Naive solution. A better implementation is needed.
 func update_list(current:BasicComponent, next:BasicComponent) -> void:
-	# The current implementation is slow for lists with a lot of items.
 	var aux = {}
 	var current_children = current.get_children()
 	var next_children = next.get_children()
 	
-	# Remove the items (control nodes) and save them in aux
+	# Remove the items (control nodes) and save the components in aux
 	for i in range(0, current_children.size()):
 		var current_ch = current_children[i]
 		if current_ch is BasicComponent:
@@ -223,7 +225,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 		if aux[key] is BasicComponent:
 			aux[key].control.queue_free()
 		else:
-			aux[key].will_die()
+			aux[key].component_will_die()
 			aux[key].get_gui().control.queue_free()
 		aux[key].queue_free()
 
@@ -235,7 +237,7 @@ func update_custom(current:Component, next:Component) -> void:
 	diff(current.get_gui(), next.get_gui())
 	next.queue_free()
 	await get_tree().process_frame
-	current.updated()
+	current.component_updated()
 
 # Renders the component to the scene
 func render(parent:Control, component:BaseComponent) -> void:
@@ -249,7 +251,7 @@ func render(parent:Control, component:BaseComponent) -> void:
 		component.parent_control = parent
 		render(parent, component.get_gui())
 		await get_tree().process_frame
-		component.ready()
+		component.component_ready()
 
 
 func create_control(type:String, properties:Dictionary,child_of_container) -> Control:

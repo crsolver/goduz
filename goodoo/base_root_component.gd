@@ -22,4 +22,4 @@ func mount():
 func update_gui():
 	var next = gui()
 	Goodoo.diff(self.get_gui(), next)
-	updated()
+	component_updated()

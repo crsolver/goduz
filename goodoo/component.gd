@@ -46,13 +46,13 @@ func update_gui():
 
 
 # Lifecycle methods
-func ready():
+func component_ready():
 	pass
 
-func updated():
+func component_updated():
 	pass
 
-func will_die():
+func component_will_die():
 	pass
 
 
