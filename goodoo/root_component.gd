@@ -5,7 +5,7 @@ class_name RootComponent
 func _init():
 	super()
 #	Path of the scene with control nodes to be used as presets:
-	presets_path = "res://preset.tscn"
+#	presets_path = "res://preset.tscn"
 	state = {count=0}
 
 
