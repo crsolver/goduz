@@ -15,30 +15,30 @@ func get_preset(preset_name:String):
 func initialize_presets(path):
 	presets = {}
 	presets["top-left"] = { 
-		anchors_preset = 0,
+		anchors_preset = 0
 	}
 	presets["top-right"] = { 
 		anchors_preset = 1,
 	}
 	presets["bottom-right"] = { 
-		anchors_preset = 2,
-	}
-	presets["bottom-left"] = { 
 		anchors_preset = 3,
 	}
-	presets["top-left"] = { 
+	presets["bottom-left"] = { 
+		anchors_preset = 2,
+	}
+	presets["center-left"] = { 
 		anchors_preset = 4,
 	}
-	presets["center-left"] = { 
+	presets["center-top"] = { 
 		anchors_preset = 5,
 	}
-	presets["center-top"] = { 
+	presets["center-right"] = { 
 		anchors_preset = 6,
 	}
-	presets["center-left"] = { 
+	presets["center-bottom"] = { 
 		anchors_preset = 7,
 	}
-	presets["center-bottom"] = { 
+	presets["center"] = { 
 		anchors_preset = 8,
 	}
 	presets["left-w"] = { 
@@ -83,8 +83,8 @@ func initialize_presets(path):
 	
 	if path:
 		presets.merge(Utils.get_presets_from_file(path), true)
-#		print("Presets:")
-#		print(Utils.dict_to_json(presets))
+		print("Presets:")
+		print(Utils.dict_to_json(presets))
 
 
 func create_presets_from_control(node:Control):

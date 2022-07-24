@@ -5,7 +5,7 @@ class_name RootComponent
 func _init():
 	super()
 #	Path of the scene with control nodes to be used as presets:
-#	presets_path = "res://presets.tscn"
+	presets_path = "res://preset.tscn"
 	state = {count=0}
 
 
@@ -19,17 +19,16 @@ func ready():
 func updated():
 	pass
 
-func increment():
-	state.count += 1
 
-func decrement():
-	state.count -= 1
+func increment(): state.count += 1
 
-# The view of the component. 
+func decrement(): state.count -= 1
+
+
 # Defined by BasicComponents created using Goo 'Goo.center()' or other Components 'MyComponent.new()'.
-func gui():
+func view():
 	return\
-	Goo.center({preset="full"},[ # Use preset="full" to expand BasicComponents (control nodes).
+	Goo.center({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).
 		Goo.hbox({preset="expand"},[ # Use preset="expand" to expand BasicComponents (control nodes) that are children of containers.
 			Goo.button({text="-", on_pressed=decrement}), # signals begin with on_
 			Goo.label({text=str(state.count)}),
