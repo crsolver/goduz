@@ -19,7 +19,7 @@ func mount():
 	call_deferred("add_sibling", rc)
 	Goodoo.render(rc, self)
 
-func update_gui():
-	var next = gui()
-	Goodoo.diff(self.get_gui(), next)
+func update_view():
+	var next = view()
+	Goodoo.diff(self.get_view(), next)
 	component_updated()
