@@ -19,7 +19,7 @@ func _init(_props:Dictionary, _type:String, children:Array):
 		add_child(child)
 
 
-func get_control(value):
+func get_control(value) -> Control:
 	for child in get_children():
 		if child.props.has("id"):
 			if child.props.id == value:

@@ -25,7 +25,7 @@ func _init(_type:String, _props:Dictionary={}):
 
 # __________________
 # Completes the tree of the component.
-func complete():
+func complete() -> void:
 	container.add_child(view())
 
 # The representation of the Graphical User Interface (the view composed of control nodes) of the component.
@@ -36,12 +36,12 @@ func complete():
 func view(): # -> BasicComponent:
 	pass
 
-func get_view():
+func get_view() -> BasicComponent:
 	return container.get_children()[0]
 
 
 # Compares the current gui of the component agains the updated gui to make the necessary changes to control nodes.
-func update_view():
+func update_view() -> void:
 	Goodoo.diff(self.get_view(), view())
 
 
@@ -70,7 +70,7 @@ func get_data():
 	return data
 
 
-func get_control(value):
+func get_control(value) -> Control:
 	var _gui = get_view()
 	if _gui.props.has("id"):
 		if _gui.props.id == value:
