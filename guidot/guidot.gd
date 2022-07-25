@@ -329,7 +329,7 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 				last_p = last_properties.preset.split(" ")
 			for preset in presets:
 				if last_p.count(preset) > 0: continue
-				if Goo.get_preset(preset):
+				if Gui.get_preset(preset):
 					set_preset(node,preset,child_of_container)
 		
 		elif last_properties.has(key) and last_properties[key] == properties[key]:
@@ -364,6 +364,6 @@ func set_property(node:Control, properties:Dictionary, key:String, child_of_cont
 
 
 func set_preset(node:Control, preset:String,child_of_container) -> void:
-	var preset_props = Goo.get_preset(preset)
+	var preset_props = Gui.get_preset(preset)
 	for key in preset_props.keys():
 		set_property(node, preset_props, key,child_of_container)

@@ -12,14 +12,14 @@ func _ready():
 	mount()
 
 func mount():
-	Goo.initialize_presets(presets_path)
+	Gui.initialize_presets(presets_path)
 	var rc = Control.new()
 	rc.anchors_preset = 15
 	root_control = rc
 	call_deferred("add_sibling", rc)
-	Goodoo.render(rc, self)
+	Guidot.render(rc, self)
 
 func update_view():
 	var next = view()
-	Goodoo.diff(self.get_view(), next)
+	Guidot.diff(self.get_view(), next)
 	component_updated()

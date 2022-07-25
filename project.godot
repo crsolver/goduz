@@ -12,27 +12,27 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"BaseComponent",
 "language": &"GDScript",
-"path": "res://goodoo/base_component.gd"
+"path": "res://guidot/base_component.gd"
 }, {
 "base": "Component",
 "class": &"BaseRootComponent",
 "language": &"GDScript",
-"path": "res://goodoo/base_root_component.gd"
+"path": "res://guidot/base_root_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"BasicComponent",
 "language": &"GDScript",
-"path": "res://goodoo/basic_component.gd"
+"path": "res://guidot/basic_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"Component",
 "language": &"GDScript",
-"path": "res://goodoo/component.gd"
+"path": "res://guidot/component.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
 "language": &"GDScript",
-"path": "res://goodoo/root_component.gd"
+"path": "res://guidot/root_component.gd"
 }]
 _global_script_class_icons={
 "BaseComponent": "",
@@ -50,9 +50,9 @@ run/low_processor_mode=true
 
 [autoload]
 
-Goodoo="*res://goodoo/goodoo.gd"
-Goo="*res://goodoo/goo.gd"
-Utils="*res://goodoo/utils.gd"
+Utils="*res://guidot/utils.gd"
+Gui="*res://guidot/gui.gd"
+Guidot="*res://guidot/guidot.gd"
 
 [display]
 

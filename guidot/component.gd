@@ -42,7 +42,7 @@ func get_view() -> BasicComponent:
 
 # Compares the current gui of the component agains the updated gui to make the necessary changes to control nodes.
 func update_view() -> void:
-	Goodoo.diff(self.get_view(), view())
+	Guidot.diff(self.get_view(), view())
 
 
 # Lifecycle methods

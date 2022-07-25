@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6xk8hfs5dolq"]
+[gd_scene load_steps=4 format=3 uid="uid://b2t3knfavpmlg"]
 
-[ext_resource type="Script" path="res://goodoo/root_component.gd" id="1_4m48m"]
-[ext_resource type="PackedScene" uid="uid://dnp72kc25734r" path="res://goodoo/reload_components_button.tscn" id="2_p50n2"]
+[ext_resource type="Script" path="res://guidot/root_component.gd" id="1_4m48m"]
+[ext_resource type="PackedScene" path="res://guidot/reload_components_button.tscn" id="2_p50n2"]
 
 [sub_resource type="Theme" id="Theme_6jhc0"]
 

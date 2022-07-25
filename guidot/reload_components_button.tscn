@@ -1,7 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dnp72kc25734r"]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://goodoo/reload_components.gd" id="1_f5mnp"]
-[ext_resource type="Texture2D" uid="uid://budjavweih2w3" path="res://goodoo/assets/icons8-refresh-30.png" id="1_ld2qg"]
+[ext_resource type="Script" path="res://guidot/reload_components.gd" id="1_f5mnp"]
+[ext_resource type="Texture2D" path="res://guidot/assets/icons8-refresh-30.png" id="1_ld2qg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k840e"]
 bg_color = Color(1, 1, 1, 0.521569)
