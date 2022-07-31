@@ -2,7 +2,7 @@ extends Node
 
 # Methods to render and update the view.
 
-# custom components are just called Components for simplicity
+
 func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent and next is BasicComponent:
 		diff_basic(current, next)
@@ -16,17 +16,6 @@ func diff(current:BaseComponent, next:BaseComponent) -> void:
 	elif not current is BasicComponent and next is BasicComponent:
 		change_custom_for_basic(current, next)
 
-#func diff(current:BaseComponent, next:BaseComponent) -> void:
-#	if current is BasicComponent:
-#		if next is BasicComponent:
-#			diff_basic(current, next)
-#		else:
-#			change_basic_for_custom(current, next)
-#	else:
-#		if not next is BasicComponent: 
-#			diff_custom(current, next)
-#		else:
-#			change_custom_for_basic(current, next)
 
 func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	next.complete()
@@ -159,13 +148,10 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	
 	var child_of_container = old_control.get_parent() is Container
 	
-	if next_view.type != current_view.type:
-		var new_control = create_control(next_view.type, next_view.props,child_of_container)
-		current_view.control.replace_by(new_control)
-		next_control = new_control
-		old_control.queue_free()
-	else:
-		set_properties(current_view.control, current_view.props, next_view.props,child_of_container)
+	var new_control = create_control(next_view.type, next_view.props,child_of_container)
+	current_view.control.replace_by(new_control)
+	next_control = new_control
+	old_control.queue_free()
 	
 	for child in next.get_view().get_children():
 		render(next_control, child)
