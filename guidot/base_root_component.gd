@@ -1,6 +1,5 @@
-extends Component
-
 class_name BaseRootComponent
+extends Component
 
 var root_control:Control
 var presets_path
@@ -20,6 +19,7 @@ func mount():
 	Guidot.render(rc, self)
 
 func update_view():
+	print("updating view")
 	var next = view()
 	Guidot.diff(self.get_view(), next)
 	component_updated()

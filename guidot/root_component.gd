@@ -19,9 +19,14 @@ func component_updated():
 	pass
 
 
-func increment(): state.count += 1
+func increment():
+	state.count += 1
+	update_view()
 
-func decrement(): state.count -= 1
+
+func decrement(): 
+	state.count -= 1
+	update_view()
 
 
 # Defined by BasicComponents created using Gui 'Gui.center()' or other Components 'MyComponent.new()'.

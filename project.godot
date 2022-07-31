@@ -24,10 +24,20 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://guidot/basic_component.gd"
 }, {
+"base": "MyClass",
+"class": &"Child",
+"language": &"GDScript",
+"path": "res://child.gd"
+}, {
 "base": "BaseComponent",
 "class": &"Component",
 "language": &"GDScript",
 "path": "res://guidot/component.gd"
+}, {
+"base": "Node",
+"class": &"MyClass",
+"language": &"GDScript",
+"path": "res://base.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
@@ -38,23 +48,21 @@ _global_script_class_icons={
 "BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
+"Child": "",
 "Component": "",
+"MyClass": "",
 "RootComponent": ""
 }
 
 [application]
 
+config/name="Goodoo"
 run/main_scene="res://root.tscn"
-config/features=PackedStringArray("4.0")
-run/low_processor_mode=true
+config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/icon="res://icon.png"
 
 [autoload]
 
+Guidot="*res://guidot/guidot.gd"
 Utils="*res://guidot/utils.gd"
 Gui="*res://guidot/gui.gd"
-Guidot="*res://guidot/guidot.gd"
-
-[display]
-
-window/size/always_on_top=true
-window/subwindows/embed_subwindows=false

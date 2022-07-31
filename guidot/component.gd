@@ -1,13 +1,12 @@
-extends BaseComponent
+class_name Component extends BaseComponent
 
-class_name Component
-
-var state:Dictionary = {}:
+var state: Dictionary = {}:
+	get:
+		return state
 	set(value):
-		var call_update_gui = state != {}
+		var update = state != {}
 		state = value
-		if call_update_gui:
-			update_view()
+		if update: update_view()
 
 var container
 var parent_control

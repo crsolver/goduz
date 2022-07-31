@@ -4,17 +4,29 @@ extends Node
 
 # custom components are just called Components for simplicity
 func diff(current:BaseComponent, next:BaseComponent) -> void:
-	if current is BasicComponent:
-		if next is BasicComponent:
-			diff_basic(current, next)
-		else:
-			change_basic_for_custom(current, next)
-	else:
-		if not next is BasicComponent: 
-			diff_custom(current, next)
-		else:
-			change_custom_for_basic(current, next)
+	if current is BasicComponent and next is BasicComponent:
+		diff_basic(current, next)
+		
+	elif current is BasicComponent and not next is BasicComponent:
+		change_basic_for_custom(current, next)
+		
+	elif not (current is BasicComponent and next is BasicComponent): 
+		diff_custom(current, next)
+		
+	elif not current is BasicComponent and next is BasicComponent:
+		change_custom_for_basic(current, next)
 
+#func diff(current:BaseComponent, next:BaseComponent) -> void:
+#	if current is BasicComponent:
+#		if next is BasicComponent:
+#			diff_basic(current, next)
+#		else:
+#			change_basic_for_custom(current, next)
+#	else:
+#		if not next is BasicComponent: 
+#			diff_custom(current, next)
+#		else:
+#			change_custom_for_basic(current, next)
 
 func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	next.complete()
