@@ -19,12 +19,12 @@ func _init(_props:Dictionary, _type:String, children:Array):
 		add_child(child)
 
 
-func get_control(value) -> Control:
+func get_control(id) -> Control:
 	for child in get_children():
 		if child.props.has("id"):
-			if child.props.id == value:
+			if child.props.id == id:
 				return child.control
-		var found = child.get_control(value)
+		var found = child.get_control(id)
 		if found:
 			return found
 	return null

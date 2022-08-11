@@ -98,6 +98,12 @@ func create_presets_from_control(node:Control) -> void:
 func nothing() -> BasicComponent:
 	return BasicComponent.new({}, "control", [])
 
+func show_if(show: bool, child) -> BasicComponent:
+	if show:
+		return child
+	child.queue_free()
+	return BasicComponent.new({}, "control", [])
+
 func control(properties:Dictionary={}, children=[]) -> BasicComponent:
 	return BasicComponent.new(properties, "control", children)
 

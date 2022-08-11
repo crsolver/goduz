@@ -24,20 +24,10 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://guidot/basic_component.gd"
 }, {
-"base": "MyClass",
-"class": &"Child",
-"language": &"GDScript",
-"path": "res://child.gd"
-}, {
 "base": "BaseComponent",
 "class": &"Component",
 "language": &"GDScript",
 "path": "res://guidot/component.gd"
-}, {
-"base": "Node",
-"class": &"MyClass",
-"language": &"GDScript",
-"path": "res://base.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
@@ -48,9 +38,7 @@ _global_script_class_icons={
 "BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
-"Child": "",
 "Component": "",
-"MyClass": "",
 "RootComponent": ""
 }
 

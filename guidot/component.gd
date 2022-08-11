@@ -69,9 +69,9 @@ func get_data():
 	return data
 
 
-func get_control(value) -> Control:
+func get_control(id) -> Control:
 	var _gui = get_view()
 	if _gui.props.has("id"):
-		if _gui.props.id == value:
+		if _gui.props.id == id:
 			return _gui.control
-	return _gui.get_control(value)
+	return _gui.get_control(id)

@@ -166,9 +166,9 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	next.parent_control = c_parent
 	next.container.add_child(next_view)
 	next.get_view().control = next_control
-	container.free()
-	current.control.free()
-	current.free()
+	container.queue_free()
+	current.control.queue_free()
+	current.queue_free()
 	await get_tree().process_frame
 	next.component_ready()
 
