@@ -263,7 +263,7 @@ func create_control(type:String, properties:Dictionary,child_of_container) -> Co
 	var node:Control
 	match  type:
 		"control"        :node = Control.new()
-		"container"      :node = PanelContainer.new()
+		"panel_container"      :node = PanelContainer.new()
 		"aspect_radio"   :node = AspectRatioContainer.new()
 		"center"         :node = CenterContainer.new()
 		"hbox"           :node = HBoxContainer.new()
@@ -275,7 +275,7 @@ func create_control(type:String, properties:Dictionary,child_of_container) -> Co
 		"hsplit"         :node = HSplitContainer.new()
 		"vsplit"         :node = VSplitContainer.new()
 		"margin"         :node = MarginContainer.new()
-		"panel_container":node = PanelContainer.new()
+		"panel":         node = Panel.new()
 		"scrollbox"      :node = ScrollContainer.new()
 		"subviewport"    :
 			node = SubViewportContainer.new()

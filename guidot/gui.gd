@@ -146,7 +146,7 @@ func margin(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"margin", children)
 
 func panel_container(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
-	return BasicComponent.new(properties,"panel", children)
+	return BasicComponent.new(properties,"panel_container", children)
 
 func scrollbox(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"scrollbox", children)
