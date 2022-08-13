@@ -1,8 +1,7 @@
-# Guidot
-Guidot is a GDScript library for building user interfaces with [Godot Engine](https://github.com/GodotEngine) 4.
+# Goduz
+Goduzt is a GDScript library for building user interfaces with [Godot Engine](https://github.com/GodotEngine) 4.
 
-Guidot is library inspired by React that aims to improve the application development workflow with Godot Engine 4, providing a similar aproach to building web apps.
-Guidot allows to build modular applications base on components.  Guidot will update all control nodes that need to change when the data of the components are updated. 
+Goduz is library inspired by React that aims to improve the application development workflow with Godot Engine 4, providing a similar aproach to building web apps. It allows to build modular applications base on components. Goduz will update all control nodes that need to change when the data of the components are updated. 
 This library takes advantage of the already powerful control nodes system of Godot and improves it with a more readable and maintainable code.
 
 ```gdscript
