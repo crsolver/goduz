@@ -1,6 +1,7 @@
 extends Button
 
-func _on_button_pressed():
+
+func _on_reload_components_pressed():
 	var root
 	for child in get_parent().get_children():
 		if child is RootComponent:

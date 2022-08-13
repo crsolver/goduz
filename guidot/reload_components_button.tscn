@@ -1,52 +1,15 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://cmq13ucwx6iqb"]
 
 [ext_resource type="Script" path="res://guidot/reload_components.gd" id="1_f5mnp"]
-[ext_resource type="Texture2D" path="res://guidot/assets/icons8-refresh-30.png" id="1_ld2qg"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k840e"]
-bg_color = Color(1, 1, 1, 0.521569)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0gun"]
-bg_color = Color(0.666667, 0.470588, 1, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sqe4j"]
-bg_color = Color(1, 1, 1, 0.466667)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-anti_aliasing_size = 0.864
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_etc06"]
-bg_color = Color(1, 1, 1, 1)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="Theme" id="Theme_bl3bn"]
-Button/styles/focus = SubResource( "StyleBoxFlat_k840e" )
-Button/styles/hover = SubResource( "StyleBoxFlat_f0gun" )
-Button/styles/normal = SubResource( "StyleBoxFlat_sqe4j" )
-Button/styles/pressed = SubResource( "StyleBoxFlat_etc06" )
 
 [node name="ReloadComponents" type="Button"]
 modulate = Color(1, 1, 1, 0.462745)
-offset_right = 8.0
-offset_bottom = 8.0
+offset_right = 75.0
+offset_bottom = 31.0
 scale = Vector2(0.8, 0.8)
 hint_tooltip = "Reload Components"
 mouse_default_cursor_shape = 2
-theme = SubResource( "Theme_bl3bn" )
-icon = ExtResource( "1_ld2qg" )
-script = ExtResource( "1_f5mnp" )
+text = "Reload"
+script = ExtResource("1_f5mnp")
 
-[connection signal="pressed" from="." to="." method="_on_button_pressed"]
+[connection signal="pressed" from="." to="." method="_on_reload_components_pressed"]

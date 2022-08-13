@@ -19,7 +19,6 @@ func mount():
 	Guidot.render(rc, self)
 
 func update_view():
-	print("updating view")
 	var next = view()
 	Guidot.diff(self.get_view(), next)
 	component_updated()

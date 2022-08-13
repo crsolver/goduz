@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b2t3knfavpmlg"]
+[gd_scene load_steps=4 format=3 uid="uid://b2t3knfavpmlg"]
 
 [ext_resource type="Script" path="res://guidot/root_component.gd" id="1_4m48m"]
+[ext_resource type="PackedScene" uid="uid://cmq13ucwx6iqb" path="res://guidot/reload_components_button.tscn" id="2_c2r5w"]
 
 [sub_resource type="Theme" id="Theme_6jhc0"]
 
@@ -12,3 +13,7 @@ theme = SubResource("Theme_6jhc0")
 
 [node name="RootComponent" type="Node" parent="."]
 script = ExtResource("1_4m48m")
+
+[node name="ReloadComponents" parent="." instance=ExtResource("2_c2r5w")]
+offset_right = 50.0
+offset_bottom = 46.0
