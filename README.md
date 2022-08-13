@@ -41,7 +41,7 @@ git clone https://github.com/andresgamboaa/guidot.git
 Copy the guidot folder to your project and enable the Guidot, Gui and Utils singletons (Autoload)
 
 # Contributing to this project
-In case you want to suggest improvements to this addon or fix issues, feel free to raise a pull request or raise an issue!
+In case you want to suggest improvements to this addon or fix issues, feel free to raise a pull request or raise an issue.
 
 
 ## Support me
