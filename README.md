@@ -26,6 +26,23 @@ func view():
     })
   ])
 ```
+```gdscript
+extends BaseRootComponent
+class_name RootComponent
+
+func _init():
+  super()
+
+func view():
+  return\
+  Gui.center({preset="full"}, [
+    Gui.vbox({},[
+      Counter.new(),
+      Counter.new(),
+      Counter.new()
+    })
+  ])
+```
 ## IMPORTANT
 This library is not ready for serious projects, some parts of the code contain naive solutions, not all control nodes have been tested and remember, Godot 4 is in alpha.
 * Currently working with Godot 4 alpha 14.
