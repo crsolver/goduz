@@ -12,45 +12,55 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"BaseComponent",
 "language": &"GDScript",
-"path": "res://guidot/base_component.gd"
+"path": "res://addons/guidot/classes/base_component.gd"
 }, {
 "base": "Component",
 "class": &"BaseRootComponent",
 "language": &"GDScript",
-"path": "res://guidot/base_root_component.gd"
+"path": "res://addons/guidot/classes/base_root_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"BasicComponent",
 "language": &"GDScript",
-"path": "res://guidot/basic_component.gd"
+"path": "res://addons/guidot/classes/basic_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"Component",
 "language": &"GDScript",
-"path": "res://guidot/component.gd"
+"path": "res://addons/guidot/classes/component.gd"
+}, {
+"base": "Component",
+"class": &"Counter",
+"language": &"GDScript",
+"path": "res://addons/guidot/demo/counter.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
 "language": &"GDScript",
-"path": "res://guidot/root_component.gd"
+"path": "res://addons/guidot/classes/root_component.gd"
 }]
 _global_script_class_icons={
 "BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
 "Component": "",
+"Counter": "",
 "RootComponent": ""
 }
 
 [application]
 
-config/name="Goodoo"
+config/name="Guidot"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
-config/icon="res://icon.png"
 
 [autoload]
 
-Guidot="*res://guidot/guidot.gd"
-Utils="*res://guidot/utils.gd"
-Gui="*res://guidot/gui.gd"
+Guidot="*res://addons/guidot/singletons/guidot.gd"
+Gui="*res://addons/guidot/singletons/gui.gd"
+GuidotUtil="*res://addons/guidot/singletons/guidot_utils.gd"
+GuidotUtils="*res://addons/guidot/singletons/guidot_utils.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/guidot/plugin.cfg")

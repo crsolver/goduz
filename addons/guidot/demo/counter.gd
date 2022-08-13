@@ -1,35 +1,36 @@
-extends BaseRootComponent
-class_name RootComponent
+extends Component
+class_name Counter
 
 # Called when the component is initialized. Use it to initialize the state.
 func _init():
-	super()
-#	Path of the scene with control nodes to be used as presets:
-#	presets_path = "res://preset.tscn"
-	state = {count=0}
+	super("counter") # Pass a string to identify objects of this class
+	state = {
+		count = 0
+	}
 
-
-# Called when the component has been rendered to the screen the first time.
+# LIFECYCLE METHODS_________________________________________________________________________________
+# Called after the component has been rendered to the screen the first time.
 func component_ready():
 	pass
 
-
-# Called when the view of this component has been updated.
+# Called after the view of this component has been updated.
 func component_updated():
 	pass
 
+# Called before the component is destroyed.
+func component_will_die():
+	pass
 
+# COMPONENT LOGIC___________________________________________________________________________________
 func increment():
 	state.count += 1
 	update_view()
-
 
 func decrement(): 
 	state.count -= 1
 	update_view()
 
-
-# Defined by BasicComponents created using Gui 'Gui.center()' or other Components 'MyComponent.new()'.
+# VIEW_____________________________________________________________________________________________
 func view():
 	return\
 	Gui.center({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).

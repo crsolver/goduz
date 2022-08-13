@@ -20,10 +20,10 @@ func increment():
 func view():
   return\
   Gui.center({preset="full"}, [
-    Gui.button({
-      text=str(state.count)
-      on_pressed=increment
-    })
+	Gui.button({
+	  text=str(state.count)
+	  on_pressed=increment
+	})
   ])
 ```
 ## Demos
