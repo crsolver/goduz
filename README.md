@@ -55,9 +55,8 @@ This library is not ready for serious projects, some parts of the code contain n
 ```bash
 git clone https://github.com/andresgamboaa/guidot.git
 ```
-Copy the guidot folder to your project.
-Copy the guidot folder to the addons folder of your project.
-Enable this addon within the Godot settings: Project > Project Settings > Plugins
+1. Copy the guidot folder to the addons folder of your project.
+2. Enable this addon within the Godot settings: Project > Project Settings > Plugins
 
 # Contributing to this project
 In case you want to suggest improvements to this addon or fix issues, feel free to raise a pull request or raise an issue.
