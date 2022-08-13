@@ -34,9 +34,12 @@ func decrement():
 func view():
 	return\
 	Gui.center({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).
-		Gui.hbox({preset="expand"},[ # Use preset="expand" to expand BasicComponents (control nodes) that are children of containers.
-			Gui.button({text="-", on_pressed=decrement}), # signals begin with on_
-			Gui.label({text=str(state.count)}),
-			Gui.button({text="+", on_pressed=increment})
+		Gui.vbox({},[
+			Gui.label({text="Goduz"}),
+			Gui.hbox({preset="expand"},[ # Use preset="expand" to expand BasicComponents (control nodes) that are children of containers.
+				Gui.button({text="-", on_pressed=decrement}), # signals begin with on_
+				Gui.label({text=str(state.count)}),
+				Gui.button({text="+", on_pressed=increment})
+			])
 		])
 	])

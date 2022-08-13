@@ -4,7 +4,7 @@ var presets:Dictionary
 func add_preset(preset_name:String,node:Control) -> void:
 	if not node.get_parent():
 		add_child(node)
-	presets[preset_name] = GuidotUtils.extract_properties(node)
+	presets[preset_name] = GoduzUtils.extract_properties(node)
 
 
 func get_preset(preset_name:String) -> Dictionary:
@@ -82,9 +82,9 @@ func initialize_presets(path) -> void:
 	}
 	
 	if path:
-		presets.merge(GuidotUtils.get_presets_from_file(path), true)
+		presets.merge(GoduzUtils.get_presets_from_file(path), true)
 		print("Presets:")
-		print(GuidotUtils.dict_to_json(presets))
+		print(GoduzUtils.dict_to_json(presets))
 
 
 func create_presets_from_control(node:Control) -> void:

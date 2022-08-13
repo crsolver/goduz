@@ -12,32 +12,32 @@ _global_script_classes=[{
 "base": "Node",
 "class": &"BaseComponent",
 "language": &"GDScript",
-"path": "res://addons/guidot/classes/base_component.gd"
+"path": "res://addons/goduz/classes/base_component.gd"
 }, {
 "base": "Component",
 "class": &"BaseRootComponent",
 "language": &"GDScript",
-"path": "res://addons/guidot/classes/base_root_component.gd"
+"path": "res://addons/goduz/classes/base_root_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"BasicComponent",
 "language": &"GDScript",
-"path": "res://addons/guidot/classes/basic_component.gd"
+"path": "res://addons/goduz/classes/basic_component.gd"
 }, {
 "base": "BaseComponent",
 "class": &"Component",
 "language": &"GDScript",
-"path": "res://addons/guidot/classes/component.gd"
+"path": "res://addons/goduz/classes/component.gd"
 }, {
 "base": "Component",
 "class": &"Counter",
 "language": &"GDScript",
-"path": "res://addons/guidot/demo/counter.gd"
+"path": "res://addons/goduz/example/counter.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
 "language": &"GDScript",
-"path": "res://addons/guidot/classes/root_component.gd"
+"path": "res://addons/goduz/classes/root_component.gd"
 }]
 _global_script_class_icons={
 "BaseComponent": "",
@@ -50,17 +50,16 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Guidot"
+config/name="Goduz"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0", "Vulkan Clustered")
 
 [autoload]
 
-Guidot="*res://addons/guidot/singletons/guidot.gd"
-Gui="*res://addons/guidot/singletons/gui.gd"
-GuidotUtil="*res://addons/guidot/singletons/guidot_utils.gd"
-GuidotUtils="*res://addons/guidot/singletons/guidot_utils.gd"
+Goduz="*res://addons/goduz/singletons/goduz.gd"
+Gui="*res://addons/goduz/singletons/gui.gd"
+GoduzUtils="*res://addons/goduz/singletons/goduz_utils.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/guidot/plugin.cfg")
+enabled=PackedStringArray("res://addons/goduz/plugin.cfg")

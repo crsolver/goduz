@@ -16,9 +16,9 @@ func mount():
 	rc.anchors_preset = 15
 	root_control = rc
 	call_deferred("add_sibling", rc)
-	Guidot.render(rc, self)
+	Goduz.render(rc, self)
 
 func update_view():
 	var next = view()
-	Guidot.diff(self.get_view(), next)
+	Goduz.diff(self.get_view(), next)
 	component_updated()
