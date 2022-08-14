@@ -1,9 +1,13 @@
+![Alt text](images/goduz_logo.png?raw=true "Title")
 # Goduz
 Goduz is a GDScript library for building user interfaces with [Godot Engine](https://github.com/GodotEngine) 4.
 
 Goduz is library inspired by React that aims to improve the application development workflow with Godot Engine 4, providing a similar aproach to building web apps. It allows to build modular applications base on components. Goduz will update all control nodes that need to change when the data of the components are updated. 
 This library takes advantage of the already powerful control nodes system of Godot and improves it with a more readable and maintainable code.
 
+![Alt text](images/screenshot.png?raw=true "Title")
+
+## Example
 ```gdscript
 extends Component
 class_name Counter
