@@ -61,5 +61,4 @@ git clone https://github.com/andresgamboaa/guidot.git
 In case you want to suggest improvements or fix issues, feel free to raise a pull request or raise an issue.
 
 
-## Support me
-[Buy me a Coffee](https://ko-fi.com/andres36)
+## Support this project
