@@ -2,6 +2,7 @@ root.tscn
 # Godot 4+ specific ignores
 .godot/
 .import/
+.images/
 export.cfg
 export_presets.cfg
 
