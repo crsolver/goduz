@@ -40,7 +40,7 @@ _global_script_classes=[{
 "path": "res://addons/goduz/classes/root_component.gd"
 }]
 _global_script_class_icons={
-"BaseComponent": "",
+"BaseComponent": "res://addons/goduz/assets/goduz_icon.svg",
 "BaseRootComponent": "",
 "BasicComponent": "",
 "Component": "",
