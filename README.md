@@ -54,7 +54,7 @@ This library is not ready for serious projects, some parts of the code contain n
 ```bash
 git clone https://github.com/andresgamboaa/goduz.git
 ```
-1. Copy the guidot folder to the addons folder of your project.
+1. Copy the goduz folder to the addons folder of your project.
 2. Enable this addon within the Godot settings: Project > Project Settings > Plugins
 
 # Contributing
