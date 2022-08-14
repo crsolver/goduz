@@ -1,12 +1,14 @@
 class_name Component extends BaseComponent
+# Author: Andres Gamboa
 
-var state: Dictionary = {}:
-	get:
-		return state
-	set(value):
-		var update = state != {}
-		state = value
-		if update: update_view()
+var state: Dictionary = {}
+# Setter not working as expected, it used to work on alpha 10
+#	get:
+#		return state
+#	set(value):
+#		var update = state != {}
+#		state = value
+#		if update: update_view()
 
 var container
 var parent_control
@@ -56,17 +58,17 @@ func component_will_die():
 
 
 # For Debug porpuses
-func get_data():
-	# Return the component tree as a dictionary.
-	var data = {
-		"type": type,
-		"props": props,
-		"control": control,
-		"container": container,
-		"parent_control": parent_control,
-		"children": get_view().get_data(),
-	}
-	return data
+#func get_data():
+#	# Return the component tree as a dictionary.
+#	var data = {
+#		"type": type,
+#		"props": props,
+#		"control": control,
+#		"container": container,
+#		"parent_control": parent_control,
+#		"children": get_view().get_data(),
+#	}
+#	return data
 
 
 func get_control(id) -> Control:

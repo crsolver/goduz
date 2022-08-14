@@ -1,6 +1,6 @@
 extends BaseComponent
-
 class_name BasicComponent
+# Author: Andres Gamboa
 
 var list = false
 var key = null
@@ -30,16 +30,16 @@ func get_control(id) -> Control:
 	return null
 
 
-func get_data():
-	var children_data = []
-	for child in get_children():
-		children_data.append(child.get_data())
-
-	var data = {
-		"type": type,
-		"props": props,
-		"children": children_data,
-		"control": control,
-		"parent": control.get_parent()
-	}
-	return data
+#func get_data():
+#	var children_data = []
+#	for child in get_children():
+#		children_data.append(child.get_data())
+#
+#	var data = {
+#		"type": type,
+#		"props": props,
+#		"children": children_data,
+#		"control": control,
+#		"parent": control.get_parent()
+#	}
+#	return data

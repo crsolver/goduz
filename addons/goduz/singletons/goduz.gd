@@ -1,7 +1,8 @@
 extends Node
+# Author: Andres Gamboa
+
 
 # Methods to render and update the view.
-
 
 func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent and next is BasicComponent:
@@ -99,6 +100,7 @@ func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var current_children = current.get_children()
 	var next_children = next.get_children()
 	
+	# Can the children be checked with threads?
 	for i in range(0,  current_children.size()):
 		if next_children[i].type != "_omit_":
 			diff(current_children[i], next_children[i])
@@ -218,6 +220,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 			for child in next_ch.get_children():
 				next_ch_children.append(child)
 				next_ch.remove_child(child)
+			# this component is new. omit when checking for changes
 			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
 			current.add_child(next_ch)
 			for child in next_ch_children:

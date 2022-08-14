@@ -1,5 +1,6 @@
 class_name BaseRootComponent
 extends Component
+# Author: Andres Gamboa
 
 var root_control:Control
 var presets_path

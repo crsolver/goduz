@@ -1,4 +1,6 @@
 extends Node
+# Author: Andres Gamboa
+
 var presets:Dictionary
 
 func add_preset(preset_name:String,node:Control) -> void:
@@ -14,6 +16,17 @@ func get_preset(preset_name:String) -> Dictionary:
 
 func initialize_presets(path) -> void:
 	presets = {}
+	
+	# text
+	presets["text-align-center-h"] = {
+		horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	}
+	
+	# cursor
+	presets["cursor-pointing"] = {
+		mouse_default_cursor_shape = 2
+	}
+	
 	presets["top-left"] = { 
 		anchors_preset = 0
 	}
@@ -83,8 +96,8 @@ func initialize_presets(path) -> void:
 	
 	if path:
 		presets.merge(GoduzUtils.get_presets_from_file(path), true)
-		print("Presets:")
-		print(GoduzUtils.dict_to_json(presets))
+#		print("Presets:")
+#		print(GoduzUtils.dict_to_json(presets))
 
 
 func create_presets_from_control(node:Control) -> void:

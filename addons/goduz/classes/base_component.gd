@@ -1,6 +1,6 @@
 extends Node
-
 class_name BaseComponent
+# Author: Andres Gamboa
 
 # There are two types of components:
 # BasicComponents: 

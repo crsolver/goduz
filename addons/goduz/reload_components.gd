@@ -1,5 +1,5 @@
 extends Button
-
+# Author: Andres Gamboa
 
 func _on_reload_components_pressed():
 	var root

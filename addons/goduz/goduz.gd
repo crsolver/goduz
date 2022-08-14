@@ -1,5 +1,6 @@
 @tool
 extends EditorPlugin
+# Author: Andres Gamboa
 
 func _enter_tree():
 	add_autoload_singleton("Goduz", "res://addons/goduz/singletons/goduz.gd")
