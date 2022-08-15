@@ -82,7 +82,7 @@ This library is not ready for serious projects, some parts of the code contain n
 
 ## Demos
 * [guidot-docs](https://github.com/andresgamboaa/guidot-docs)
-* [guidot-movies](https://github.com/andresgamboaa/guidot-movies)
+* [goduz-movies](https://github.com/andresgamboaa/goduz-movies)
 
 ## Installation
 ```bash
