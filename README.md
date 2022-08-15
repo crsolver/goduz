@@ -90,6 +90,7 @@ git clone https://github.com/andresgamboaa/goduz.git
 ```
 1. Copy the goduz folder to the addons folder of your project.
 2. Enable this addon within the Godot settings: Project > Project Settings > Plugins
+3. Add the RootComponent node to a control node in your scene.
 
 # Contributing
 In case you want to suggest improvements or fix issues, feel free to raise a pull request or raise an issue.
