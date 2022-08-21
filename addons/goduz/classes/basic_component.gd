@@ -4,6 +4,7 @@ class_name BasicComponent
 
 var list = false
 var key = null
+var owner_component
 
 func _init(_props:Dictionary, _type:String, children:Array):
 	type = _type

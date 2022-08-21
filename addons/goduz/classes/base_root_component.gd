@@ -17,7 +17,7 @@ func mount():
 	rc.anchors_preset = 15
 	root_control = rc
 	call_deferred("add_sibling", rc)
-	Goduz.render(rc, self)
+	Goduz.render(rc, self, self)
 
 func update_view():
 	var next = view()

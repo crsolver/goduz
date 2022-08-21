@@ -34,15 +34,15 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	var is_child_of_container = current.control.get_parent() is Container
 	
 	if next_view.type != current.type:
-		var new_control = create_control(next_view.type, next_view.props,is_child_of_container)
+		var new_control = create_control(current.owner_component, next_view.type, next_view.props,is_child_of_container)
 		current.control.replace_by(new_control)
 		next_control = new_control
 		old_control.queue_free()
 	else:
-		set_properties(current.control, current.props, next_view.props,is_child_of_container)
+		set_properties(current, current.control, current.props, next_view.props,is_child_of_container)
 	
 	for child in next.get_view().get_children():
-		render(next_control, child)
+		render(next_control, child, current.owner_component)
 	
 	next.get_parent().remove_child(next)
 	next_view.get_parent().remove_child(next_view)
@@ -66,7 +66,7 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	if current.get_view().type != next.type:
 		var old = current.get_view().control
 		var child_of_container = old.get_parent() is Container
-		var new = create_control(next.type, next.props,child_of_container)
+		var new = create_control(current.owner_component, next.type, next.props,child_of_container)
 		
 		if old is ScrollContainer:
 			old.get_h_scroll_bar().queue_free()
@@ -80,7 +80,7 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 		update_basic(current.get_view(), next)
 	
 	for child in next.get_children():
-		render(current.get_view().control, child)
+		render(current.get_view().control, child, current.owner_compent)
 	
 	next.get_parent().remove_child(next)
 	current.container.free()
@@ -118,7 +118,7 @@ func diff_custom(current:Component, next:Component) -> void:
 
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var old = current.control
-	var new = create_control(next.type, next.props, old.get_parent() is Container)
+	var new = create_control(current.owner_component, next.type, next.props, old.get_parent() is Container)
 	
 	for child in old.get_children():
 		child.queue_free()
@@ -150,13 +150,13 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	
 	var child_of_container = old_control.get_parent() is Container
 	
-	var new_control = create_control(next_view.type, next_view.props,child_of_container)
+	var new_control = create_control(current.owner_component, next_view.type, next_view.props,child_of_container)
 	current_view.control.replace_by(new_control)
 	next_control = new_control
 	old_control.queue_free()
 	
 	for child in next.get_view().get_children():
-		render(next_control, child)
+		render(next_control, child, current.owner_component)
 	
 	var c_parent = current.parent_control
 	var container = current.container
@@ -177,7 +177,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var child_of_container = current.control.get_parent() is Container
-	set_properties(current.control, current.props, next.props,child_of_container)
+	set_properties(current, current.control, current.props, next.props,child_of_container)
 	current.props = next.props
 	
 	if current.list != null:
@@ -225,7 +225,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 			current.add_child(next_ch)
 			for child in next_ch_children:
 				next_ch.add_child(child)
-			render(current.control, next_ch)
+			render(current.control, next_ch, current.owner_component)
 			
 	# Delete items
 	for key in aux.keys():
@@ -247,21 +247,23 @@ func update_custom(current:Component, next:Component) -> void:
 	current.component_updated()
 
 # Renders the component to the scene
-func render(parent:Control, component:BaseComponent) -> void:
+func render(parent:Control, component:BaseComponent, owner:Component) -> void:
 	if component is BasicComponent: 
-		component.control = create_control(component.type, component.props, parent is Container)
+		component.owner_component = owner
+		component.control = create_control(component.owner_component, component.type, component.props, parent is Container)
 		parent.add_child(component.control)
 		for child in component.get_children():
-			render(component.control, child)
+			render(component.control, child, owner)
 	else:
 		component.complete()
+		component.owner_component = owner
 		component.parent_control = parent
-		render(parent, component.get_view())
+		render(parent, component.get_view(), component)
 		await get_tree().process_frame
 		component.component_ready()
 
 
-func create_control(type:String, properties:Dictionary,child_of_container) -> Control:
+func create_control(owner, type:String, properties:Dictionary,child_of_container) -> Control:
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
@@ -311,11 +313,11 @@ func create_control(type:String, properties:Dictionary,child_of_container) -> Co
 		"texture_rect"   :node = TextureRect.new()
 		"tree"           :node = Tree.new()
 		
-	set_properties(node, {}, properties, child_of_container)
+	set_properties(owner, node, {}, properties, child_of_container)
 	return node
 
 
-func set_properties(node:Control, last_properties, properties:Dictionary,child_of_container) -> void:
+func set_properties(owner, node:Control, last_properties, properties:Dictionary,child_of_container) -> void:
 	for key in properties.keys():
 		if key == "id": continue
 		if key == "key": continue
@@ -337,9 +339,13 @@ func set_properties(node:Control, last_properties, properties:Dictionary,child_o
 			continue
 			
 		elif key.begins_with("on_"):
-			node[key.substr(3)].connect(properties[key])
+			owner.connect_func_to_signal(properties[key], node, key.substr(3))
 		else:
 			set_property(node, properties, key, child_of_container)
+
+func connect_func(signal_name, callable):
+	var obj = callable.get_object()
+	
 
 func set_property(node:Control, properties:Dictionary, key:String, child_of_container) -> void:
 	if child_of_container and (key.begins_with("anchor") or key.begins_with("offset") or key=="layout_mode"):
