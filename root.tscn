@@ -6,15 +6,18 @@
 [sub_resource type="Theme" id="Theme_6jhc0"]
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-hint_tooltip = "hola"
 theme = SubResource("Theme_6jhc0")
 
 [node name="RootComponent" type="Node" parent="."]
 script = ExtResource("1_4m48m")
 
 [node name="ReloadComponents" parent="." instance=ExtResource("2_c2r5w")]
+layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -58.9999

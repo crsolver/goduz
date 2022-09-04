@@ -48,7 +48,7 @@ func view():
 						on_pressed="decrement", # signals begin with on_
 						custom_minimum_size=Vector2(20,30),
 						preset="cursor-pointing" # Goduz includes some useful presets, see the the method initialize_presets(path) in addons/goduz/singletons/gui to see the included presets and add your own.
-						}), 
+					}), 
 					Gui.label({preset="expand-h text-align-center-h", text=str(state.count)}),
 					Gui.button({
 						text="+",
