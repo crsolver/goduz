@@ -3,13 +3,7 @@ class_name Component extends BaseComponent
 
 var owner_component
 var state: Dictionary = {}
-# Setter not working as expected, it used to work on alpha 10
-#	get:
-#		return state
-#	set(value):
-#		var update = state != {}
-#		state = value
-#		if update: update_view()
+
 
 var container
 var parent_control
@@ -44,7 +38,7 @@ func get_view() -> BasicComponent:
 	return container.get_children()[0]
 
 
-# Compares the current gui of the component agains the updated gui to make the necessary changes to control nodes.
+# Compares the current view of the component agains the updated view to make the necessary changes to control nodes.
 func update_view() -> void:
 	Goduz.diff(self.get_view(), view())
 
@@ -72,53 +66,53 @@ func component_will_die():
 #		"children": get_view().get_data(),
 #	}
 #	return data
+
+
+# signals are connected to a fuction that call the desired function and then call update_view()
+# to keep the control nodes in sync with the state, this eliminates the need to call update_view() manually.
+
+func connect_func_to_signal(function:Callable, control:Control, signal_name):
+	if function.is_custom(): # [ ] This could cause a problem with lambda arguments
+		control[signal_name].connect(_call_function.bind(function))
+		return
+	var args_count = _get_method_args_count(function.get_method())
+	match args_count:
+		0: control[signal_name].connect(_call_function.bind(function))
+		0: control[signal_name].connect(_call_function_one_arg.bind(function))
+		0: control[signal_name].connect(_call_function_two_arg.bind(function))
+		0: control[signal_name].connect(_call_function_three_arg.bind(function))
+		0: control[signal_name].connect(_call_function_four_arg.bind(function))
+		0: control[signal_name].connect(_call_function_five_arg.bind(function))
+
+func _call_function(function) -> void:
+	function.call()
+	update_view()
+
+func _call_function_one_arg(one, function) -> void:
+	function.call(one)
+	update_view()
+
+func _call_function_two_arg(one, two, function) -> void:
+	function.call(one, two)
+	update_view()
+
+func _call_function_three_arg(one, two, three, function) -> void:
+	function.call(one, two, three)
+	update_view()
+
+func _call_function_four_arg(one, two, three, four, function) -> void:
+	function.call(one, two, three, four)
+	update_view()
+
+func _call_function_five_arg(one, two, three, four, five, function) -> void:
+	function.call(one, two, three, four, five)
+	update_view()
+
 func _get_method_args_count(method_name):
 	var method_list = get_method_list()
 	for m in method_list:
 		if m.name == method_name:
 			return m.args.size()
-
-func connect_func_to_signal(func_name, control:Control, signal_name):
-	var args_count = _get_method_args_count(func_name)
-	match args_count:
-		0: control.connect(signal_name, _call_function, [func_name])
-		1: control.connect(signal_name, _call_function_one_arg, [func_name])
-		2: control.connect(signal_name, _call_function_two_arg, [func_name])
-		3: control.connect(signal_name, _call_function_three_arg, [func_name])
-		4: control.connect(signal_name, _call_function_four_arg, [func_name])
-		5: control.connect(signal_name, _call_function_five_arg, [func_name])
-
-func _call_function(function) -> void:
-	var expression = Expression.new()
-	expression.parse(function+"()", [])
-	expression.execute([], self)
-	update_view()
-
-func _call_function_one_arg(one, function) -> void:
-	var expression = Expression.new()
-	expression.parse(function+"(one)", ["one"])
-	expression.execute([one], self)
-	update_view()
-
-func _call_function_two_arg(one, two, function) -> void:
-	expression.parse(function+"(one, two)", ["one", "two"])
-	expression.execute([one, two], self)
-	update_view()
-
-func _call_function_three_arg(one, two, three, function) -> void:
-	expression.parse(function+"(one, two, three)", ["one", "two", "three"])
-	expression.execute([one, two, three], self)
-	update_view()
-
-func _call_function_four_arg(one, two, three, four, function) -> void:
-	expression.parse(function+"(one, two, three, four)", ["one", "two", "three", "four"])
-	expression.execute([one, two, three, four], self)
-	update_view()
-
-func _call_function_five_arg(one, two, three, four, five, function) -> void:
-	expression.parse(function+"(one, two, three)", ["one", "two", "three", "four", "five"])
-	expression.execute([one, two, three, four, five], self)
-	update_view()
 
 func get_control(id) -> Control:
 	var _gui = get_view()

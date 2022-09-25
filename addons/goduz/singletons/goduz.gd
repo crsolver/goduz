@@ -1,8 +1,13 @@
 extends Node
 # Author: Andres Gamboa
 
-
 # Methods to render and update the view.
+
+
+# To do
+# [ ] Fix: Lambdas cause unnecesary updates in control nodes (they are created every time view() is called causing the props to be different)
+# [ ] Better algorithm for updating lists, the current one is just to have it working
+
 
 func diff(current:BaseComponent, next:BaseComponent) -> void:
 	if current is BasicComponent and next is BasicComponent:
@@ -33,14 +38,14 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	
 	var is_child_of_container = current.control.get_parent() is Container
 	
-	if next_view.type != current.type:
-		var new_control = create_control(current.owner_component, next_view.type, next_view.props,is_child_of_container)
-		current.control.replace_by(new_control)
-		next_control = new_control
-		old_control.queue_free()
-	else:
-		set_properties(current, current.control, current.props, next_view.props,is_child_of_container)
-	
+#	if next_view.type != current.type:
+	var new_control = create_control(current.owner_component, next_view.type, next_view.props,is_child_of_container)
+	current.control.replace_by(new_control)
+	next_control = new_control
+	old_control.queue_free()
+#	else:
+#		set_properties(current.owner_component, current.control, current.props, next_view.props,is_child_of_container)
+#
 	for child in next.get_view().get_children():
 		render(next_control, child, current.owner_component)
 	
@@ -176,8 +181,9 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
+#	print("updating "+current.type)
 	var child_of_container = current.control.get_parent() is Container
-	set_properties(current, current.control, current.props, next.props,child_of_container)
+	set_properties(current.owner_component, current.control, current.props, next.props,child_of_container, true)
 	current.props = next.props
 	
 	if current.list != null:
@@ -263,7 +269,7 @@ func render(parent:Control, component:BaseComponent, owner:Component) -> void:
 		component.component_ready()
 
 
-func create_control(owner, type:String, properties:Dictionary,child_of_container) -> Control:
+func create_control(owner: Component, type:String, properties:Dictionary,child_of_container) -> Control:
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
@@ -317,7 +323,7 @@ func create_control(owner, type:String, properties:Dictionary,child_of_container
 	return node
 
 
-func set_properties(owner, node:Control, last_properties, properties:Dictionary,child_of_container) -> void:
+func set_properties(owner: Component, node:Control, last_properties, properties:Dictionary,child_of_container, ommit_signals=false) -> void:
 	for key in properties.keys():
 		if key == "id": continue
 		if key == "key": continue
@@ -338,7 +344,7 @@ func set_properties(owner, node:Control, last_properties, properties:Dictionary,
 		elif last_properties.has(key) and last_properties[key] == properties[key]:
 			continue
 			
-		elif key.begins_with("on_"):
+		elif key.begins_with("on_") and not ommit_signals:
 			owner.connect_func_to_signal(properties[key], node, key.substr(3))
 		else:
 			set_property(node, properties, key, child_of_container)

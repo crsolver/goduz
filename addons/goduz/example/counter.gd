@@ -9,7 +9,6 @@ func _init():
 		count = 0
 	}
 
-
 # LIFECYCLE METHODS_________________________________________________________________________________
 # Called after the component has been rendered to the screen the first time.
 func component_ready():
@@ -29,12 +28,15 @@ func component_will_die():
 
 
 # COMPONENT LOGIC___________________________________________________________________________________
-func increment(): state.count += 1
+func decrement(): state.count -= 1 
 
-func decrement(): state.count -= 1
+func increment(): state.count += 1 # Lambdas can also be used. See line 57
+
 
 # VIEW_____________________________________________________________________________________________
 func view():
+	const button_size = Vector2(20,30)
+	
 	return\
 	Gui.control({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).
 		Gui.color_rect({color=Color.html("#1d2229"), preset="full"}),
@@ -45,15 +47,15 @@ func view():
 				Gui.hbox({preset="expand"},[ # Use preset="expand" to expand BasicComponents (control nodes) that are children of containers.
 					Gui.button({
 						text="-",
-						on_pressed="decrement", # signals begin with on_
-						custom_minimum_size=Vector2(20,30),
+						on_pressed=decrement, # signals begin with on_
+						custom_minimum_size=button_size,
 						preset="cursor-pointing" # Goduz includes some useful presets, see the the method initialize_presets(path) in addons/goduz/singletons/gui to see the included presets and add your own.
-					}), 
+					}),
 					Gui.label({preset="expand-h text-align-center-h", text=str(state.count)}),
 					Gui.button({
 						text="+",
-						on_pressed="increment", 
-						custom_minimum_size=Vector2(20,30),
+						on_pressed=func():state.count+=1, # for signals that require arguments use a regular function
+						custom_minimum_size=button_size,
 						preset="cursor-pointing"
 					})
 				])
