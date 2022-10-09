@@ -1,5 +1,5 @@
 extends Node
-class_name BaseComponent, "res://addons/goduz/assets/goduz_icon.svg"
+class_name BaseComponent# "res://addons/goduz/assets/goduz_icon.svg"
 # Author: Andres Gamboa
 
 # There are two types of components:

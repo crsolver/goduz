@@ -34,17 +34,23 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/example/counter.gd"
 }, {
+"base": "Component",
+"class": &"List",
+"language": &"GDScript",
+"path": "res://tests/lists.gd"
+}, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
 "language": &"GDScript",
 "path": "res://addons/goduz/classes/root_component.gd"
 }]
 _global_script_class_icons={
-"BaseComponent": "res://addons/goduz/assets/goduz_icon.svg",
+"BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
 "Component": "",
 "Counter": "",
+"List": "",
 "RootComponent": ""
 }
 
@@ -52,13 +58,18 @@ _global_script_class_icons={
 
 config/name="Goduz"
 run/main_scene="res://root.tscn"
-config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/features=PackedStringArray("4.0")
 
 [autoload]
 
 Goduz="*res://addons/goduz/singletons/goduz.gd"
 Gui="*res://addons/goduz/singletons/gui.gd"
 GoduzUtils="*res://addons/goduz/singletons/goduz_utils.gd"
+
+[display]
+
+window/size/viewport_width=300
+window/size/viewport_height=300
 
 [editor_plugins]
 

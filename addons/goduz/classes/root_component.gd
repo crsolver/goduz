@@ -1,6 +1,5 @@
 extends BaseRootComponent
 class_name RootComponent
-# Author: Andres Gamboa
 
 func _init():
 	super()

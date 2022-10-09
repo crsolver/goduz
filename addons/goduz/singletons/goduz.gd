@@ -1,5 +1,4 @@
 extends Node
-# Author: Andres Gamboa
 
 # Methods to render and update the view.
 

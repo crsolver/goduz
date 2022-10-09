@@ -1,5 +1,4 @@
 class_name Component extends BaseComponent
-# Author: Andres Gamboa
 
 var owner_component
 var state: Dictionary = {}
@@ -10,8 +9,8 @@ var parent_control
 var key = null
 var expression
 
-func _init(_type:String, _props:Dictionary={}):
-	type = _type
+func _init(_props:Dictionary={}):
+	type = get_script().get_path()
 	props = _props.duplicate(true)
 	if props.has("key"):
 		key = props.key
