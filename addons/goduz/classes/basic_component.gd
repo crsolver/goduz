@@ -24,12 +24,15 @@ func get_control(id) -> Control:
 	for child in get_children():
 		if child.props.has("id"):
 			if child.props.id == id:
-				return child.control
+				return child.control_node
 		var found = child.get_control(id)
 		if found:
 			return found
 	return null
 
+func delete():
+	if control_node: control_node.queue_free()
+	queue_free()
 
 #func get_data():
 #	var children_data = []

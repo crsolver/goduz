@@ -7,6 +7,6 @@ func _init():
 
 func view():
 	return\
-	Gui.control({preset="full"}, [
+	control({preset="full"}, [
 		Counter.new() # Change it to your app component
 	])

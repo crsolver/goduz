@@ -27,19 +27,19 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	var next_control
 	var next_view = next.get_view()
 	
-	var old_control = current.control
+	var old_control = current.control_node
 	next_control = old_control
 	
-	var c_parent = current.control.get_parent()
+	var c_parent = current.control_node.get_parent()
 	
 	for child in old_control.get_children():
 		child.queue_free()
 	
-	var is_child_of_container = current.control.get_parent() is Container
+	var is_child_of_container = current.control_node.get_parent() is Container
 	
 #	if next_view.type != current.type:
 	var new_control = create_control(current.owner_component, next_view.type, next_view.props,is_child_of_container)
-	current.control.replace_by(new_control)
+	current.control_node.replace_by(new_control)
 	next_control = new_control
 	old_control.queue_free()
 #	else:
@@ -53,8 +53,8 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	
 	current.replace_by(next)
 	next.parent_control = c_parent
-	next.container.add_child(next_view)
-	next.get_view().control = next_control
+	next.view_container.add_child(next_view)
+	next.get_view().control_node = next_control
 	current.queue_free()
 	await get_tree().process_frame
 	next.component_ready()
@@ -62,13 +62,13 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	current.component_will_die()
 	
-	for child in current.get_view().control.get_children():
+	for child in current.get_view().control_node.get_children():
 		child.queue_free()
 	
-	var next_control = current.get_view().control
+	var next_control = current.get_view().control_node
 	
 	if current.get_view().type != next.type:
-		var old = current.get_view().control
+		var old = current.get_view().control_node
 		var child_of_container = old.get_parent() is Container
 		var new = create_control(current.owner_component, next.type, next.props,child_of_container)
 		
@@ -76,7 +76,7 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 			old.get_h_scroll_bar().queue_free()
 			old.get_v_scroll_bar().queue_free()
 		
-		current.get_view().control.replace_by(new)
+		current.get_view().control_node.replace_by(new)
 		old.queue_free()
 		next_control = new
 		
@@ -84,13 +84,13 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 		update_basic(current.get_view(), next)
 	
 	for child in next.get_children():
-		render(current.get_view().control, child, current.owner_compent)
+		render(current.get_view().control_node, child, current.owner_compent)
 	
 	next.get_parent().remove_child(next)
-	current.container.free()
-	current.control.free()
+	current.view_container.free()
+	current.control_node.free()
 	current.replace_by(next)
-	next.control = next_control
+	next.control_node = next_control
 	current.queue_free()
 
 # Checks if a the current BasicComponent has changed and updates it if that is the case.
@@ -106,8 +106,9 @@ func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 	
 	# Can the children be checked with threads?
 	for i in range(0,  current_children.size()):
-		if next_children[i].type != "_omit_":
-			diff(current_children[i], next_children[i])
+		if i < next_children.size():
+			if next_children[i].type != "_omit_":
+				diff(current_children[i], next_children[i])
 			
 	next.queue_free()
 
@@ -121,14 +122,14 @@ func diff_custom(current:Component, next:Component) -> void:
 
 
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
-	var old = current.control
+	var old = current.control_node
 	var new = create_control(current.owner_component, next.type, next.props, old.get_parent() is Container)
 	
 	for child in old.get_children():
 		child.queue_free()
 	
-	current.control.replace_by(new)
-	current.control = new
+	current.control_node.replace_by(new)
+	current.control_node = new
 	old.queue_free()
 	current.props = next.props
 	current.type = next.type
@@ -146,7 +147,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	var current_view = current.get_view()
 	var next_view = next.get_view()
 	
-	var old_control = current_view.control
+	var old_control = current_view.control_node
 	next_control = old_control
 	
 	for child in old_control.get_children():
@@ -155,7 +156,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	var child_of_container = old_control.get_parent() is Container
 	
 	var new_control = create_control(current.owner_component, next_view.type, next_view.props,child_of_container)
-	current_view.control.replace_by(new_control)
+	current_view.control_node.replace_by(new_control)
 	next_control = new_control
 	old_control.queue_free()
 	
@@ -163,17 +164,17 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 		render(next_control, child, current.owner_component)
 	
 	var c_parent = current.parent_control
-	var container = current.container
+	var container = current.view_container
 	
 	next.get_parent().remove_child(next)
 	next_view.get_parent().remove_child(next_view)
 	
 	current.replace_by(next)
 	next.parent_control = c_parent
-	next.container.add_child(next_view)
-	next.get_view().control = next_control
+	next.view_container.add_child(next_view)
+	next.get_view().control_node = next_control
 	container.queue_free()
-	current.control.queue_free()
+	current.control_node.queue_free()
 	current.queue_free()
 	await get_tree().process_frame
 	next.component_ready()
@@ -181,65 +182,232 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 #	print("updating "+current.type)
-	var child_of_container = current.control.get_parent() is Container
-	set_properties(current.owner_component, current.control, current.props, next.props,child_of_container, true)
+	var child_of_container = current.control_node.get_parent() is Container
+	set_properties(current.owner_component, current.control_node, current.props, next.props,child_of_container, true)
 	current.props = next.props
 	
 	if current.list != null:
 		update_list(current, next)
 
+func update_list(current:BasicComponent, next:BasicComponent):
+	
+	var c_aux = {}
+	for child in current.get_children():
+		c_aux[child.key] = child
+		
+	var n_aux = {}
+	for child in next.get_children():
+		n_aux[child.key] = child
+		
+	var c_child_count = current.get_child_count()
+	var n_child_count = next.get_child_count()
+	var end = max(c_child_count, n_child_count)
 
-# Naive solution. A better implementation is needed.
-func update_list(current:BasicComponent, next:BasicComponent) -> void:
-	var aux = {}
-	var current_children = current.get_children()
-	var next_children = next.get_children()
-	
-	# Remove the items (control nodes) and save the components in aux
-	for i in range(0, current_children.size()):
-		var current_ch = current_children[i]
-		if current_ch is BasicComponent:
-			current.control.remove_child(current_ch.control)
-		else:
-			current.control.remove_child(current_ch.get_view().control)
-		current.remove_child(current_ch)
-		aux[current_ch.key] = current_ch
-	
-	# Add the items in the new order
-	# Add new items
-	# Delete items that are not in the updated version
-	for i in range(0, next_children.size()):
-		var next_ch = next_children[i]
-		if aux.has(next_ch.key):
-			# Add an old item in its new position
-			var current_ch = aux[next_ch.key]
-			current.add_child(current_ch)
-			if current_ch is BasicComponent:
-				current.control.add_child(current_ch.control)
+	var skip = 0
+	for i in range(0, end):
+		var prev_item = null
+		var item = null
+		if i+skip < c_child_count: prev_item = current.get_child(i+skip)
+		if i+skip < n_child_count: item = next.get_child(i+skip)
+		
+#		print(str(i+skip) + "_______")
+#		if prev_item:
+#			print(prev_item.key)
+#		print("AGAINS")
+#		if item:
+#			print(item.key)
+		if item:
+			if prev_item: # if the are the same continue
+				if item.key == prev_item.key: 
+#					print("same")
+					continue
+				else:
+					if n_aux.has(prev_item.key):
+						if c_aux.has(item.key):
+							# move item to i
+#							print("move "+str(item.key) +" to " + str(i))
+							current.move_child(c_aux[item.key], i)
+							if item is BasicComponent:
+								current.control_node.move_child(c_aux[item.key].control_node, i)
+							else:
+								current.control_node.move_child(c_aux[item.key].get_view().control_node, i)
+						else:
+#							print("add new " +str(item.key) + " to "+str(i))
+							#add new on i
+							var children = item.get_children()
+							item.replace_by(BasicComponent.new({}, "_omit_", []))
+							current.add_child(item)
+							c_child_count += 1
+							for child in children:
+								item.add_child(child)
+							current.move_child(item, i)
+							
+							if item is BasicComponent:
+								item.control_node = create_control(current.owner_component, item.type, item.props, true)
+								current.control_node.add_child(item.control_node)
+								current.control_node.move_child(item.control_node, i)
+								for child in item.get_children():
+									render(item.control_node, child, current.owner_component)
+							else:
+								item.complete()
+								var view = item.get_view()
+								var control = create_control(item, view.type, view.props, true)
+								current.control_node.add_child(control)
+								current.control_node.move_child(control, i)
+								for child in item.get_children():
+									render(control, child, item)
+					else:
+#						item.replace_by(BasicComponent.new({}, "_omit_", []))
+#						print("delete " + str(prev_item.key))
+						prev_item.delete()
+						current.remove_child(prev_item)
+						skip=-1
+			# if no prev_item
 			else:
-				current.control.add_child(current_ch.get_view().control)
-			aux.erase(next_ch.key)
+				# create item
+				var children = item.get_children()
+				for c in children: item.remove_child(c)
+				item.replace_by(BasicComponent.new({}, "_omit_", []))
+				for c in children:
+					item.add_child(c)
+				current.add_child(item)
+				c_child_count += 1
+				render(current.control_node, item, current.owner_component)
+		# if not item
 		else:
-			# Add a new item
-			var next_ch_children = []
-			for child in next_ch.get_children():
-				next_ch_children.append(child)
-				next_ch.remove_child(child)
-			# this component is new. omit when checking for changes
-			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
-			current.add_child(next_ch)
-			for child in next_ch_children:
-				next_ch.add_child(child)
-			render(current.control, next_ch, current.owner_component)
-			
-	# Delete items
-	for key in aux.keys():
-		if aux[key] is BasicComponent:
-			aux[key].control.queue_free()
-		else:
-			aux[key].component_will_die()
-			aux[key].get_view().control.queue_free()
-		aux[key].queue_free()
+			if prev_item:
+	#			next.add_child(BasicComponent.new({}, "_omit_", []))
+#				print("(no item) delete " + prev_item.key)
+				prev_item.delete()
+				current.remove_child(prev_item)
+				skip -=1
+	#			current.remove_child(prev_item)
+			else:
+				return
+
+	
+#
+#func update_list_dd(current:BasicComponent, next:BasicComponent) -> void:
+#	var skip = 0 # when a prev_item is queue_free skip an index
+#
+#	var c_child_count = current.get_child_count()
+#	var n_child_count = next.get_child_count()
+#	var end = max(c_child_count, n_child_count)
+#
+#	for i in range(0, end):
+#		var prev_item
+#		var item
+#
+#		if i+skip < c_child_count:
+#			prev_item = current.get_child(i+skip)
+#
+#		if i < n_child_count:
+#			item = next.get_child(i)
+#
+#		if not item:
+#			if not prev_item:
+#				continue
+#			# if prev_item not in next
+#			if not item_in(prev_item, next):
+#				if prev_item is BasicComponent:
+#					prev_item.delete()
+#				else:
+#					prev_item.component_will_die()
+#					prev_item.get_view().control.queue_free()
+#				prev_item.queue_free()
+#				skip += 1
+#			continue
+#
+#		# if item is new
+#		if not item_in(item, current):
+#			# this component is new. omit when checking for changes
+#			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
+#			current.add_child(next_ch)
+#			for child in next_ch_children:
+#				next_ch.add_child(child)
+#			render(current.control, next_ch, current.owner_component)
+#			#___
+#
+#		if not prev_item:
+#			if item.control_node.get_parent():
+#				var parent = item.control_node.get_parent()
+#				parent.remove_child(item.control_node)
+#			array_bindings[var_name].parent.add_child(item.control_node)
+#			_connect_control(item.control_node, array_bindings[var_name].connections)
+#			continue
+#
+#		# if there is a different item at its pos
+#		if prev_item.control_node != item.control_node:
+#			if item.control_node.get_parent():
+#				var parent = item.control_node.get_parent()
+#				parent.remove_child(item.control_node)
+#
+#			var parent = prev_item.control_node.get_parent()
+#			parent.add_child_below_node(prev_item.control_node, item.control_node)
+#			_connect_control(item.control_node, array_bindings[var_name].connections)
+#
+#			if not _has_control(prev_item.control_node, var_name):
+#				prev_item.control_node.queue_free()
+#				skip += 1
+#
+#func item_in(item, next: BasicComponent):
+#	for child in next.get_children():
+#		if child["key"]:
+#			if child.key == item.key:
+#				return true
+#	return false
+#
+## Naive solution. A better implementation is needed.
+#func update_list_old(current:BasicComponent, next:BasicComponent) -> void:
+#	var aux = {}
+#	var current_children = current.get_children()
+#	var next_children = next.get_children()
+#
+#	# Remove the items (control nodes) and save the components in aux
+#	for i in range(0, current_children.size()):
+#		var current_ch = current_children[i]
+#		if current_ch is BasicComponent:
+#			current.control.remove_child(current_ch.control)
+#		else:
+#			current.control.remove_child(current_ch.get_view().control)
+#		current.remove_child(current_ch)
+#		aux[current_ch.key] = current_ch
+#
+#	# Add the items in the new order
+#	# Add new items
+#	# Delete items that are not in the updated version
+#	for i in range(0, next_children.size()):
+#		var next_ch = next_children[i]
+#		if aux.has(next_ch.key):
+#			# Add an old item in its new position
+#			var current_ch = aux[next_ch.key]
+#			current.add_child(current_ch)
+#			if current_ch is BasicComponent:
+#				current.control.add_child(current_ch.control)
+#			else:
+#				current.control.add_child(current_ch.get_view().control)
+#			aux.erase(next_ch.key)
+#		else:
+#			# Add a new item
+#			var next_ch_children = []
+#			for child in next_ch.get_children():
+#				next_ch_children.append(child)
+#				next_ch.remove_child(child)
+#			# this component is new. omit when checking for changes
+#			next_ch.replace_by(BasicComponent.new({}, "_omit_", []))
+#			current.add_child(next_ch)
+#			for child in next_ch_children:
+#				next_ch.add_child(child)
+#			render(current.control, next_ch, current.owner_component)
+#
+#	# Delete items
+#	for key in aux.keys():
+#		if aux[key] is BasicComponent:
+#			aux[key].control.queue_free()
+#		else:
+#			aux[key].component_will_die()
+#			aux[key].get_view().control.queue_free()
+#		aux[key].queue_free()
 
 
 func update_custom(current:Component, next:Component) -> void:
@@ -255,10 +423,10 @@ func update_custom(current:Component, next:Component) -> void:
 func render(parent:Control, component:BaseComponent, owner:Component) -> void:
 	if component is BasicComponent: 
 		component.owner_component = owner
-		component.control = create_control(component.owner_component, component.type, component.props, parent is Container)
-		parent.add_child(component.control)
+		component.control_node = create_control(component.owner_component, component.type, component.props, parent is Container)
+		parent.add_child(component.control_node)
 		for child in component.get_children():
-			render(component.control, child, owner)
+			render(component.control_node, child, owner)
 	else:
 		component.complete()
 		component.owner_component = owner
@@ -287,9 +455,7 @@ func create_control(owner: Component, type:String, properties:Dictionary,child_o
 		"margin"         :node = MarginContainer.new()
 		"panel":         node = Panel.new()
 		"scrollbox"      :node = ScrollContainer.new()
-		"subviewport"    :
-			node = SubViewportContainer.new()
-			node.add_child(SubViewport.new())
+		"subviewport"    :node = SubViewportContainer.new()
 		"tabbox"         :node = TabContainer.new()
 		"button"         :node = Button.new()
 		"link_button"    :node = LinkButton.new()
