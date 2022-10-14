@@ -10,10 +10,14 @@ func view():
 	return\
 	panel_container({},[
 		hbox({preset="expand-h"},[
-			rich_label({preset="expand", text=props.data.text}),
+			rich_label({
+				preset="expand",
+				bbcode_enabled=true,
+				text= ("[color=#00cf57][s]%s[/s][/color]" if props.data.completed else "%s") % props.data.text}),
 			button({
 				text= "[X]" if props.data.completed else "[  ]",
-				on_pressed=toggle_todo
+				on_pressed=toggle_todo,
+				action_mode=BaseButton.ACTION_MODE_BUTTON_PRESS
 			})
 		])
 	])

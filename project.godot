@@ -50,6 +50,11 @@ _global_script_classes=[{
 "path": "res://addons/goduz/classes/root_component.gd"
 }, {
 "base": "Component",
+"class": &"TodoInfo",
+"language": &"GDScript",
+"path": "res://examples/todo_app/components/todo_info.gd"
+}, {
+"base": "Component",
 "class": &"TodoItem",
 "language": &"GDScript",
 "path": "res://examples/todo_app/components/todo_item.gd"
@@ -73,6 +78,7 @@ _global_script_class_icons={
 "Item": "",
 "List": "",
 "RootComponent": "",
+"TodoInfo": "",
 "TodoItem": "",
 "TodoList": "",
 "TodosApp": ""
@@ -83,6 +89,7 @@ _global_script_class_icons={
 config/name="Goduz"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0")
+run/low_processor_mode=true
 
 [autoload]
 

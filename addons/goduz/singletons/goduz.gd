@@ -421,9 +421,11 @@ func update_custom(current:Component, next:Component) -> void:
 
 # Renders the component to the scene
 func render(parent:Control, component:BaseComponent, owner:Component) -> void:
-	if component is BasicComponent: 
+	if component is BasicComponent:
 		component.owner_component = owner
 		component.control_node = create_control(component.owner_component, component.type, component.props, parent is Container)
+		if component.props.has("assign_to"):
+			owner[component.props.assign_to] = component.control_node
 		parent.add_child(component.control_node)
 		for child in component.get_children():
 			render(component.control_node, child, owner)
@@ -535,6 +537,7 @@ func set_property(node:Control, properties:Dictionary, key:String, child_of_cont
 			node.add_theme_constant_override("margin_left", properties[key])
 			node.add_theme_constant_override("margin_top", properties[key])
 			node.add_theme_constant_override("margin_bottom", properties[key])
+	
 	if properties[key] is Resource:
 		node[key] = properties[key]
 	elif node.get(key) != null:
