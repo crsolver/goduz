@@ -34,31 +34,79 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/example/counter.gd"
 }, {
+"base": "Component",
+"class": &"Item",
+"language": &"GDScript",
+"path": "res://tests/item.gd"
+}, {
+"base": "Component",
+"class": &"List",
+"language": &"GDScript",
+"path": "res://tests/lists.gd"
+}, {
 "base": "BaseRootComponent",
 "class": &"RootComponent",
 "language": &"GDScript",
 "path": "res://addons/goduz/classes/root_component.gd"
+}, {
+"base": "BaseRootComponent",
+"class": &"TimerApp",
+"language": &"GDScript",
+"path": "res://examples/timer_app/timer.gd"
+}, {
+"base": "Component",
+"class": &"TodoInfo",
+"language": &"GDScript",
+"path": "res://examples/todo_app/components/todo_info.gd"
+}, {
+"base": "Component",
+"class": &"TodoItem",
+"language": &"GDScript",
+"path": "res://examples/todo_app/components/todo_item.gd"
+}, {
+"base": "Component",
+"class": &"TodoList",
+"language": &"GDScript",
+"path": "res://examples/todo_app/components/todo_list.gd"
+}, {
+"base": "BaseRootComponent",
+"class": &"TodosApp",
+"language": &"GDScript",
+"path": "res://examples/todo_app/components/todo_app.gd"
 }]
 _global_script_class_icons={
-"BaseComponent": "res://addons/goduz/assets/goduz_icon.svg",
+"BaseComponent": "",
 "BaseRootComponent": "",
 "BasicComponent": "",
 "Component": "",
 "Counter": "",
-"RootComponent": ""
+"Item": "",
+"List": "",
+"RootComponent": "",
+"TimerApp": "",
+"TodoInfo": "",
+"TodoItem": "",
+"TodoList": "",
+"TodosApp": ""
 }
 
 [application]
 
 config/name="Goduz"
 run/main_scene="res://root.tscn"
-config/features=PackedStringArray("4.0", "Vulkan Clustered")
+config/features=PackedStringArray("4.0")
+run/low_processor_mode=true
 
 [autoload]
 
 Goduz="*res://addons/goduz/singletons/goduz.gd"
 Gui="*res://addons/goduz/singletons/gui.gd"
 GoduzUtils="*res://addons/goduz/singletons/goduz_utils.gd"
+
+[display]
+
+window/size/viewport_width=300
+window/size/viewport_height=300
 
 [editor_plugins]
 

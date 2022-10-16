@@ -1,15 +1,48 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://bnc84cit4663q"]
 
 [ext_resource type="Script" path="res://addons/goduz/reload_components.gd" id="1_f5mnp"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ycmr2"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+border_width_bottom = 1
+border_color = Color(0.988235, 0.764706, 0, 1)
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kc2mg"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+border_width_bottom = 1
+border_color = Color(0.988235, 0.764706, 0, 1)
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vacei"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+border_width_bottom = 1
+border_color = Color(0.988235, 0.764706, 0, 1)
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_upg4b"]
+bg_color = Color(0.25098, 0.25098, 0.25098, 1)
+border_width_bottom = 1
+border_color = Color(0.988235, 0.764706, 0, 1)
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme_fyhbo"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/styles/focus = SubResource("StyleBoxFlat_ycmr2")
+Button/styles/hover = SubResource("StyleBoxFlat_kc2mg")
+Button/styles/normal = SubResource("StyleBoxFlat_vacei")
+Button/styles/pressed = SubResource("StyleBoxFlat_upg4b")
+
 [node name="ReloadComponents" type="Button"]
-modulate = Color(1, 1, 1, 0.462745)
+custom_minimum_size = Vector2i(0, 31)
 offset_right = 75.0
 offset_bottom = 31.0
 scale = Vector2(0.8, 0.8)
-hint_tooltip = "Reload Components"
+size_flags_horizontal = 3
+size_flags_vertical = 4
 mouse_default_cursor_shape = 2
-text = "Reload"
+theme = SubResource("Theme_fyhbo")
+text = "Reload Components"
 script = ExtResource("1_f5mnp")
 
 [connection signal="pressed" from="." to="." method="_on_reload_components_pressed"]

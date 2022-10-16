@@ -1,5 +1,4 @@
 extends Node
-# Author: Andres Gamboa
 
 var presets:Dictionary
 
