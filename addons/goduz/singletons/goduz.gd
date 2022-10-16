@@ -202,7 +202,7 @@ func update_list(current:BasicComponent, next:BasicComponent):
 	var c_child_count = current.get_child_count()
 	var n_child_count = next.get_child_count()
 	var end = max(c_child_count, n_child_count)
-
+	
 	var skip = 0
 	for i in range(0, end):
 		var prev_item = null
@@ -226,20 +226,22 @@ func update_list(current:BasicComponent, next:BasicComponent):
 						if c_aux.has(item.key):
 							# move item to i
 #							print("move "+str(item.key) +" to " + str(i))
-							current.move_child(c_aux[item.key], i)
 							if item is BasicComponent:
+								current.move_child(c_aux[item.key], i)
 								current.control_node.move_child(c_aux[item.key].control_node, i)
 							else:
+								current.view_container.move_child(c_aux[item.key], i)
 								current.control_node.move_child(c_aux[item.key].get_view().control_node, i)
 						else:
 #							print("add new " +str(item.key) + " to "+str(i))
 							#add new on i
 							var children = item.get_children()
 							item.replace_by(BasicComponent.new({}, "_omit_", []))
-							current.add_child(item)
+							for c in children:
+								c.get_parent().remove_child(c)
+								item.add_child(c)
 							c_child_count += 1
-							for child in children:
-								item.add_child(child)
+							current.add_child(item)
 							current.move_child(item, i)
 							
 							if item is BasicComponent:
@@ -249,18 +251,19 @@ func update_list(current:BasicComponent, next:BasicComponent):
 								for child in item.get_children():
 									render(item.control_node, child, current.owner_component)
 							else:
+								item.owner_component = current.owner_component
 								item.complete()
 								var view = item.get_view()
 								var control = create_control(item, view.type, view.props, true)
+								view.control_node = control
 								current.control_node.add_child(control)
 								current.control_node.move_child(control, i)
-								for child in item.get_children():
+								for child in item.view_container.get_children():
 									render(control, child, item)
 					else:
 #						item.replace_by(BasicComponent.new({}, "_omit_", []))
 #						print("delete " + str(prev_item.key))
 						prev_item.delete()
-						current.remove_child(prev_item)
 						skip=-1
 			# if no prev_item
 			else:
@@ -421,8 +424,9 @@ func update_custom(current:Component, next:Component) -> void:
 
 # Renders the component to the scene
 func render(parent:Control, component:BaseComponent, owner:Component) -> void:
+	component.owner_component = owner
+	
 	if component is BasicComponent:
-		component.owner_component = owner
 		component.control_node = create_control(component.owner_component, component.type, component.props, parent is Container)
 		if component.props.has("assign_to"):
 			owner[component.props.assign_to] = component.control_node
@@ -431,7 +435,6 @@ func render(parent:Control, component:BaseComponent, owner:Component) -> void:
 			render(component.control_node, child, owner)
 	else:
 		component.complete()
-		component.owner_component = owner
 		component.parent_control = parent
 		render(parent, component.get_view(), component)
 		await get_tree().process_frame
@@ -512,7 +515,8 @@ func set_properties(owner: Component, node:Control, last_properties, properties:
 			continue
 			
 		elif key.begins_with("on_") and not ommit_signals:
-			owner.connect_func_to_signal(properties[key], node, key.substr(3))
+			var signal_name = key.substr(3)
+			owner.connect_signal(node[signal_name], properties[key])
 		else:
 			set_property(node, properties, key, child_of_container)
 

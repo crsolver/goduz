@@ -11,7 +11,7 @@ func _init():
 
 func add_todo(t:String):
 	if t.strip_edges() == "": return
-	state.todos.append({
+	state.todos.push_front({
 		id = state.todos.size(),
 		text = t,
 		completed = false

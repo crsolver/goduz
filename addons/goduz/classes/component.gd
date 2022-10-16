@@ -60,10 +60,16 @@ func delete():
 #		p.remove_child(self)
 	queue_free()
 
+
+# Does work
 func call_method(method, args: Array):
 	var obj = method.get_object()
 	method.callv(args)
 	obj.update_view()
+
+
+
+
 
 # For Debug porpuses
 #func get_data():
@@ -82,20 +88,20 @@ func call_method(method, args: Array):
 # signals are connected to a fuction that call the desired function and then call update_view()
 # to keep the control nodes in sync with the state, this eliminates the need to call update_view() manually.
 
-func connect_func_to_signal(function:Callable, control:Control, signal_name):
+func connect_signal(control_signal, function:Callable):
 #	print(self)
 #	print("connect " +str(function) + " of " + str(control) + " to " + signal_name)
 	if function.is_custom(): # [ ] This could cause a problem with lambda arguments
-		control[signal_name].connect(_call_function.bind(function))
+		control_signal.connect(_call_function.bind(function))
 		return
 	var args_count = _get_method_args_count(function.get_method())
 	match args_count:
-		0: control[signal_name].connect(_call_function.bind(function))
-		1: control[signal_name].connect(_call_function_one_arg.bind(function))
-		2: control[signal_name].connect(_call_function_two_arg.bind(function))
-		3: control[signal_name].connect(_call_function_three_arg.bind(function))
-		4: control[signal_name].connect(_call_function_four_arg.bind(function))
-		5: control[signal_name].connect(_call_function_five_arg.bind(function))
+		0: control_signal.connect(_call_function.bind(function))
+		1: control_signal.connect(_call_function_one_arg.bind(function))
+		2: control_signal.connect(_call_function_two_arg.bind(function))
+		3: control_signal.connect(_call_function_three_arg.bind(function))
+		4: control_signal.connect(_call_function_four_arg.bind(function))
+		5: control_signal.connect(_call_function_five_arg.bind(function))
 
 func _call_function(function) -> void:
 	function.call()

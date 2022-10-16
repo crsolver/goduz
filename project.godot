@@ -49,6 +49,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/classes/root_component.gd"
 }, {
+"base": "BaseRootComponent",
+"class": &"TimerApp",
+"language": &"GDScript",
+"path": "res://examples/timer_app/timer.gd"
+}, {
 "base": "Component",
 "class": &"TodoInfo",
 "language": &"GDScript",
@@ -78,6 +83,7 @@ _global_script_class_icons={
 "Item": "",
 "List": "",
 "RootComponent": "",
+"TimerApp": "",
 "TodoInfo": "",
 "TodoItem": "",
 "TodoList": "",

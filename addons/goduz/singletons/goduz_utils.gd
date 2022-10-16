@@ -1,6 +1,4 @@
-@tool
 extends Node
-# Author: Andres Gamboa
 
 const EXCEPTIONS = [
 	"name",
@@ -16,7 +14,8 @@ const EXCEPTIONS = [
 	"position",
 	"global_position",
 	"theme_override_constants",
-	"text"]
+	"text"
+]
 
 func dict_to_json(dict):
 	var json = JSON.new()
