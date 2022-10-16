@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5tiequvvid70"]
+
+[ext_resource type="Script" path="res://tutorials/code/counter/counter.gd" id="1_oc1nn"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="CounterApp" type="Node" parent="."]
+script = ExtResource("1_oc1nn")
+show_reload_button = false

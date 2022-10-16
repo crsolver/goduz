@@ -29,8 +29,13 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/classes/component.gd"
 }, {
-"base": "Component",
+"base": "BaseRootComponent",
 "class": &"Counter",
+"language": &"GDScript",
+"path": "res://tutorials/code/counter/counter.gd"
+}, {
+"base": "Component",
+"class": &"GoduzCounter",
 "language": &"GDScript",
 "path": "res://addons/goduz/example/counter.gd"
 }, {
@@ -80,6 +85,7 @@ _global_script_class_icons={
 "BasicComponent": "",
 "Component": "",
 "Counter": "",
+"GoduzCounter": "",
 "Item": "",
 "List": "",
 "RootComponent": "",

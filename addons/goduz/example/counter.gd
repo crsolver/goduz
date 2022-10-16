@@ -1,5 +1,5 @@
 extends Component
-class_name Counter
+class_name GoduzCounter
 
 # Called when the component is created. Use it to initialize the state.
 func _init():
