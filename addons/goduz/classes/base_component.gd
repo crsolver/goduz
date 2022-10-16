@@ -1,5 +1,5 @@
 extends Node
-class_name BaseComponent, "res://addons/goduz/assets/goduz_icon.svg"
+class_name BaseComponent# "res://addons/goduz/assets/goduz_icon.svg"
 # Author: Andres Gamboa
 
 # There are two types of components:
@@ -18,7 +18,7 @@ class_name BaseComponent, "res://addons/goduz/assets/goduz_icon.svg"
 
 var props
 var type
-var control
+var control_node
 
 func _init():
 	pass
@@ -26,8 +26,6 @@ func _init():
 func get_data():
 	pass
 
-func ready():
-	pass
 
 func get_control(_value):
 	pass

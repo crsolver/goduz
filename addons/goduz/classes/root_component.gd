@@ -1,6 +1,5 @@
 extends BaseRootComponent
 class_name RootComponent
-# Author: Andres Gamboa
 
 func _init():
 	super()
@@ -8,6 +7,6 @@ func _init():
 
 func view():
 	return\
-	Gui.control({preset="full"}, [
+	control({preset="full"}, [
 		Counter.new() # Change it to your app component
 	])

@@ -1,5 +1,4 @@
 extends Node
-# Author: Andres Gamboa
 
 const EXCEPTIONS = [
 	"name",
@@ -15,7 +14,8 @@ const EXCEPTIONS = [
 	"position",
 	"global_position",
 	"theme_override_constants",
-	"text"]
+	"text"
+]
 
 func dict_to_json(dict):
 	var json = JSON.new()
@@ -75,8 +75,7 @@ func get_presets_from_file(path):
 func _get_props(file):
 	var obj = {}
 	var current_control
-	var f = File.new()
-	f.open(file, File.READ)
+	var f = FileAccess.open(file, FileAccess.READ)
 	var _index = 1
 	var block = false
 	while not f.eof_reached():

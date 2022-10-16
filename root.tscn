@@ -1,25 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://dngqahgfs2tx"]
+[gd_scene load_steps=3 format=3 uid="uid://buk13eqoemnkd"]
 
 [ext_resource type="Script" path="res://addons/goduz/classes/root_component.gd" id="1_4m48m"]
-[ext_resource type="PackedScene" path="res://addons/goduz/reload_components_button.tscn" id="2_c2r5w"]
 
 [sub_resource type="Theme" id="Theme_6jhc0"]
 
 [node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-hint_tooltip = "hola"
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("Theme_6jhc0")
 
 [node name="RootComponent" type="Node" parent="."]
 script = ExtResource("1_4m48m")
-
-[node name="ReloadComponents" parent="." instance=ExtResource("2_c2r5w")]
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -58.9999
-offset_top = 9.0
-offset_right = 2.0
-offset_bottom = 55.0
-grow_horizontal = 0
-metadata/_edit_layout_mode = 1
