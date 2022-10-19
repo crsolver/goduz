@@ -60,6 +60,8 @@ func delete():
 #		p.remove_child(self)
 	queue_free()
 
+func include(node:Node):
+	control_node.add_child(node)
 
 # Does work
 func call_method(method, args: Array):
@@ -154,6 +156,8 @@ func show_if(show: bool, child) -> BasicComponent:
 func control(properties:Dictionary={}, children=[]) -> BasicComponent:
 	return BasicComponent.new(properties, "control", children)
 
+func box(properties:Dictionary={}, children=[]) -> BasicComponent:
+	return BasicComponent.new(properties, "box", children)
 
 # Containers
 func container(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
@@ -202,21 +206,19 @@ func subviewport(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"subviewport", children)
 
 func tabbox(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
-	return BasicComponent.new(properties,"tab", children)
+	return BasicComponent.new(properties,"tabbox", children)
 
 
 # Buttons
 
-func button(properties:Dictionary={}) -> BasicComponent:
-	return BasicComponent.new(properties,"button", [])
+func button(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
+	return BasicComponent.new(properties,"button", children)
 
 func link_button(properties:Dictionary={}) -> BasicComponent:
 	return BasicComponent.new(properties,"link_button", [])
 
 func texture_button(properties:Dictionary={}) -> BasicComponent:
 	return BasicComponent.new(properties,"texture_button", [])
-
-
 
 func text_edit(properties:Dictionary={}) -> BasicComponent:
 	return BasicComponent.new(properties,"text_edit", [])
@@ -226,6 +228,9 @@ func code_edit(properties:Dictionary={}) -> BasicComponent:
 
 func color_rect(properties:Dictionary={}) -> BasicComponent:
 	return BasicComponent.new(properties,"color_rect", [])
+
+func color_picker(properties:Dictionary={}) -> BasicComponent:
+	return BasicComponent.new(properties,"color_picker", [])
 
 func graph_edit(properties:Dictionary={}) -> BasicComponent:
 	return BasicComponent.new(properties,"graph_edit", [])

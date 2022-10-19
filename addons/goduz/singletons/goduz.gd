@@ -1,7 +1,8 @@
 extends Node
-
 # Methods to render and update the view.
 
+@onready
+var box_scene = preload("res://addons/goduz/custom_controls/box.tscn")
 
 # To do
 # [ ] Fix: Lambdas cause unnecesary updates in control nodes (they are created every time view() is called causing the props to be different)
@@ -445,7 +446,8 @@ func create_control(owner: Component, type:String, properties:Dictionary,child_o
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
-		"control"        :node = Control.new()
+		"control": node = Control.new()
+		"box": node = box_scene.instantiate()
 		"panel_container"      :node = PanelContainer.new()
 		"aspect_radio"   :node = AspectRatioContainer.new()
 		"center"         :node = CenterContainer.new()
@@ -468,6 +470,7 @@ func create_control(owner: Component, type:String, properties:Dictionary,child_o
 		"text_edit"      :node = TextEdit.new()
 		"code_edit"      :node = CodeEdit.new()
 		"color_rect"     :node = ColorRect.new()
+		"color_picker"   :node = ColorPicker.new()
 		"graph_edit"     :node = GraphEdit.new()
 		"vscrollbar"     :node = VScrollBar.new()
 		"hscrollbar"     :node = VScrollBar.new()
@@ -488,7 +491,6 @@ func create_control(owner: Component, type:String, properties:Dictionary,child_o
 		"tab_bar"        :node = TabBar.new()
 		"texture_rect"   :node = TextureRect.new()
 		"tree"           :node = Tree.new()
-		
 	set_properties(owner, node, {}, properties, child_of_container)
 	return node
 
