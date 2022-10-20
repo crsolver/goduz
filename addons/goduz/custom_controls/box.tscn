@@ -2,11 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/goduz/custom_controls/box.gd" id="1_kuba1"]
 
-[node name="Box" type="MarginContainer"]
+[node name="Box" type="PanelContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_kuba1")
-
-[node name="container" type="PanelContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0

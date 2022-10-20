@@ -4,9 +4,7 @@ class_name GoduzCounter
 # Called when the component is created. Use it to initialize the state.
 func _init():
 	super()
-	state = {
-		count = 0
-	}
+	state.count = 0
 
 # LIFECYCLE METHODS_________________________________________________________________________________
 # Called after the component has been rendered to the screen the first time.

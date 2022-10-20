@@ -98,5 +98,5 @@ func _get_props(file):
 					if current_control:
 						obj[current_control][prop] = null
 		_index += 1
-	f.close()
+#	f.close()
 	return obj
