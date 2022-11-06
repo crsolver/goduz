@@ -112,8 +112,8 @@ run/low_processor_mode=true
 [autoload]
 
 Goduz="*res://addons/goduz/singletons/goduz.gd"
-Gui="*res://addons/goduz/singletons/gui.gd"
 GoduzUtils="*res://addons/goduz/singletons/goduz_utils.gd"
+Gui="*res://addons/goduz/singletons/gui.gd"
 
 [display]
 

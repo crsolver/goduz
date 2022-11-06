@@ -32,7 +32,7 @@ func decrement(): state.count -= 1
 func increment(): state.count += 1
 
 # VIEW_____________________________________________________________________________________________
-func view():
+func view(): 
 	return\
 	control({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).
 		color_rect({color=Color.html("#1d2229"), preset="full"}),
@@ -50,10 +50,11 @@ func view():
 	])
 
 # Reusable component
-func my_button(method: Callable, text: String):
-	return button({
-			text=text,
-			on_pressed=method, # signals begin with on_
-			custom_minimum_size=Vector2(20,30),
-			preset="cursor-pointing" # Goduz includes some useful presets, see the the method initialize_presets(path) in addons/goduz/singletons/gui to see the included presets and add your own.
-		})
+func my_button(method: Callable, text: String): 
+	return\
+	button({
+		text=text,
+		on_pressed=method, # signals begin with on_
+		custom_minimum_size=Vector2(20,30),
+		preset="cursor-pointing" # Goduz includes some useful presets, see the the method initialize_presets(path) in addons/goduz/singletons/gui to see the included presets and add your own.
+	})

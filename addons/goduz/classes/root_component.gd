@@ -8,5 +8,5 @@ func _init():
 func view():
 	return\
 	control({preset="full"}, [
-		GoduzCounter.new()
+		List.new()
 	])

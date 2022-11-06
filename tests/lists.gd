@@ -2,12 +2,16 @@ class_name List extends Component
 
 func _init():
 	super()
-	state = {
-		items= ["0", "1", "2", "3", "4"]
-	}
+	state.items= ["0", "1", "2", "3", "4"]
+#	state.items= ["0"]
+
 
 func add():
-	state.items = ["2", "1", "3"]
+	var i = state.items.size()
+#	print("pushing " + str(i))
+#	state.items.push_front(str(i))
+	print(state.items)
+	state.items = ["3", "5"]
 
 func delete():
 	state.items.pop_back()

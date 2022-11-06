@@ -11,7 +11,6 @@ var vbx
 var root_control:Control
 var presets_path
 
-
 func _ready():
 	vbx = VBoxContainer.new()
 	vbx.name ="VBoxContainer"
