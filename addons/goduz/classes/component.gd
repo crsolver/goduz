@@ -1,28 +1,21 @@
 class_name Component extends BaseComponent
 
-var owner_component
-var state: Dictionary = {}
 
-
-var view_container
-var parent_control
+var state: Dictionary
 var key = null
+var component_owner
 
-
-func _init(_props:Dictionary={}):
+func _init(_props:Dictionary={}) -> void:
+	state = {}
 	type = get_script().get_path()
 	props = _props.duplicate(true)
 	if props.has("key"):
 		key = props.key
-	control_node = Node.new()
-	view_container = Node.new()
-	add_child(control_node)
-	add_child(view_container)
 
 # __________________
 # Completes the tree of the component.
 func complete() -> void:
-	view_container.add_child(view())
+	add_child(view())
 
 # The representation of the Graphical User Interface (the view composed of control nodes) of the component.
 # Similar to render function in React.
@@ -33,13 +26,12 @@ func view(): # -> BasicComponent:
 	pass
 
 func get_view() -> BasicComponent:
-	return view_container.get_children()[0]
+	return get_children()[0]
 
 
 # Compares the current view of the component agains the updated view to make the necessary changes to control nodes.
 func update_view() -> void:
-#	print("updating view")
-	Goduz.diff(self.get_view(), view())
+	Goduz.diff(get_view(), view())
 
 
 # Lifecycle methods
@@ -60,11 +52,11 @@ func delete():
 #		p.remove_child(self)
 	queue_free()
 
-func include(node:Node):
-	control_node.add_child(node)
+#func include(node:Node):
+#	control_node.add_child(node)
 
 # Does work
-func call_method(method, args: Array):
+func call_method(method, args: Array = []):
 	var obj = method.get_object()
 	method.callv(args)
 	obj.update_view()
@@ -91,11 +83,9 @@ func call_method(method, args: Array):
 # to keep the control nodes in sync with the state, this eliminates the need to call update_view() manually.
 
 func connect_signal(control_signal, function:Callable):
-#	print(self)
-#	print("connect " +str(function) + " of " + str(control) + " to " + signal_name)
-	if function.is_custom(): # [ ] This could cause a problem with lambda arguments
-		control_signal.connect(_call_function.bind(function))
-		return
+#	if function.is_custom(): # [ ] This could cause a problem with lambda arguments
+#		control_signal.connect(_call_function.bind(function))
+#		return
 	var args_count = _get_method_args_count(function.get_method())
 	match args_count:
 		0: control_signal.connect(_call_function.bind(function))

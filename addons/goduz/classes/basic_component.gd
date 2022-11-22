@@ -4,8 +4,8 @@ class_name BasicComponent
 
 var list = false
 var key = null
-var owner_component
-
+var component_owner
+var control_node: Control
 func _init(_props:Dictionary, _type:String, children:Array):
 	type = _type
 	props = _props.duplicate(true)

@@ -18,7 +18,6 @@ class_name BaseComponent# "res://addons/goduz/assets/goduz_icon.svg"
 
 var props
 var type
-var control_node
 
 func _init():
 	pass

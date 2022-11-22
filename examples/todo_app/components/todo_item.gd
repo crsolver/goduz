@@ -6,6 +6,7 @@ func _init(p:Dictionary):
 func toggle_todo():
 	call_method(props.on_todo_toggled, [props.data.id])
 
+
 func view():
 	return\
 	panel_container({},[

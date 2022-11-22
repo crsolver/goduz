@@ -6,7 +6,6 @@ var box_scene = preload("res://addons/goduz/custom_controls/box.tscn")
 
 # To do
 # [ ] Fix: Lambdas cause unnecesary updates in control nodes (they are created every time view() is called causing the props to be different)
-# [ ] Better algorithm for updating lists, the current one is just to have it working
 
 
 func diff(current:BaseComponent, next:BaseComponent) -> void:
@@ -38,27 +37,24 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	
 	var is_child_of_container = current.control_node.get_parent() is Container
 	
-#	if next_view.type != current.type:
-	var new_control = create_control(current.owner_component, next_view.type, next_view.props,is_child_of_container)
+	var new_control = create_control(current.component_owner, next_view.type, next_view.props,is_child_of_container)
 	current.control_node.replace_by(new_control)
 	next_control = new_control
 	old_control.queue_free()
-#	else:
-#		set_properties(current.owner_component, current.control, current.props, next_view.props,is_child_of_container)
-#
+	
 	for child in next.get_view().get_children():
-		render(next_control, child, current.owner_component)
+		render(next_control, child, current.component_owner)
 	
 	next.get_parent().remove_child(next)
 	next_view.get_parent().remove_child(next_view)
 	
 	current.replace_by(next)
-	next.parent_control = c_parent
-	next.view_container.add_child(next_view)
+	next.add_child(next_view)
 	next.get_view().control_node = next_control
 	current.queue_free()
 	await get_tree().process_frame
 	next.component_ready()
+
 
 func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	current.component_will_die()
@@ -68,28 +64,28 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	
 	var next_control = current.get_view().control_node
 	
-	if current.get_view().type != next.type:
-		var old = current.get_view().control_node
-		var child_of_container = old.get_parent() is Container
-		var new = create_control(current.owner_component, next.type, next.props,child_of_container)
-		
-		if old is ScrollContainer:
-			old.get_h_scroll_bar().queue_free()
-			old.get_v_scroll_bar().queue_free()
-		
-		current.get_view().control_node.replace_by(new)
-		old.queue_free()
-		next_control = new
-		
-	elif current.props.hash() != next.props.hash():
-		update_basic(current.get_view(), next)
+	var old = current.get_view().control_node
+	
+	var new = create_control(
+		current.component_owner, 
+		next.type, 
+		next.props,
+		old.get_parent() is Container
+	)
+	
+	if old is ScrollContainer:
+		old.get_h_scroll_bar().queue_free()
+		old.get_v_scroll_bar().queue_free()
+	
+	current.get_view().control_node.replace_by(new)
+	old.queue_free()
+	next_control = new
+	
 	
 	for child in next.get_children():
-		render(current.get_view().control_node, child, current.owner_compent)
+		render(current.get_view().control_node, child, current.component_owner)
 	
 	next.get_parent().remove_child(next)
-	current.view_container.free()
-	current.control_node.free()
 	current.replace_by(next)
 	next.control_node = next_control
 	current.queue_free()
@@ -102,7 +98,8 @@ func diff_basic(current:BasicComponent, next:BasicComponent) -> void:
 	elif current.props.hash() != next.props.hash():
 		update_basic(current, next)
 	
-	if current.list: return
+	if current.list: 
+		return
 	
 	var current_children = current.get_children()
 	var next_children = next.get_children()
@@ -125,14 +122,21 @@ func diff_custom(current:Component, next:Component) -> void:
 
 func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> void:
 	var old = current.control_node
-	var new = create_control(current.owner_component, next.type, next.props, old.get_parent() is Container)
 	
 	for child in old.get_children():
 		child.queue_free()
+		
+	var new = create_control(
+		current.component_owner, 
+		next.type, next.props, 
+		old.get_parent() is Container
+	)
 	
 	current.control_node.replace_by(new)
 	current.control_node = new
+	
 	old.queue_free()
+	
 	current.props = next.props
 	current.type = next.type
 	
@@ -145,54 +149,60 @@ func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> 
 
 func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	next.complete()
-	var next_control
-	var current_view = current.get_view()
-	var next_view = next.get_view()
+	var current_control = current.get_view().control_node
 	
-	var old_control = current_view.control_node
-	next_control = old_control
-	
-	for child in old_control.get_children():
+	for child in current_control.get_children():
 		child.queue_free()
 	
-	var child_of_container = old_control.get_parent() is Container
+	var next_control = create_control(
+		current.component_owner, 
+		next.get_view().type, 
+		next.get_view().props,
+		current_control.get_parent() is Container
+	)
 	
-	var new_control = create_control(current.owner_component, next_view.type, next_view.props,child_of_container)
-	current_view.control_node.replace_by(new_control)
-	next_control = new_control
-	old_control.queue_free()
+	current.get_view().control_node.replace_by(next_control)
+	current_control.queue_free()
 	
 	for child in next.get_view().get_children():
-		render(next_control, child, current.owner_component)
+		render(next_control, child, current.component_owner)
 	
-	var c_parent = current.parent_control
-	var container = current.view_container
 	
 	next.get_parent().remove_child(next)
-	next_view.get_parent().remove_child(next_view)
+	next.get_view().get_parent().remove_child(next.get_view())
 	
 	current.replace_by(next)
-	next.parent_control = c_parent
-	next.view_container.add_child(next_view)
+	next.add_child(next.get_view())
 	next.get_view().control_node = next_control
-	container.queue_free()
-	current.control_node.queue_free()
 	current.queue_free()
 	await get_tree().process_frame
 	next.component_ready()
 
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
-#	print("updating "+current.type)
-	var child_of_container = current.control_node.get_parent() is Container
-	set_properties(current.owner_component, current.control_node, current.props, next.props,child_of_container, true)
+	set_properties(
+		current.component_owner, 
+		current.control_node, 
+		current.props, 
+		next.props,
+		current.control_node.get_parent() is Container,
+		true
+	)
 	current.props = next.props
 	
 	if current.list != null:
 		update_list(current, next)
 
+enum {
+	DIFF,
+	MOVE,
+	ADD_AT,
+	ADD,
+	DELETE
+}
 
-func update_list(current:BasicComponent, next:BasicComponent):
+
+func update_list(current:BasicComponent, next:BasicComponent) -> void:
 	var current_size = current.get_child_count()
 	var next_size = next.get_child_count()
 	var end = max(current_size, next_size)
@@ -207,106 +217,100 @@ func update_list(current:BasicComponent, next:BasicComponent):
 		if i < next_size:
 			child = next.get_child(i)
 			n_aux[child.key] = child
-	
-	var offset = 0
-	var j = 0
+			
 	var i = 0
+	var operation = ""
 	
-#	for i in range(0, end):
-	while (i+offset) < max(current.get_child_count(), next.get_child_count()):
+	while i < max(current.get_child_count(), next.get_child_count()):
 		var current_item = null
 		var next_item = null
-		if i+offset < current.get_child_count(): current_item = current.get_child(i+offset)
-		if i+offset < next.get_child_count(): next_item = next.get_child(i+offset)
 		
-		print(str(i+offset) + "............................")
-		if current_item:
-			print("current: " + str(current_item.key))
-		else:
-			print("current: null")
-		if next_item:
-			print("AGAINS")
-			print("next: " + str(next_item.key))
+		if i < current.get_child_count(): 
+			current_item = current.get_child(i)
 		
+		if i < next.get_child_count(): 
+			next_item = next.get_child(i)
 		
-		if next_item:
-			if current_item: # if the are the same continue
-				if next_item.key == current_item.key: 
-					diff(current_item, next_item)
-					print("same")
-					i+=1
-					continue
+		if next_item and current_item:
+			# Items are the same, look for changes
+			if next_item.key == current_item.key:
+				operation = DIFF
+			elif n_aux.has(current_item.key): # next.find(func(item):return item.key == current_item.key) # n_aux.has(current_item.key):
+				if c_aux.has(next_item.key):
+					operation = MOVE
 				else:
-					if n_aux.has(current_item.key):
-						if c_aux.has(next_item.key):
-#							 move item to i
-							print("move " + c_aux[next_item].key + " to " + str(i + offset))
-							if next_item is BasicComponent:
-								current.move_child(c_aux[next_item.key], i+offset)
-								current.control_node.move_child(c_aux[next_item.key].control_node, i+offset)
-							else:
-								current.move_child(c_aux[next_item.key], i+offset)
-								current.control_node.move_child(c_aux[next_item.key].get_view().control_node, i+offset)
-							diff(current_item, next_item)
-						else:
-							#add new on i
-							print("add new ("+ next_item.key +") in " + str(i + offset))
-							
-							var children = next_item.get_children()
-							for c in children:
-								next_item.remove_child(c)
-							next_item.replace_by(BasicComponent.new( {}, "nothing", []))
-							for c in children:
-								next_item.add_child(c)
-							current_size += 1
-							
-#							next.remove_child(next_item)
-							current.add_child(next_item)
-							current.move_child(next_item, i+offset)
-							
-							if next_item is BasicComponent:
-								next_item.control_node = create_control(current.owner_component, next_item.type, next_item.props, true)
-								current.control_node.add_child(next_item.control_node)
-								current.control_node.move_child(next_item.control_node, i+offset)
-								for child in next_item.get_children():
-									render(next_item.control_node, child, current.owner_component)
-							else:
-								next_item.owner_component = current.owner_component
-								next_item.complete()
-								var view = next_item.get_view()
-								var control = create_control(next_item, view.type, view.props, true)
-								view.control_node = control
-								current.control_node.add_child(control)
-								current.control_node.move_child(control, i+offset)
-								for child in next_item.view_container.get_children():
-									render(control, child, next_item)
-								next_item.component_ready()
-					else:
-						print("delete " + str(current_item.key))
-						current.remove_child(current_item)
-						current_item.delete()
-						offset -= 1
-						current_size -= 1
-			# if no prev_item
+					operation = ADD_AT
 			else:
-				# create item
-				next.remove_child(next_item)
-				current.add_child(next_item)
-				print("create item (" + str(next_item.key)+")")
-				render(current.control_node, next_item, current.owner_component)
-				current_size += 1
-		# if not item
+				operation = DELETE
+		elif next_item and not current_item:
+			operation = ADD
+		elif not next_item and current_item:
+			operation = DELETE
 		else:
-			if current_item:
-				print("remove (" + str(current_item.key))
-				current_item.delete()
+			return
+		
+		match(operation):
+			DIFF:
+				diff(current_item, next_item)
+				
+			MOVE:
+				if next_item is BasicComponent:
+					current.move_child(c_aux[next_item.key], i)
+					current.control_node.move_child(c_aux[next_item.key].control_node, i)
+				else:
+					current.move_child(c_aux[next_item.key], i)
+					current.control_node.move_child(c_aux[next_item.key].get_view().control_node, i)
+				diff(current_item, next_item)
+				
+			ADD_AT:
+				var children = next_item.get_children()
+				for c in children:
+					next_item.remove_child(c)
+				next_item.replace_by(BasicComponent.new( {}, "nothing", []))
+				
+				for c in children:
+					next_item.add_child(c)
+					
+				current.add_child(next_item)
+				current.move_child(next_item, i)
+				
+				if next_item is BasicComponent:
+					next_item.control_node = create_control(
+						current.component_owner, 
+						next_item.type, 
+						next_item.props, 
+						true
+					)
+					
+					current.control_node.add_child(next_item.control_node)
+					current.control_node.move_child(next_item.control_node, i)
+					
+					for child in next_item.get_children():
+						render(next_item.control_node, child, current.component_owner)
+				else:
+					next_item.component_owner = current.component_owner
+					next_item.complete()
+					var view = next_item.get_view()
+					var control = create_control(next_item, view.type, view.props, true)
+					view.control_node = control
+					current.control_node.add_child(control)
+					current.control_node.move_child(control, i)
+					
+					for child in next_item.get_children():
+						render(control, child, next_item)
+						
+					next_item.component_ready()
+				
+			DELETE:
 				current.remove_child(current_item)
-				offset -= 1
-				current_size -= 1
-			else:
-				return
-		i += 1
-
+				current_item.delete()
+			ADD:
+				next_item.replace_by(BasicComponent.new({}, "nothing", []))
+				current.add_child(next_item)
+				render(current.control_node, next_item, current.component_owner)
+		# end match
+		i += 1 if operation != DELETE else 0
+	# end while
 
 func update_custom(current:Component, next:Component) -> void:
 	current.props = next.props
@@ -318,25 +322,24 @@ func update_custom(current:Component, next:Component) -> void:
 	current.component_updated()
 
 # Renders the component to the scene
-func render(parent:Control, component:BaseComponent, owner:Component) -> void:
-	component.owner_component = owner
+func render(parent:Control, component:BaseComponent, component_owner:Component = null) -> void:
+	component.component_owner = component_owner
 	
 	if component is BasicComponent:
-		component.control_node = create_control(component.owner_component, component.type, component.props, parent is Container)
-		if component.props.has("assign_to"):
-			owner[component.props.assign_to] = component.control_node
+		component.control_node = create_control(component.component_owner, component.type, component.props, parent is Container)
+		if component.props.has("ref"):
+			component_owner[component.props.ref] = component.control_node
 		parent.add_child(component.control_node)
 		for child in component.get_children():
-			render(component.control_node, child, owner)
+			render(component.control_node, child, component_owner)
 	else:
 		component.complete()
-		component.parent_control = parent
 		render(parent, component.get_view(), component)
 		await get_tree().process_frame
 		component.component_ready()
 
 
-func create_control(owner: Component, type:String, properties:Dictionary,child_of_container) -> Control:
+func create_control(component_owner: Component, type:String, properties:Dictionary,child_of_container) -> Control:
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
@@ -385,16 +388,17 @@ func create_control(owner: Component, type:String, properties:Dictionary,child_o
 		"tab_bar"        :node = TabBar.new()
 		"texture_rect"   :node = TextureRect.new()
 		"tree"           :node = Tree.new()
-	set_properties(owner, node, {}, properties, child_of_container)
+	set_properties(component_owner, node, {}, properties, child_of_container)
 	return node
 
 
-func set_properties(owner: Component, node:Control, last_properties, properties:Dictionary,child_of_container, ommit_signals=false) -> void:
+func set_properties(component_owner: Component, node:Control, last_properties, properties:Dictionary,child_of_container, ommit_signals=false) -> void:
 	for key in properties.keys():
 		if key == "id": continue
-		if key == "key": continue
-		if key == "list": continue
-		if key == "preset":
+		elif key == "ref": continue
+		elif key == "key": continue
+		elif key == "list": continue
+		elif key == "preset":
 			if last_properties.has("preset"):
 				if last_properties["preset"] == properties["preset"]:
 					continue
@@ -412,7 +416,7 @@ func set_properties(owner: Component, node:Control, last_properties, properties:
 			
 		elif key.begins_with("on_") and not ommit_signals:
 			var signal_name = key.substr(3)
-			owner.connect_signal(node[signal_name], properties[key])
+			component_owner.connect_signal(node[signal_name], properties[key])
 		else:
 			set_property(node, properties, key, child_of_container)
 

@@ -1,8 +1,5 @@
 class_name TodoList extends Component
 
-func _init(p):
-	super(p)
-
 func view():
 	return\
 	scrollbox({preset="expand"}, [

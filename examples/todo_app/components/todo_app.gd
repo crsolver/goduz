@@ -1,6 +1,6 @@
 class_name TodosApp extends BaseRootComponent
 
-var line_edit_node
+var line_edit_ref
 
 func _init():
 	super()
@@ -9,14 +9,15 @@ func _init():
 		{id=1, text="Learn Goduz", completed=false},
 	]
 
-func add_todo(t:String):
+
+func add_todo(t: String):
 	if t.strip_edges() == "": return
-	state.todos.push_front({
+	state.todos.append({
 		id = state.todos.size(),
 		text = t,
 		completed = false
 	})
-	line_edit_node.text = ""
+	line_edit_ref.text = ""
 
 func toggle_todo(id):
 	var todo = state.todos.filter(func(item):return item.id == id)[0]
@@ -31,7 +32,7 @@ func view():
 				TodoInfo.new({todos=state.todos}),
 				TodoList.new({items=state.todos, on_todo_toggled=toggle_todo}),
 				line_edit({
-					assign_to="line_edit_node",
+					ref="line_edit_ref",
 					placeholder_text="New +",
 					on_text_submitted=add_todo
 				})

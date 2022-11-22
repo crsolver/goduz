@@ -8,5 +8,5 @@ func _init():
 func view():
 	return\
 	control({preset="full"}, [
-		List.new()
+		TodosApp.new()
 	])
