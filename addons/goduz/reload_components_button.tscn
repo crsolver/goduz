@@ -34,7 +34,7 @@ Button/styles/normal = SubResource("StyleBoxFlat_vacei")
 Button/styles/pressed = SubResource("StyleBoxFlat_upg4b")
 
 [node name="ReloadComponents" type="Button"]
-custom_minimum_size = Vector2i(0, 31)
+custom_minimum_size = Vector2(0, 31)
 offset_right = 75.0
 offset_bottom = 31.0
 scale = Vector2(0.8, 0.8)

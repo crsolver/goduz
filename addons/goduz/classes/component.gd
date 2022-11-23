@@ -2,8 +2,9 @@ class_name Component extends BaseComponent
 
 
 var state: Dictionary
-var key = null
-var component_owner
+var key
+var util_nodes_container
+var util_nodes: Array = []
 
 func _init(_props:Dictionary={}) -> void:
 	state = {}
@@ -47,22 +48,22 @@ func component_will_die():
 func delete():
 	component_will_die()
 	get_view().control_node.queue_free()
+	for node in util_nodes:
+		node.queue_free()
 #	var p = get_parent()
 #	if p:
 #		p.remove_child(self)
 	queue_free()
 
-#func include(node:Node):
-#	control_node.add_child(node)
+func include(node:Node):
+	util_nodes_container.add_child(node)
+	util_nodes.append(node)
 
 # Does work
 func call_method(method, args: Array = []):
 	var obj = method.get_object()
 	method.callv(args)
 	obj.update_view()
-
-
-
 
 
 # For Debug porpuses

@@ -1,6 +1,7 @@
 extends Component
 class_name GoduzCounter
 
+var logo: TextureRect
 # Called when the component is created. Use it to initialize the state.
 func _init():
 	super()
@@ -11,11 +12,12 @@ func _init():
 func component_ready():
 	var c = get_control("animate")
 	var tween = c.create_tween()
-	tween.set_parallel(true)
-	tween.tween_property(c, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	tween.tween_property(c, "position:y", c.position.y, 0.5).from(c.position.y+50.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if tween:
+		tween.set_parallel(true)
+		tween.tween_property(c, "modulate:a", 1.0, 0.5).from(0.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		tween.tween_property(c, "position:y", c.position.y, 0.5).from(c.position.y+50.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	# load textures when the component is ready to avoid loading them every time the state changes
-	get_control("logo").texture = load("res://addons/goduz/assets/goduz_logo.png")
+	logo.texture = load("res://addons/goduz/assets/goduz_logo.png")
 
 # Called after the view of this component has been updated.
 func component_updated():
@@ -38,7 +40,7 @@ func view():
 		color_rect({color=Color.html("#1d2229"), preset="full"}),
 		center({preset="full", id="animate"},[
 			vbox({},[
-				texture_rect({id="logo", stretch_mode = 3}),
+				texture_rect({ref="logo", stretch_mode = 3}),
 				label({text="Goduz", preset="expand-h text-align-center-h"}),
 				hbox({preset="expand"},[ # Use preset="expand" to expand BasicComponents (control nodes) that are children of containers.
 					my_button(decrement, "-"),

@@ -1,9 +1,6 @@
 extends Node
 # Methods to render and update the view.
 
-@onready
-var box_scene = preload("res://addons/goduz/custom_controls/box.tscn")
-
 # To do
 # [ ] Fix: Lambdas cause unnecesary updates in control nodes (they are created every time view() is called causing the props to be different)
 
@@ -37,13 +34,13 @@ func change_basic_for_custom(current:BasicComponent, next:Component) -> void:
 	
 	var is_child_of_container = current.control_node.get_parent() is Container
 	
-	var new_control = create_control(current.component_owner, next_view.type, next_view.props,is_child_of_container)
+	var new_control = create_control(current.owner, next_view.type, next_view.props,is_child_of_container)
 	current.control_node.replace_by(new_control)
 	next_control = new_control
 	old_control.queue_free()
 	
 	for child in next.get_view().get_children():
-		render(next_control, child, current.component_owner)
+		render(next_control, child, current.owner)
 	
 	next.get_parent().remove_child(next)
 	next_view.get_parent().remove_child(next_view)
@@ -67,7 +64,7 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	var old = current.get_view().control_node
 	
 	var new = create_control(
-		current.component_owner, 
+		current.owner, 
 		next.type, 
 		next.props,
 		old.get_parent() is Container
@@ -83,7 +80,7 @@ func change_custom_for_basic(current:Component, next:BasicComponent) -> void:
 	
 	
 	for child in next.get_children():
-		render(current.get_view().control_node, child, current.component_owner)
+		render(current.get_view().control_node, child, current.owner)
 	
 	next.get_parent().remove_child(next)
 	current.replace_by(next)
@@ -127,7 +124,7 @@ func change_basic_for_dif_basic(current:BasicComponent, next:BasicComponent) -> 
 		child.queue_free()
 		
 	var new = create_control(
-		current.component_owner, 
+		current.owner, 
 		next.type, next.props, 
 		old.get_parent() is Container
 	)
@@ -155,7 +152,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 		child.queue_free()
 	
 	var next_control = create_control(
-		current.component_owner, 
+		current.owner, 
 		next.get_view().type, 
 		next.get_view().props,
 		current_control.get_parent() is Container
@@ -165,7 +162,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 	current_control.queue_free()
 	
 	for child in next.get_view().get_children():
-		render(next_control, child, current.component_owner)
+		render(next_control, child, current.owner)
 	
 	
 	next.get_parent().remove_child(next)
@@ -181,7 +178,7 @@ func change_custom_for_dif_custom(current:Component, next:Component) -> void:
 
 func update_basic(current:BasicComponent, next:BasicComponent) -> void:
 	set_properties(
-		current.component_owner, 
+		current.owner, 
 		current.control_node, 
 		current.props, 
 		next.props,
@@ -276,7 +273,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 				
 				if next_item is BasicComponent:
 					next_item.control_node = create_control(
-						current.component_owner, 
+						current.owner, 
 						next_item.type, 
 						next_item.props, 
 						true
@@ -286,9 +283,9 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 					current.control_node.move_child(next_item.control_node, i)
 					
 					for child in next_item.get_children():
-						render(next_item.control_node, child, current.component_owner)
+						render(next_item.control_node, child, current.owner)
 				else:
-					next_item.component_owner = current.component_owner
+					next_item.owner = current.owner
 					next_item.complete()
 					var view = next_item.get_view()
 					var control = create_control(next_item, view.type, view.props, true)
@@ -307,7 +304,7 @@ func update_list(current:BasicComponent, next:BasicComponent) -> void:
 			ADD:
 				next_item.replace_by(BasicComponent.new({}, "nothing", []))
 				current.add_child(next_item)
-				render(current.control_node, next_item, current.component_owner)
+				render(current.control_node, next_item, current.owner)
 		# end match
 		i += 1 if operation != DELETE else 0
 	# end while
@@ -322,30 +319,34 @@ func update_custom(current:Component, next:Component) -> void:
 	current.component_updated()
 
 # Renders the component to the scene
-func render(parent:Control, component:BaseComponent, component_owner:Component = null) -> void:
-	component.component_owner = component_owner
+func render(parent:Control, component:BaseComponent, owner:Component = null) -> void:
+	component.owner = owner
 	
 	if component is BasicComponent:
-		component.control_node = create_control(component.component_owner, component.type, component.props, parent is Container)
+		component.control_node = create_control(component.owner, component.type, component.props, parent is Container)
 		if component.props.has("ref"):
-			component_owner[component.props.ref] = component.control_node
+			owner[component.props.ref] = component.control_node
 		parent.add_child(component.control_node)
 		for child in component.get_children():
-			render(component.control_node, child, component_owner)
+			render(component.control_node, child, owner)
 	else:
+		if owner:
+			component.util_nodes_container = owner.util_nodes_container
 		component.complete()
 		render(parent, component.get_view(), component)
+		component.get_view().control_node.visible = false
 		await get_tree().process_frame
+		component.get_view().control_node.visible = true
 		component.component_ready()
 
 
-func create_control(component_owner: Component, type:String, properties:Dictionary,child_of_container) -> Control:
+func create_control(owner: Component, type:String, properties:Dictionary,child_of_container) -> Control:
 	# Creates a control based on the type with the specified properties
 	var node:Control
 	match  type:
-		"control": node = Control.new()
-		"box": node = box_scene.instantiate()
-		"panel_container"      :node = PanelContainer.new()
+		"control"        :node = Control.new()
+		"box"            :node = Box.new()
+		"panel_container":node = PanelContainer.new()
 		"aspect_radio"   :node = AspectRatioContainer.new()
 		"center"         :node = CenterContainer.new()
 		"hbox"           :node = HBoxContainer.new()
@@ -388,11 +389,11 @@ func create_control(component_owner: Component, type:String, properties:Dictiona
 		"tab_bar"        :node = TabBar.new()
 		"texture_rect"   :node = TextureRect.new()
 		"tree"           :node = Tree.new()
-	set_properties(component_owner, node, {}, properties, child_of_container)
+	set_properties(owner, node, {}, properties, child_of_container)
 	return node
 
 
-func set_properties(component_owner: Component, node:Control, last_properties, properties:Dictionary,child_of_container, ommit_signals=false) -> void:
+func set_properties(owner: Component, node:Control, last_properties, properties:Dictionary,child_of_container, ommit_signals=false) -> void:
 	for key in properties.keys():
 		if key == "id": continue
 		elif key == "ref": continue
@@ -416,7 +417,7 @@ func set_properties(component_owner: Component, node:Control, last_properties, p
 			
 		elif key.begins_with("on_") and not ommit_signals:
 			var signal_name = key.substr(3)
-			component_owner.connect_signal(node[signal_name], properties[key])
+			owner.connect_signal(node[signal_name], properties[key])
 		else:
 			set_property(node, properties, key, child_of_container)
 

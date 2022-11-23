@@ -1,4 +1,4 @@
-extends PanelContainer
+class_name Box extends PanelContainer
 
 var stylebox: StyleBoxFlat
 var is_ready = false

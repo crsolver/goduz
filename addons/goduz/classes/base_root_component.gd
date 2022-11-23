@@ -17,6 +17,9 @@ func _ready():
 	if show_reload_button:
 		var reload_b = reload_b_scene.instantiate() as Button
 		vbx.add_child(reload_b)
+	util_nodes_container = Control.new()
+	util_nodes_container.visible = false
+	vbx.add_child(util_nodes_container)
 	vbx.set_anchors_preset(Control.PRESET_FULL_RECT)
 	call_deferred("add_sibling", vbx)
 	mount()
@@ -24,11 +27,11 @@ func _ready():
 func mount():
 	Gui.initialize_presets(presets_path)
 	var rc = Control.new()
-	
 	root_control = rc
 	vbx.add_child(rc)
 	rc.size_flags_vertical = rc.SIZE_EXPAND_FILL
-	Goduz.render(rc, self, self)
+	await get_tree().process_frame
+	Goduz.render(rc, self, null)
 
 func update_view():
 	var next = view()

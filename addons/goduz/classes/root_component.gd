@@ -8,5 +8,5 @@ func _init():
 func view():
 	return\
 	control({preset="full"}, [
-		TodosApp.new()
+		GoduzCounter.new()
 	])

@@ -9,7 +9,6 @@ func _init():
 		{id=1, text="Learn Goduz", completed=false},
 	]
 
-
 func add_todo(t: String):
 	if t.strip_edges() == "": return
 	state.todos.append({
