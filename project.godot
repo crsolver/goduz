@@ -113,6 +113,7 @@ _global_script_class_icons={
 config/name="Goduz"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0")
+run/max_fps=60
 run/low_processor_mode=true
 
 [autoload]
