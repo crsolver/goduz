@@ -74,6 +74,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/example/counter.gd"
 }, {
+"base": "Component",
+"class": &"MaxSizeBox",
+"language": &"GDScript",
+"path": "res://maxsizebox.gd"
+}, {
 "base": "BaseRootComponent",
 "class": &"Responsive",
 "language": &"GDScript",
@@ -118,6 +123,7 @@ _global_script_class_icons={
 "Counter": "",
 "CustomBox": "",
 "GoduzCounter": "",
+"MaxSizeBox": "",
 "Responsive": "",
 "RootComponent": "",
 "TodoInfo": "",
@@ -131,7 +137,6 @@ _global_script_class_icons={
 config/name="Goduz"
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.0")
-run/max_fps=60
 run/low_processor_mode=true
 
 [autoload]

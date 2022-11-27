@@ -134,6 +134,9 @@ func get_control(id) -> Control:
 	return _gui.get_control(id)
 
 
+#func maxsize(props:Dictionary, child: BaseComponent) -> BaseComponent:
+#	return MaxSizeBox.new(props, child)
+
 func nothing() -> BasicComponent:
 	return BasicComponent.new({}, "control", [])
 
