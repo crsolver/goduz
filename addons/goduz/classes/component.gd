@@ -5,11 +5,12 @@ var state: Dictionary
 var key
 var util_nodes_container
 var util_nodes: Array = []
+var holder: Component
 
-func _init(_props:Dictionary={}) -> void:
+func _init(props:Dictionary={}) -> void:
 	state = {}
 	type = get_script().get_path()
-	props = _props.duplicate(true)
+	self.props = props.duplicate(true)
 	if props.has("key"):
 		key = props.key
 
@@ -29,10 +30,18 @@ func view(): # -> BasicComponent:
 func get_view() -> BasicComponent:
 	return get_children()[0]
 
+func get_root_control():
+	return get_view().control
+
+func set_root_control(control: Control):
+	get_view().control = control
 
 # Compares the current view of the component agains the updated view to make the necessary changes to control nodes.
 func update_view() -> void:
-	Goduz.diff(get_view(), view())
+	var next = view()
+	Goduz.diff(get_view(), next)
+	next.free()
+	component_updated()
 
 
 # Lifecycle methods
@@ -45,15 +54,6 @@ func component_updated():
 func component_will_die():
 	pass
 
-func delete():
-	component_will_die()
-	get_view().control_node.queue_free()
-	for node in util_nodes:
-		node.queue_free()
-#	var p = get_parent()
-#	if p:
-#		p.remove_child(self)
-	queue_free()
 
 func include(node:Node):
 	util_nodes_container.add_child(node)
@@ -130,7 +130,7 @@ func get_control(id) -> Control:
 	var _gui = get_view()
 	if _gui.props.has("id"):
 		if _gui.props.id == id:
-			return _gui.control_node
+			return _gui.control
 	return _gui.get_control(id)
 
 

@@ -36,5 +36,6 @@ func mount():
 func update_view():
 	var next = view()
 	Goduz.diff(self.get_view(), next)
+	next.free()
 	await get_tree().process_frame
 	component_updated()
