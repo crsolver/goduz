@@ -3,7 +3,7 @@ extends BaseRootComponent
 
 func view():
 	return\
-	scrollbox({preset="full"}, [
+	scroll_container({preset="full"}, [
 		vbox({preset="expand-h"}, [
 			BasicToBasicInterchange.new(),
 			ComponentToComponentInterchange.new(),

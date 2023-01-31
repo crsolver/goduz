@@ -133,9 +133,10 @@ func get_control(id) -> Control:
 			return _gui.control
 	return _gui.get_control(id)
 
-
-#func maxsize(props:Dictionary, child: BaseComponent) -> BaseComponent:
-#	return MaxSizeBox.new(props, child)
+#
+func maxsize_container(max_size:Vector2, props:Dictionary, child: BaseComponent) -> BaseComponent:
+	props.max_size = max_size
+	return BasicComponent.new(props, "maxsize", [child])
 
 func nothing() -> BasicComponent:
 	return BasicComponent.new({}, "control", [])
@@ -150,7 +151,7 @@ func show_if(show: bool, child) -> BasicComponent:
 func control(properties:Dictionary={}, children=[]) -> BasicComponent:
 	return BasicComponent.new(properties, "control", children)
 
-func box(properties:Dictionary={}, children=[]) -> BasicComponent:
+func styled_panel_container(properties:Dictionary={}, children=[]) -> BasicComponent:
 	return BasicComponent.new(properties, "box", children)
 
 # Containers
@@ -193,13 +194,13 @@ func margin(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 func panel_container(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"panel_container", children)
 
-func scrollbox(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
+func scroll_container(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"scrollbox", children)
 
 func subviewport(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"subviewport", children)
 
-func tabbox(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
+func tab_container(properties:Dictionary={}, children:Array=[]) -> BasicComponent:
 	return BasicComponent.new(properties,"tabbox", children)
 
 

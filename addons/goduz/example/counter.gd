@@ -3,6 +3,7 @@ class_name GoduzCounter
 
 var logo: TextureRect
 var root: Control
+
 # Called when the component is created. Use it to initialize the state.
 func _init():
 	super()
@@ -27,14 +28,13 @@ func component_updated():
 func component_will_die():
 	pass
 
-
 # COMPONENT LOGIC___________________________________________________________________________________
 func decrement(): state.count -= 1 
 
 func increment(): state.count += 1
 
 # VIEW_____________________________________________________________________________________________
-func view(): 
+func view() -> BaseComponent: 
 	return\
 	control({preset="full"}, [# Use preset="full" to expand BasicComponents (control nodes).
 		color_rect({color=Color.html("#1d2229"), preset="full"}),

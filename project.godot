@@ -74,10 +74,10 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/goduz/example/counter.gd"
 }, {
-"base": "Component",
-"class": &"MaxSizeBox",
+"base": "MarginContainer",
+"class": &"MaxSizeContainer",
 "language": &"GDScript",
-"path": "res://maxsizebox.gd"
+"path": "res://addons/goduz/custom_controls/maxsizecontainer.gd"
 }, {
 "base": "BaseRootComponent",
 "class": &"Responsive",
@@ -123,7 +123,7 @@ _global_script_class_icons={
 "Counter": "",
 "CustomBox": "",
 "GoduzCounter": "",
-"MaxSizeBox": "",
+"MaxSizeContainer": "",
 "Responsive": "",
 "RootComponent": "",
 "TodoInfo": "",

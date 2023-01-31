@@ -307,6 +307,7 @@ func create_control(holder: Component, type:String, properties:Dictionary,child_
 	match  type:
 		"control"        :node = Control.new()
 		"box"            :node = Box.new()
+		"maxsize"        :node = MaxSizeContainer.new()
 		"panel_container":node = PanelContainer.new()
 		"aspect_radio"   :node = AspectRatioContainer.new()
 		"center"         :node = CenterContainer.new()

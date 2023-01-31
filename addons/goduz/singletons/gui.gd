@@ -93,10 +93,14 @@ func initialize_presets(path) -> void:
 		clip_contents = true
 	}
 	
+	presets["autowrap-smart"] = {
+		autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	}
+	
 	if path:
 		presets.merge(GoduzUtils.get_presets_from_file(path), true)
-#		print("Presets:")
-#		print(GoduzUtils.dict_to_json(presets))
+		print("Presets:")
+		print(GoduzUtils.dict_to_json(presets))
 
 
 func create_presets_from_control(node:Control) -> void:
