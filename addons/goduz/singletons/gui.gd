@@ -27,52 +27,52 @@ func initialize_presets(path) -> void:
 	}
 	
 	presets["top-left"] = { 
-		anchors_preset = 0
+		anchors_preset = Control.PRESET_TOP_LEFT
 	}
 	presets["top-right"] = { 
-		anchors_preset = 1,
+		anchors_preset = Control.PRESET_TOP_RIGHT,
 	}
 	presets["bottom-right"] = { 
-		anchors_preset = 3,
+		anchors_preset = Control.PRESET_BOTTOM_RIGHT,
 	}
 	presets["bottom-left"] = { 
-		anchors_preset = 2,
+		anchors_preset = Control.PRESET_BOTTOM_LEFT,
 	}
 	presets["center-left"] = { 
-		anchors_preset = 4,
+		anchors_preset = Control.PRESET_CENTER_LEFT,
 	}
 	presets["center-top"] = { 
-		anchors_preset = 5,
+		anchors_preset = Control.PRESET_CENTER_TOP,
 	}
 	presets["center-right"] = { 
-		anchors_preset = 6,
+		anchors_preset = Control.PRESET_CENTER_RIGHT,
 	}
 	presets["center-bottom"] = { 
-		anchors_preset = 7,
+		anchors_preset = Control.PRESET_CENTER_BOTTOM,
 	}
 	presets["center"] = { 
-		anchors_preset = 8,
+		anchors_preset = Control.PRESET_CENTER,
 	}
 	presets["left-w"] = { 
-		anchors_preset = 9,
+		anchors_preset = Control.PRESET_LEFT_WIDE,
 	}
 	presets["top-w"] = { 
-		anchors_preset = 10,
+		anchors_preset = Control.PRESET_TOP_WIDE,
 	}
 	presets["right-w"] = { 
-		anchors_preset = 11,
+		anchors_preset = Control.PRESET_RIGHT_WIDE,
 	}
 	presets["bottom-w"] = { 
-		anchors_preset = 12,
+		anchors_preset = Control.PRESET_BOTTOM_WIDE,
 	}
 	presets["v-center-w"] = { 
-		anchors_preset = 13,
+		anchors_preset = Control.PRESET_VCENTER_WIDE,
 	}
 	presets["h-center-w"] = { 
-		anchors_preset = 14,
+		anchors_preset = Control.PRESET_HCENTER_WIDE,
 	}
 	presets["full"] = { 
-		anchors_preset = 15,
+		anchors_preset = Control.PRESET_FULL_RECT,
 	}
 	
 	# child of containers

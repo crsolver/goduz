@@ -407,6 +407,8 @@ func set_property(node:Control, properties:Dictionary, key:String, child_of_cont
 	
 	if properties[key] is Resource:
 		node[key] = properties[key]
+	elif key == "anchors_preset":
+		node.set_anchors_preset(properties[key])
 	elif node.get(key) != null:
 		node[key] = properties[key]
 
