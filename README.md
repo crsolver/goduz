@@ -45,9 +45,3 @@ This library is not ready for serious projects, some parts of the code contain n
 
 ## Contributing
 In case you want to suggest improvements or fix issues, feel free to raise a pull request or raise an issue.
-
-## Support this project
-
-Please consider supporting me if you find this project useful via GitHub Sponsors or:
-https://ko-fi.com/andres36
-https://www.paypal.com/paypalme/andresgamboaa
