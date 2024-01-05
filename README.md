@@ -42,12 +42,3 @@ git clone https://github.com/andresgamboaa/goduz.git
 ## IMPORTANT
 This library is not ready for serious projects, some parts of the code contain naive solutions and not all control nodes and cases have been tested.
 * Currently working with Godot 4 beta 2.
-
-## Contributing
-In case you want to suggest improvements or fix issues, feel free to raise a pull request or raise an issue.
-
-## Support this project
-
-Please consider supporting me if you find this project useful via GitHub Sponsors or:
-https://ko-fi.com/andres36
-https://www.paypal.com/paypalme/andresgamboaa
